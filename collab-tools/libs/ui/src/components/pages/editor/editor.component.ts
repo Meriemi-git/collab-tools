@@ -2,17 +2,18 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import {
+  Draw,
   DrawerAction,
   DrawerActionType,
   DrawingMode,
   DrawingToolbarAction,
   Layer,
-  Strat,
   UserDto,
 } from '@collab-tools/datamodel';
 import {
   ClearStratMapState,
   ClearStratState,
+  CollabToolsState,
   DeleteStrat,
   FetchAgents,
   FetchStratMaps,
@@ -26,7 +27,6 @@ import {
   showGadgetsPanel,
   showGalleryPanel,
   showRoomPanel,
-  StratEditorState,
   UpdateStratInfosAndSave,
 } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
@@ -51,7 +51,7 @@ export class EditorComponent
   implements OnInit, OnDestroy, ComponentCanDeactivate
 {
   public $drawingMode: Observable<DrawingMode>;
-  public currentStrat: Strat;
+  public currentStrat: Draw;
   public userInfos: UserDto;
   public drawingToolbarIsOpen = false;
   public headingToolbarIsOpen = true;
@@ -63,7 +63,7 @@ export class EditorComponent
   private stratSavingDialog: DynamicDialogRef;
 
   constructor(
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly router: Router,
     private readonly confirmationService: ConfirmationService,
     private readonly dialogService: DialogService,
@@ -143,7 +143,7 @@ export class EditorComponent
     this.store.dispatch(FetchAgents());
   }
 
-  private askForDeleteStrat(strat: Strat): void {
+  private askForDeleteStrat(strat: Draw): void {
     this.confirmationService.confirm({
       icon: 'pi pi-exclamation-triangle',
       key: 'editor.delete-strat',

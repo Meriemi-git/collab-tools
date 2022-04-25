@@ -1,14 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { ChatService } from '@collab-tools/services';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { ChatService } from '@collab-tools/services';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as actions from '../actions/chat.action';
 import { DisplayMessage } from '../actions/notification.action';
-import { StratEditorState } from '../reducers';
+import { CollabToolsState } from '../reducers';
 
 @Injectable()
 export class ChatEffect {
@@ -16,7 +16,7 @@ export class ChatEffect {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly chatService: ChatService
   ) {}
 

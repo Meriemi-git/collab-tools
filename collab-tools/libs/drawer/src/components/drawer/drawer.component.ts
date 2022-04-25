@@ -7,9 +7,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   Agent,
   CanvasActions,
@@ -19,12 +18,13 @@ import {
   DrawingMode,
   Image,
   KEY_CODE,
-  PolyLineAction
+  PolyLineAction,
 } from '@collab-tools/datamodel';
 import { ImageHelperService } from '@collab-tools/services';
 import {
   AttachImage,
   ClearCanvasState,
+  CollabToolsState,
   DragAgentSuccess,
   DragImageSuccess,
   getAllOptions,
@@ -41,12 +41,12 @@ import {
   RedoCanvasState,
   SetDrawerAction,
   SetDrawingMode,
-  StratEditorState,
   UnAttachImage,
   UndoCanvasState,
   UpdateCanvas,
-  UpdateDistantCanvas
+  UpdateDistantCanvas,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { fabric } from 'fabric';
 import * as FileSaver from 'file-saver';
 import { Subject } from 'rxjs';
@@ -102,7 +102,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly ihs: ImageHelperService,
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     @Inject('environment')
     private readonly environment: any
   ) {

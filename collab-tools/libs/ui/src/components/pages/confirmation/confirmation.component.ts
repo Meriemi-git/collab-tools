@@ -1,16 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import {
+  CollabToolsState,
   ConfirmEmail,
   getAuthError,
   isConfirmed,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 @Component({
   selector: 'collab-tools-confirmation',
   templateUrl: './confirmation.component.html',
@@ -24,7 +24,7 @@ export class ConfirmationComponent
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly store: Store<StratEditorState>
+    private readonly store: Store<CollabToolsState>
   ) {
     super();
   }

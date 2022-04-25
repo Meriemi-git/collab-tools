@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import {
   Language,
   PasswordChangeWrapper,
@@ -10,14 +10,14 @@ import {
   ChangeLang,
   ChangeMail,
   ChangePassword,
+  CollabToolsState,
   getAuthError,
   getUserInfos,
   SendConfirmationEmail,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
   selector: 'collab-tools-account',
@@ -30,7 +30,7 @@ export class AccountComponent
 {
   public $userInfos: Observable<UserDto>;
   public $httpError: Observable<HttpErrorResponse>;
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     super();
   }
 

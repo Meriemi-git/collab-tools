@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { AbstractRoomListenerComponent } from '@collab-tools/bases';
 import {
   CanvasDetails,
@@ -12,6 +10,7 @@ import {
 import {
   AddObjectsToCanvas,
   canConnectToWebsockets,
+  CollabToolsState,
   ConnectToRoomWSSuccess,
   getDistantCanvas,
   GetUserInfos,
@@ -22,9 +21,10 @@ import {
   LeaveRoom,
   RemoveObjectsFromCanvas,
   SetDimensions,
-  StratEditorState,
 } from '@collab-tools/store';
 import { RoomWebSocketService } from '@collab-tools/websocket';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { first, take, takeUntil } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class RoomComponent
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly roomWsService: RoomWebSocketService,
-    protected readonly store: Store<StratEditorState>,
+    protected readonly store: Store<CollabToolsState>,
     protected readonly messageService: MessageService,
     protected readonly t: TranslateService
   ) {

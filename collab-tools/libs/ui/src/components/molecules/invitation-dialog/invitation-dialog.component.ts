@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { UserDto } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   getUserInfos,
   InviteUsersToChat,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class InvitationDialogComponent implements OnInit {
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    public store: Store<StratEditorState>
+    public store: Store<CollabToolsState>
   ) {}
   ngOnInit(): void {
     this.$userInfos = this.store.select(getUserInfos);

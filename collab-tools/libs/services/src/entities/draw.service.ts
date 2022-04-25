@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AttributeFilter,
+  Draw,
   Like,
   PageOptions,
   PaginateResult,
-  Strat,
 } from '@collab-tools/datamodel';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -13,22 +13,22 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class StratService {
-  private readonly controller = 'strats';
+export class DrawService {
+  private readonly controller = 'draws';
   constructor(private readonly http: HttpClient) {}
 
   public getStratsPaginated(
     pageOptions: PageOptions,
     stratFilter: AttributeFilter
   ) {
-    return this.http.post<PaginateResult<Strat>>(
+    return this.http.post<PaginateResult<Draw>>(
       `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`,
       stratFilter
     );
   }
 
-  public saveStrat(strat: Strat): Observable<Strat> {
-    return this.http.post<Strat>(
+  public saveStrat(strat: Draw): Observable<Draw> {
+    return this.http.post<Draw>(
       `${environment.apiUrl}/${this.controller}`,
       strat
     );
@@ -40,15 +40,15 @@ export class StratService {
     );
   }
 
-  public updateStrat(strat: Strat): Observable<Strat> {
-    return this.http.patch<Strat>(
+  public updateStrat(strat: Draw): Observable<Draw> {
+    return this.http.patch<Draw>(
       `${environment.apiUrl}/${this.controller}`,
       strat
     );
   }
 
-  public loadStratById(stratId: string): Observable<Strat> {
-    return this.http.get<Strat>(
+  public loadStratById(stratId: string): Observable<Draw> {
+    return this.http.get<Draw>(
       `${environment.apiUrl}/${this.controller}/${stratId}`
     );
   }

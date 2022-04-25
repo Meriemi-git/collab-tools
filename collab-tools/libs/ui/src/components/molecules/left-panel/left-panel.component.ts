@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { Agent } from '@collab-tools/datamodel';
 import {
   closeLeft,
+  CollabToolsState,
   DragAgent,
   getAllAgents,
   isAgentsPanelOpened,
   isGadgetsPanelOpened,
   isLeftSidenavOpened,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
   selector: 'collab-tools-left-panel',
@@ -27,7 +27,7 @@ export class LeftPanelComponent
   $isGadgetsPanelOpened: Observable<boolean>;
   $agents: Observable<Agent[]>;
   public leftIsOpened: boolean;
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     super();
   }
 

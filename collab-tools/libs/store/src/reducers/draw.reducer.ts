@@ -1,21 +1,21 @@
+import { Draw } from '@collab-tools/datamodel';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import { Layer, Strat } from '@collab-tools/datamodel';
-import * as actions from '../actions/strat.action';
-import { StratState } from '../states/strat.state';
+import * as actions from '../actions/draw.action';
+import { DrawState } from '../states/draw.state';
 
-export const adapter: EntityAdapter<Strat> = createEntityAdapter<Strat>({
+export const adapter: EntityAdapter<Draw> = createEntityAdapter<Draw>({
   sortComparer: sortByName,
-  selectId: (strat: Strat) => strat._id,
+  selectId: (draw: Draw) => draw._id,
 });
 
-export function sortByName(a: Strat, b: Strat): number {
+export function sortByName(a: Draw, b: Draw): number {
   return a.name.localeCompare(b.name);
 }
 
-export const initialstate: StratState = adapter.getInitialState({
+export const initialstate: DrawState = adapter.getInitialState({
   error: null,
-  strat: null,
+  draw: null,
   pageMetadata: null,
   pageOptions: {
     limit: 10,
@@ -23,12 +23,11 @@ export const initialstate: StratState = adapter.getInitialState({
     sortedBy: 'name',
     order: 'asc',
   },
-  activeLayer: null,
 });
 
-const stratReducer = createReducer(
+const DrawReducer = createReducer(
   initialstate,
-  on(actions.GetStratsPaginatedSuccess, (state, { pageResults }) => {
+  on(actions.GetDrawsPaginatedSuccess, (state, { pageResults }) => {
     return adapter.setAll(pageResults.docs, {
       ...state,
       pageMetadata: {
@@ -45,126 +44,126 @@ const stratReducer = createReducer(
       error: null,
     });
   }),
-  on(actions.SaveStrat, (state) => ({
+  on(actions.SaveDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.SaveStratSuccess, (state, { strat }) => {
-    return adapter.addOne(strat, {
+  on(actions.SaveDrawSuccess, (state, { Draw }) => {
+    return adapter.addOne(Draw, {
       ...state,
       error: null,
-      strat: strat,
+      Draw: Draw,
     });
   }),
-  on(actions.StratError, (state, { error }) => ({
+  on(actions.DrawError, (state, { error }) => ({
     ...state,
     error: error,
   })),
-  on(actions.UpdateStrat, (state) => ({
+  on(actions.UpdateDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.UpdateStratSuccess, (state, { strat }) => {
+  on(actions.UpdateDrawSuccess, (state, { Draw }) => {
     return adapter.updateOne(
-      { id: strat._id, changes: strat },
+      { id: Draw._id, changes: Draw },
       {
         ...state,
-        strat: strat,
+        Draw: Draw,
         error: null,
       }
     );
   }),
-  on(actions.DeleteStratSuccess, (state, { stratId }) => {
-    return adapter.removeOne(stratId, {
+  on(actions.DeleteDrawSuccess, (state, { DrawId }) => {
+    return adapter.removeOne(DrawId, {
       ...state,
-      strat: null,
+      Draw: null,
       error: null,
     });
   }),
-  on(actions.LoadStrat, (state) => ({
+  on(actions.LoadDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.LoadStratSuccess, (state, { strat }) => ({
+  on(actions.LoadDrawSuccess, (state, { Draw }) => ({
     ...state,
-    strat: strat,
+    draw: Draw,
     error: null,
   })),
-  on(actions.CreateStrat, (state, { strat }) => ({
+  on(actions.CreateDraw, (state, { Draw }) => ({
     ...initialstate,
-    strat: strat,
+    draw: Draw,
   })),
-  on(actions.LikeStrat, (state) => ({
+  on(actions.LikeDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.LikeStratSuccess, (state, { strat }) => {
+  on(actions.LikeDrawSuccess, (state, { Draw }) => {
     return adapter.updateOne(
-      { id: strat._id, changes: { votes: strat.votes + 1 } },
+      { id: Draw._id, changes: { votes: Draw.votes + 1 } },
       {
         ...state,
-        strat: strat,
+        Draw: Draw,
         error: null,
       }
     );
   }),
-  on(actions.DislikeStrat, (state) => ({
+  on(actions.DislikeDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.DislikeStratSuccess, (state, { strat }) => {
+  on(actions.DislikeDrawSuccess, (state, { Draw }) => {
     return adapter.updateOne(
-      { id: strat._id, changes: { votes: strat.votes - 1 } },
+      { id: Draw._id, changes: { votes: Draw.votes - 1 } },
       {
         ...state,
-        strat: strat,
+        Draw: Draw,
         error: null,
       }
     );
   }),
-  on(actions.UpdateStratInfos, (state, { name, description, isPublic }) => ({
+  on(actions.UpdateDrawInfos, (state, { name, description, isPublic }) => ({
     ...state,
-    strat: {
-      ...state.strat,
+    draw: {
+      ...state.draw,
       name: name,
       description: description,
       isPublic: isPublic,
     },
   })),
   on(
-    actions.UpdateStratInfosAndSave,
+    actions.UpdateDrawInfosAndSave,
     (state, { name, description, isPublic }) => ({
       ...state,
-      strat: {
-        ...state.strat,
+      draw: {
+        ...state.draw,
         name: name,
         description: description,
         isPublic: isPublic,
       },
     })
   ),
-  on(actions.UpdateStratLayer, (state, { layer }) => ({
+  on(actions.UpdateDrawLayer, (state, { layer }) => ({
     ...state,
-    strat: {
-      ...state.strat,
+    draw: {
+      ...state.draw,
       layers: [
-        ...state.strat?.layers.filter((l) => l.floor._id !== layer.floor._id),
+        ...state.draw?.layers.filter((l) => l.floor._id !== layer.floor._id),
         layer,
       ],
     },
   })),
   on(actions.AttachImage, (state, { imageId }) => ({
     ...state,
-    strat: {
-      ...state.strat,
-      attachedImages: addImage(state.strat.attachedImages, imageId),
+    draw: {
+      ...state.draw,
+      attachedImages: addImage(state.draw.attachedImages, imageId),
     },
   })),
   on(actions.UnAttachImage, (state, { imageId }) => ({
     ...state,
-    strat: {
-      ...state.strat,
-      attachedImages: removeImage(state.strat.attachedImages, imageId),
+    draw: {
+      ...state.draw,
+      attachedImages: removeImage(state.draw.attachedImages, imageId),
     },
   })),
   on(actions.SetActiveLayer, (state, { layer }) => ({
@@ -173,7 +172,7 @@ const stratReducer = createReducer(
   })),
   on(actions.SetFirstLayerActive, (state) => ({
     ...state,
-    activeLayer: state.strat.layers[0],
+    activeLayer: state.draw.layers[0],
   })),
   on(actions.SetTacticalMode, (state, { tacticalMode }) => ({
     ...state,
@@ -181,10 +180,10 @@ const stratReducer = createReducer(
       ...state.activeLayer,
       tacticalMode: tacticalMode,
     },
-    strat: {
-      ...state.strat,
+    draw: {
+      ...state.draw,
       layers: updateRightLayerAttribute(
-        state.strat?.layers,
+        state.draw?.layers,
         state.activeLayer,
         'tacticalMode',
         tacticalMode
@@ -197,24 +196,24 @@ const stratReducer = createReducer(
       ...state.activeLayer,
       canvas: canvas,
     },
-    strat: {
-      ...state.strat,
+    draw: {
+      ...state.draw,
       layers: updateRightLayerAttribute(
-        state.strat?.layers,
+        state.draw?.layers,
         state.activeLayer,
         'canvas',
         canvas
       ),
     },
   })),
-  on(actions.DiscardCurrentStrat, (state) => ({
+  on(actions.DiscardCurrentDraw, (state) => ({
     ...state,
-    strat: null,
+    draw: null,
   })),
-  on(actions.ClearStratState, (state) => ({
+  on(actions.ClearDrawState, (state) => ({
     ...state,
     error: null,
-    strat: null,
+    draw: null,
     layer: null,
   }))
 );
@@ -251,8 +250,8 @@ function updateRightLayerAttribute(
   });
 }
 
-export function reducer(state: StratState | undefined, action: Action) {
-  return stratReducer(state, action);
+export function reducer(state: DrawState | undefined, action: Action) {
+  return DrawReducer(state, action);
 }
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

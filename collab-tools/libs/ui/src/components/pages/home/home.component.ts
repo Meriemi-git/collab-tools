@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CollabToolsState } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
-import { StratEditorState } from '@collab-tools/store';
 
 @Component({
   selector: 'collab-tools-home',
@@ -10,7 +10,7 @@ import { StratEditorState } from '@collab-tools/store';
 export class HomeComponent {
   constructor(
     private readonly router: Router,
-    private readonly store: Store<StratEditorState>
+    private readonly store: Store<CollabToolsState>
   ) {}
 
   onClickEditor() {

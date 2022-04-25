@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import {
   AbsctractObserverComponent,
   IChatSocketListener,
@@ -15,6 +13,7 @@ import {
 import {
   canConnectToWebsockets,
   CloseCurrentChat,
+  CollabToolsState,
   CreateChat,
   GetAllChats,
   getAllChats,
@@ -27,10 +26,11 @@ import {
   SelectChat,
   SendChatMessage,
   SendChatMessageSuccess,
-  StratEditorState,
   UpdateChatMemberStatus,
 } from '@collab-tools/store';
 import { ChatWebSocketService } from '@collab-tools/websocket';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -56,7 +56,7 @@ export class ChatsPanelComponent
   public WStatus = WebsocketStatus;
 
   constructor(
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly chatWsService: ChatWebSocketService,
     protected readonly t: TranslateService
   ) {

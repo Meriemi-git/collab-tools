@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as canvasActions from '../actions/canvas.action';
-import * as stratActions from '../actions/strat.action';
+import * as stratActions from '../actions/draw.action';
 
 @Injectable()
 export class CanvasEffect {

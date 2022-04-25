@@ -1,7 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { AbstractRoomListenerComponent } from '@collab-tools/bases';
 import {
   CanvasDetails,
@@ -16,6 +14,7 @@ import {
   canConnectToWebsockets,
   closeRight,
   CloseRoom,
+  CollabToolsState,
   ConnectToRoomWSSuccess,
   CreateRoom,
   EjectUserFromRoom,
@@ -30,9 +29,10 @@ import {
   isConnectedToRoomWS,
   JoinRoom,
   SearchUser,
-  StratEditorState,
 } from '@collab-tools/store';
 import { RoomWebSocketService } from '@collab-tools/websocket';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { first, take, takeUntil } from 'rxjs/operators';
@@ -60,7 +60,7 @@ export class RoomPanelComponent
     @Inject('environment')
     private readonly environment,
     private readonly router: Router,
-    protected readonly store: Store<StratEditorState>,
+    protected readonly store: Store<CollabToolsState>,
     private readonly wsService: RoomWebSocketService,
     private readonly confirmationService: ConfirmationService,
     protected readonly messageService: MessageService,

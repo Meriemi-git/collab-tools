@@ -6,9 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { Image, UserDto } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   DeleteGalleryImage,
   DragImage,
   DragImageLink,
@@ -17,13 +18,12 @@ import {
   getGalleryImages,
   GetGalleryImages,
   getUserInfos,
-  StratEditorState,
   UploadGalleryImage,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
   selector: 'collab-tools-gallery-panel',
@@ -46,7 +46,7 @@ export class GalleryPanelComponent
   public fileName: string;
 
   constructor(
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly domSanitizer: DomSanitizer
   ) {
     super();

@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { UserDto } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   getSuggestions,
   GetUserInfos,
   SearchUser,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -30,7 +30,7 @@ export class UserFinderComponent
   public suggestions: string[] = [];
   public selectedUsernames: string[] = [];
 
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     super();
   }
 

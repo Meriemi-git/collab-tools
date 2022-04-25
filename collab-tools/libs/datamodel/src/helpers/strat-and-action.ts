@@ -1,7 +1,7 @@
-import { Strat } from '../entities';
+import { Draw } from '../entities';
 import { StratActions } from '../enums';
 
 export interface StratAndAction {
-  strat: Strat;
+  strat: Draw;
   action: StratActions;
 }

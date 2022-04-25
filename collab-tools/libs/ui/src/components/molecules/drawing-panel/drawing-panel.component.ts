@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   Color,
   DrawerAction,
@@ -9,6 +8,7 @@ import {
   StrockSize,
 } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   getAllActions,
   getAllOptions,
   getFontSize,
@@ -18,9 +18,9 @@ import {
   SetFontSize,
   SetStrokeColor,
   SetStrokeWidth,
-  StratEditorState,
   ToogleDrawerOptionActivation,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -46,7 +46,7 @@ export class DrawingPanelComponent implements OnInit, OnDestroy {
 
   public selectedTextOptions: DrawerAction[];
 
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     this.fontSizes = Array(100)
       .fill(0)
       .map((x, i) => i + 1);

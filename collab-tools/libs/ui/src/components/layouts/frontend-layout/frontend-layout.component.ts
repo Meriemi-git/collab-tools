@@ -6,8 +6,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import {
   AbsctractObserverComponent,
   INotificationSocketListener,
@@ -19,6 +17,7 @@ import {
 } from '@collab-tools/datamodel';
 import {
   canConnectToWebsockets,
+  CollabToolsState,
   Disconnect,
   DisplayMessage,
   getAllNotifications,
@@ -28,9 +27,10 @@ import {
   getNumberOfNotifs,
   getUserInfos,
   GetWebsocketAccess,
-  StratEditorState,
 } from '@collab-tools/store';
 import { NotificationWebSocketService } from '@collab-tools/websocket';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
@@ -55,7 +55,7 @@ export class FrontendLayoutComponent
   constructor(
     @Inject('environment')
     private readonly environment,
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly dialogService: DialogService,
     private readonly messageService: MessageService,
     private readonly translationService: TranslateService,

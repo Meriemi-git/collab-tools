@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { AuthInfos, Room, UserDto } from '@collab-tools/datamodel';
 import {
   closeRight,
+  CollabToolsState,
   getOwnRoom,
   getUserInfos,
   isDrawingPanelOpened,
   isGalleryPanelOpened,
   isRightSidenavOpened,
   isRoomPanelOpened,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -31,7 +31,7 @@ export class RightPanelComponent
   public $authInfos: Observable<AuthInfos>;
   public $userInfos: Observable<UserDto>;
   public rightIsOpened: boolean;
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     super();
   }
 

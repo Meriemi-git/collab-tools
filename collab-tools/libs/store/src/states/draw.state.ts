@@ -1,16 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Draw, PageMetadata, PageOptions } from '@collab-tools/datamodel';
 import { EntityState } from '@ngrx/entity';
-import {
-  Layer,
-  PageMetadata,
-  PageOptions,
-  Strat,
-} from '@collab-tools/datamodel';
 
-export interface StratState extends EntityState<Strat> {
+export interface DrawState extends EntityState<Draw> {
   error: HttpErrorResponse;
-  strat: Strat;
+  draw: Draw;
   pageMetadata: PageMetadata;
   pageOptions: PageOptions;
-  activeLayer: Layer;
 }

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import {
   CanvasDetails,
   SocketIODisconnectStatus,
@@ -9,10 +7,12 @@ import {
   WebsocketStatus,
 } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   DisplayMessage,
   GetOwnRoom,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AbsctractObserverComponent } from './abstract-observer.component';
 
@@ -21,7 +21,7 @@ export abstract class AbstractRoomListenerComponent extends AbsctractObserverCom
   public connectedToTheRoom: boolean;
   public static readonly ROOM_SUMMARY = _('room.summary');
   constructor(
-    protected readonly store: Store<StratEditorState>,
+    protected readonly store: Store<CollabToolsState>,
     protected readonly messageService: MessageService,
     protected readonly t: TranslateService
   ) {
@@ -94,7 +94,9 @@ export abstract class AbstractRoomListenerComponent extends AbsctractObserverCom
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onObjectListSent(objects: unknown[]): void {}
 
-  public onMyselfEjected(): void {}
+  public onMyselfEjected(): void {
+    console.log('Ejected');
+  }
 
   public onMemberStatusChange(memberStatus: WebsocketMemberStatus): void {
     let messageKey: string;

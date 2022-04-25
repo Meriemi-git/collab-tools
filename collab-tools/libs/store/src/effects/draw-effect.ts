@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { Layer } from '@collab-tools/datamodel';
+import { DrawService } from '@collab-tools/services';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Layer } from '@collab-tools/datamodel';
-import { StratService } from '@collab-tools/services';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { AddToUserLikes, RemoveToUserLikes } from '../actions';
@@ -14,46 +14,23 @@ import {
   LoadCanvas,
   SetFloorImage,
 } from '../actions/canvas.action';
-import { DisplayMessage } from '../actions/notification.action';
 import {
-  ClearStratMapState,
-  SelectStratMap,
-} from '../actions/strat-map.action';
-import {
-  ClearStratState,
-  CreateStrat,
-  DeleteStrat,
-  DeleteStratSuccess,
-  DislikeStrat,
-  DislikeStratSuccess,
-  GetStratsPaginated,
-  GetStratsPaginatedSuccess,
-  LikeStrat,
-  LikeStratSuccess,
-  LoadStrat,
-  LoadStratSuccess,
-  SaveStrat,
-  SaveStratSuccess,
   SetActiveLayer,
   SetFirstLayerActive,
   SetTacticalMode,
-  StratError,
-  UpdateStrat,
-  UpdateStratInfosAndSave,
-  UpdateStratSuccess,
-} from '../actions/strat.action';
-import { StratEditorState } from '../reducers';
-import { getStratMapById } from '../selectors/strat-map.selector';
-import { getActiveLayer, getStrat } from '../selectors/strat.selector';
+} from '../actions/draw.action';
+import { DisplayMessage } from '../actions/notification.action';
+import { CollabToolsState } from '../reducers';
+import { getActiveLayer, getStrat } from '../selectors/draw.selector';
 
 @Injectable()
-export class StratEffect {
-  private readonly STRAT_SERVICE_SUMMARY_KEY = _('strat-service.summary');
+export class DrawEffect {
+  private readonly STRAT_SERVICE_SUMMARY_KEY = _('draw-service.summary');
 
   constructor(
     private readonly actions$: Actions,
-    private readonly stratService: StratService,
-    private readonly store: Store<StratEditorState>
+    private readonly stratService: DrawService,
+    private readonly store: Store<CollabToolsState>
   ) {}
 
   afterCreateStrat$ = createEffect(() =>
@@ -153,7 +130,7 @@ export class StratEffect {
                 DisplayMessage({
                   message: {
                     level: 'error',
-                    messageKey: _('strat-service.error.get-all'),
+                    messageKey: _('draw-service.error.get-all'),
                     titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                   },
                 })
@@ -176,7 +153,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'error',
-                  messageKey: _('strat-service.error.load'),
+                  messageKey: _('draw-service.error.load'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -198,7 +175,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'success',
-                  messageKey: _('strat-service.success.save'),
+                  messageKey: _('draw-service.success.save'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -210,7 +187,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'error',
-                  messageKey: _('strat-service.error.save'),
+                  messageKey: _('draw-service.error.save'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -232,7 +209,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'success',
-                  messageKey: _('strat-service.success.update'),
+                  messageKey: _('draw-service.success.update'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -244,7 +221,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'error',
-                  messageKey: _('strat-service.error.update'),
+                  messageKey: _('draw-service.error.update'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -266,7 +243,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'success',
-                  messageKey: _('strat-service.success.delete'),
+                  messageKey: _('draw-service.success.delete'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -278,7 +255,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'error',
-                  messageKey: _('strat-service.error.delete'),
+                  messageKey: _('draw-service.error.delete'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -301,7 +278,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'success',
-                  messageKey: _('strat-service.success.like'),
+                  messageKey: _('draw-service.success.like'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -311,11 +288,11 @@ export class StratEffect {
           catchError((error: HttpErrorResponse) => {
             let messageKey: string;
             if (error.status === 467) {
-              messageKey = _('strat-service.error.like_own');
+              messageKey = _('draw-service.error.like_own');
             } else if (error.status === 468) {
-              messageKey = _('strat-service.error.like_twice');
+              messageKey = _('draw-service.error.like_twice');
             } else {
-              messageKey = _('strat-service.error.like_unknown');
+              messageKey = _('draw-service.error.like_unknown');
             }
             this.store.dispatch(
               DisplayMessage({
@@ -346,7 +323,7 @@ export class StratEffect {
               DisplayMessage({
                 message: {
                   level: 'success',
-                  messageKey: _('strat-service.success.dislike'),
+                  messageKey: _('draw-service.success.dislike'),
                   titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
                 },
               })
@@ -357,11 +334,11 @@ export class StratEffect {
             let messageKey: string;
 
             if (error.status === 467) {
-              messageKey = _('strat-service.error.dislike_own');
+              messageKey = _('draw-service.error.dislike_own');
             } else if (error.status === 468) {
-              messageKey = _('strat-service.error.dislike_this');
+              messageKey = _('draw-service.error.dislike_this');
             } else {
-              messageKey = _('strat-service.error.dislike_unknown');
+              messageKey = _('draw-service.error.dislike_unknown');
             }
             this.store.dispatch(
               DisplayMessage({
