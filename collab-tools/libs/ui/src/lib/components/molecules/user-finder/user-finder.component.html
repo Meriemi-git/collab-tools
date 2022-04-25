@@ -1,0 +1,24 @@
+<div class="flex flex-column justify-content-center align-items-center">
+  <h4 class="title">{{ 'user-finder.invite_user' | translate }}</h4>
+  <div class="flex flex-row justify-content-center align-items-center">
+    <div class="m-2">
+      <p-autoComplete
+        [suggestions]="suggestions"
+        (completeMethod)="search($event)"
+        [placeholder]="'user-finder.invite_user_placeholder' | translate"
+        [multiple]="true"
+        (onSelect)="onSelectUsername($event)"
+        (onUnselect)="onUnSelectUsername($event)"
+      ></p-autoComplete>
+    </div>
+    <div class="m-2">
+      <button
+        pButton
+        class="p-button-outlined p-button p-button-primary"
+        icon="fas fa-user-plus"
+        (click)="inviteAll.emit(selectedUsernames)"
+        [disabled]="selectedUsernames.length === 0"
+      ></button>
+    </div>
+  </div>
+</div>

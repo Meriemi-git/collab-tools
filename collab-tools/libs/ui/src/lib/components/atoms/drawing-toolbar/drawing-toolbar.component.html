@@ -1,0 +1,92 @@
+<div class="flex justify-content-center">
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-pencil"
+      [pTooltip]="'drawing-toolbar.tooltip-enable_drawing_mode' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.ENABLE_DRAWING_MODE)"
+    ></button>
+  </div>
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-clone"
+      [pTooltip]="'drawing-toolbar.tooltip-enable_selection_mode' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.ENABLE_SELECT_MODE)"
+    ></button>
+  </div>
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-check-square"
+      [pTooltip]="'drawing-toolbar.tooltip-enable_dragging_mode' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.ENABLE_DRAGGING_MODE)"
+    ></button>
+  </div>
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-times-circle"
+      [pTooltip]="'drawing-toolbar.tooltip-clear-draw' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.CLEAR_STRAT)"
+    ></button>
+  </div>
+  <div class="m-2" *ngIf="isConnected">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-folder-open"
+      [pTooltip]="'drawing-toolbar.tooltip-open_strat' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.OPEN_STRAT)"
+    ></button>
+  </div>
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-info-circle"
+      [pTooltip]="'drawing-toolbar.tooltip-show_strat_info' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.SHOW_INFOS)"
+    ></button>
+  </div>
+  <div class="m-2" *ngIf="isConnected">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-save"
+      [pTooltip]="'drawing-toolbar.tooltip-save_strat' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.SAVE_STRAT)"
+    ></button>
+  </div>
+  <div class="m-2">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-download"
+      [pTooltip]="'drawing-toolbar.tooltip-download_strat' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.DOWNLOAD_STRAT)"
+    ></button>
+  </div>
+  <div class="m-2" *ngIf="isConnected && canBeDeleted">
+    <button
+      pButton
+      class="p-button-rounded p-button-primary"
+      icon="pi pi-trash"
+      [pTooltip]="'drawing-toolbar.tooltip-deleted_strat' | translate"
+      tooltipPosition="top"
+      (click)="selectedAction.emit(DrawingActions.DELETE_STRAT)"
+    ></button>
+  </div>
+</div>

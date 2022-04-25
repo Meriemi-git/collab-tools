@@ -1,0 +1,6 @@
+<div class="map-selector">
+  <collab-tools-map-grid
+    [maps]="$maps | async"
+    (selectStratMap)="onStratMapSelected($event)"
+  ></collab-tools-map-grid>
+</div>

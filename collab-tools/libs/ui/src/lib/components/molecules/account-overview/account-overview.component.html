@@ -1,0 +1,69 @@
+<h2 class="hello">
+  {{
+    'account-overview.hello'
+      | translate: { value: userInfos?.username | titlecase }
+  }}
+</h2>
+<span>{{
+  'account-overview.your_email' | translate: { value: userInfos?.mail }
+}}</span>
+<p-divider type="dashed" layout="horizontal"></p-divider>
+<h3>
+  {{ 'account-overview.mail_confirmation_status' | translate }}
+</h3>
+<p-chip
+  *ngIf="userInfos.confirmed"
+  [label]="'account-overview.chip.mail_verified' | translate"
+  icon="pi pi-envelope"
+  styleClass="confirmed"
+></p-chip>
+<p-chip
+  *ngIf="!userInfos.confirmed"
+  [label]="'account-overview.chip.mail_not_verified' | translate"
+  icon="fas fa-question"
+  styleClass="not-confirmed"
+></p-chip>
+<p-divider type="dashed" layout="horizontal"></p-divider>
+<h3>{{ 'account-overview.account_type' | translate }}</h3>
+<p-chip
+  [label]="'account-overview.chip.donator' | translate"
+  *ngIf="userInfos.role === 'DONATOR'"
+  icon="fas fa-donate"
+  styleClass="donator"
+></p-chip>
+<p-chip
+  [label]="'account-overview.chip.regular' | translate"
+  *ngIf="userInfos.role === 'REGULAR'"
+  icon="fas fa-registered"
+  styleClass="regular"
+></p-chip>
+<p-chip
+  [label]="'account-overview.chip.tester' | translate"
+  *ngIf="userInfos.role === 'TESTER'"
+  icon="fas fa-vial"
+  styleClass="tester"
+></p-chip>
+<p-chip
+  [label]="'account-overview.chip.admin' | translate"
+  *ngIf="userInfos.role === 'ADMIN'"
+  icon="fas fa-user-shield"
+  styleClass="admin"
+></p-chip>
+<p-divider type="dashed" layout="horizontal"></p-divider>
+
+<div *ngIf="!userInfos.confirmed">
+  <h3>
+    {{ 'account-overview.mail_confirm_pending' | translate }}
+  </h3>
+  <p>
+    {{ 'account-overview.mail_confirm_text' | translate }}
+    <br />
+    {{ 'account-overview.mail_resend_text' | translate }}
+  </p>
+  <button
+    pButton
+    class="p-button-warning p-button-outlined"
+    (click)="resendEmailLink.emit()"
+    [label]="'account-overview.resend' | translate"
+  ></button>
+</div>

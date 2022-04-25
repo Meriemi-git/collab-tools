@@ -1,0 +1,73 @@
+<h1>{{ 'gallery-panel.title' | translate }}</h1>
+<p-accordion>
+  <p-accordionTab
+    [header]="'gallery-panel.from_your_disk' | translate"
+    [selected]="true"
+  >
+    <div class="container flex flex-column">
+      <div *ngIf="$userInfos | async; let userInfos; else: notConnected">
+        <h3 class="title">{{ 'gallery-panel.manage_images' | translate }}</h3>
+        <div
+          class="flex flex-row justify-content-between align-items-center"
+          *ngIf="userInfos.confirmed; else notConfirmed"
+        >
+          <div class="m-2">
+            <p-fileUpload
+              #fileUploader
+              [customUpload]="true"
+              mode="basic"
+              [maxFileSize]="5242880"
+              accept="image/*"
+              [showCancelButton]="true"
+              (uploadHandler)="onImageUploaded($event.files)"
+              (onSelect)="onSelect($event.files)"
+            ></p-fileUpload>
+          </div>
+          <div class="m-2 filename">
+            <ng-container *ngIf="fileName"> {{ fileName }}</ng-container>
+            <ng-container *ngIf="!fileName">
+              {{ 'gallery-panel.select_a_file' | translate }}</ng-container
+            >
+          </div>
+        </div>
+        <ng-template #notConfirmed>
+          {{ 'gallery-service.error.access_confirm_mail' | translate }}
+        </ng-template>
+        <fieldset *ngIf="$draggingImage | async">
+          <ng-template pTemplate="header"
+            ><i class="pi pi-trash danger"></i
+          ></ng-template>
+          <span class="danger">{{
+            'gallery-service.error.drop_to_delete' | translate
+          }}</span>
+        </fieldset>
+        <p-divider> </p-divider>
+        <h3 class="title" *ngIf="userInfos.confirmed">
+          {{ 'gallery-panel.drag_title' | translate }}
+        </h3>
+        <collab-tools-images-grid
+          *ngIf="userInfos.confirmed"
+          [images]="$images | async"
+          (imageDragged)="onImageDragged($event)"
+          (imageDeleted)="imageDeleted($event)"
+        ></collab-tools-images-grid>
+      </div>
+      <ng-template #notConnected>
+        <div class="not-connected">
+          {{ 'gallery-panel.gallery_not_connected' | translate }}
+        </div>
+      </ng-template>
+    </div>
+  </p-accordionTab>
+  <p-accordionTab [header]="'gallery-panel.from_url' | translate">
+    <input type="text" pInputText [(ngModel)]="imageLink" />
+    <div>
+      <img
+        [src]="imageLink"
+        [alt]="'gallery-panel.previsualisation' | translate"
+        [width]="250"
+        (load)="onUrlImageLoaded()"
+      />
+    </div>
+  </p-accordionTab>
+</p-accordion>

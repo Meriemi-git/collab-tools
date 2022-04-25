@@ -1,0 +1,40 @@
+<p-confirmDialog key="delete-image-popup"></p-confirmDialog>
+
+<div class="grid">
+  <div class="col">
+    <div class="image" *ngFor="let image of images.slice(0, getThirdLength())">
+      <collab-tools-images-item
+        [image]="image"
+        [width]="100"
+        (imageDragged)="onImageDragged($event)"
+        (imageSelected)="onDelete($event)"
+      ></collab-tools-images-item>
+    </div>
+  </div>
+  <div class="col">
+    <div
+      class="image"
+      *ngFor="let image of images.slice(getThirdLength(), getTwoThirdLength())"
+    >
+      <collab-tools-images-item
+        [image]="image"
+        [width]="100"
+        (imageDragged)="onImageDragged($event)"
+        (imageSelected)="onDelete($event)"
+      ></collab-tools-images-item>
+    </div>
+  </div>
+  <div class="col">
+    <div
+      class="image"
+      *ngFor="let image of images.slice(getTwoThirdLength(), images.length)"
+    >
+      <collab-tools-images-item
+        [image]="image"
+        [width]="100"
+        (imageDragged)="onImageDragged($event)"
+        (imageSelected)="onDelete($event)"
+      ></collab-tools-images-item>
+    </div>
+  </div>
+</div>

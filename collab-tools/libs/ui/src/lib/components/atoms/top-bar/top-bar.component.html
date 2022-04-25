@@ -1,0 +1,77 @@
+<p-toolbar #topbar styleClass="collab-tools-toolbar">
+  <div class="p-toolbar-group-left">
+    <div class="flex align-items-center">
+      <div class="mr-2">
+        <button
+          type="button"
+          pButton
+          class="p-button-primary"
+          icon="pi pi-home"
+          (click)="onHomeClick()"
+        ></button>
+      </div>
+      <div class="mr-2">
+        <span class="app-title">{{ 'top-bar.app-title' | translate }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="m-2">
+      <button
+        type="button"
+        pButton
+        class="p-button-text p-button-primary"
+        (click)="onEditorClick()"
+      >
+        {{ 'top-bar.editor-link' | translate }}
+      </button>
+    </div>
+    <div class="m-2">
+      <button
+        type="button"
+        pButton
+        class="p-button-text p-button-success"
+        (click)="onSharedStratClick()"
+      >
+        {{ 'top-bar.shared-strats-link' | translate }}
+      </button>
+    </div>
+    <div class="m-2" *ngIf="$userInfos | async">
+      <button
+        type="button"
+        pButton
+        class="p-button-text p-button-danger"
+        (click)="onMyStratClick()"
+      >
+        {{ 'top-bar.my-strats-link' | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div
+      *ngIf="$userInfos | async; let userInfos"
+      class="userinfos-container"
+      (click)="menu.toggle($event)"
+    >
+      <span
+        styleClass="p-button-primary p-button-text"
+        (click)="menu.toggle($event)"
+      >
+        {{ userInfos.username | titlecase }}
+      </span>
+      <i
+        class="pi pi-bell p-mr-4 badge-icon"
+        pBadge
+        [value]="($notifCounter | async).toString()"
+        severity="warn"
+      ></i>
+    </div>
+    <p-button
+      *ngIf="($userInfos | async) === null"
+      [label]="'top-bar.menu-items.login' | translate"
+      styleClass="p-button-primary  p-button-text"
+      (click)="menu.toggle($event)"
+    ></p-button>
+    <p-menu #menu [popup]="true" [model]="menuItems"> </p-menu>
+  </div>
+</p-toolbar>

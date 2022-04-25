@@ -1,0 +1,31 @@
+sonarqube-check:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - /home/gitlab-runner/sonar-scanner/bin/sonar-scanner
+  allow_failure: true
+  only:
+    - develop # or the name of your main branch
+deployment:
+  image: nodejs:latest
+  cache:
+    paths:
+      - ./strat-editor/node_modules/
+  before_script:
+    - cd ./strat-editor && npm install --cache ./strat-editor/node_modules --prefer-offline
+
+  script:
+    - npm run nx run backend:build:production  -- --aot --sourceMap=false --optimization=true --generatePackageJson=true --with-deps=true
+    - npm run nx run frontend:build:production -- --aot --sourceMap=false --optimization=true --with-deps=true
+    - npm run nx run admin:build:production -- --aot --sourceMap=false --optimization=true --with-deps=true
+    - /bin/bash ~/scripts/strat-editor/deploy.sh
+  only:
+    - master

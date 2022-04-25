@@ -1,0 +1,14 @@
+@import 'font-all.scss';
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(40, 40, 40);
+  color: whitesmoke;
+  font-family: 'Roboto', Arial, Verdana, Tahoma, sans-serif !important;
+  height: 100%;
+}
+
+.p-inputtext {
+  text-align: center !important;
+}

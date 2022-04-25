@@ -1,0 +1,30 @@
+<div class="drawing-status">
+  <button
+    pButton
+    *ngIf="drawingMode === DrawingModeEnum.Selection"
+    class="p-button-rounded p-button-warning"
+  >
+    {{ 'drawing-status.mode' | translate: { value: drawingMode } }}
+  </button>
+  <button
+    pButton
+    *ngIf="drawingMode === DrawingModeEnum.Drawing"
+    class="p-button-rounded p-button-primary"
+  >
+    {{ 'drawing-status.mode' | translate: { value: drawingMode } }}
+  </button>
+  <button
+    pButton
+    *ngIf="drawingMode === DrawingModeEnum.Dragging"
+    class="p-button-rounded p-button-success"
+  >
+    {{ 'drawing-status.mode' | translate: { value: drawingMode } }}
+  </button>
+  <button
+    pButton
+    *ngIf="drawingMode === DrawingModeEnum.ReadOnly"
+    class="p-button-rounded p-button-success"
+  >
+    {{ 'drawing-status.mode' | translate: { value: drawingMode } }}
+  </button>
+</div>

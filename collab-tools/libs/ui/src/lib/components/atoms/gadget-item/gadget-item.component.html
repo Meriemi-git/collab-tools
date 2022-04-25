@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="title">
+    <h4 class="gadget-name">{{ gadget.name }}</h4>
+  </div>
+  <img
+    mat-image
+    [src]="ihs.getGadgetImage(gadget)"
+    alt="{{ gadget.name }} badge image"
+    [width]="150"
+  />
+  <p-divider layout="horizontal"></p-divider>
+</div>

@@ -1,0 +1,180 @@
+<form
+  [formGroup]="stratMapForm"
+  (ngSubmit)="(submit)"
+  class="flex flex-column align-items-center"
+>
+  <div class="flex flex-row align-items-center">
+    <div class="m-2">
+      <h2 *ngIf="selectedStratMap !== null; else mapIsNull">
+        {{ selectedStratMap.name }}
+      </h2>
+      <ng-template #mapIsNull>
+        <h2>
+          {{ 'add-strat-map.new_map' | translate }}
+        </h2>
+      </ng-template>
+    </div>
+    <div class="m-2">
+      <button
+        *ngIf="selectedStratMap"
+        pButton
+        type="button"
+        icon="pi pi-times"
+        class="p-button-rounded p-button-danger"
+        (click)="clearMap()"
+      ></button>
+    </div>
+  </div>
+  <div class="flex flex-row justify-content-evenly" style="width: 100%">
+    <div class="flex flex-column align-items-center" style="width: 50%">
+      <div class="field flex flex-column align-items-center">
+        <label for="map-name" class="sub-title">{{
+          'add-strat-map.map_name' | translate
+        }}</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="mapName"
+          id="map-name"
+          aria-describedby="map-name-help"
+        />
+      </div>
+      <div class="field flex flex-column align-items-center">
+        <label for="year" class="sub-title">{{
+          'add-strat-map.map_year' | translate
+        }}</label>
+        <input
+          type="number"
+          pInputText
+          formControlName="mapYear"
+          id="year"
+          aria-describedby="year-help"
+        />
+      </div>
+      <div class="field flex flex-column align-items-center">
+        <label for="season" class="sub-title">{{
+          'add-strat-map.map_season' | translate
+        }}</label>
+        <input
+          type="number"
+          pInputText
+          formControlName="mapSeason"
+          id="season"
+          aria-describedby="season-help"
+        />
+      </div>
+      <div class="field flex flex-column align-items-center">
+        <label for="map-image" class="sub-title">{{
+          'add-strat-map.map_image' | translate
+        }}</label>
+        <img
+          *ngIf="selectedStratMap"
+          mat-image
+          [src]="ihs.getStratMapImage(selectedStratMap)"
+          [width]="200"
+          class="m-2"
+          id="map-image"
+          alt="Map image"
+        />
+        <div
+          class="flex flex-row justify-content-evenly m-2"
+          style="width: 100%"
+        >
+          <p-fileUpload
+            #fileUpload
+            [customUpload]="true"
+            [auto]="true"
+            mode="basic"
+            [maxFileSize]="5242880"
+            [multiple]="false"
+            accept="image/*"
+            id="map-image"
+            [showCancelButton]="false"
+            (uploadHandler)="onImageUploaded($event.files); fileUpload.clear()"
+            class="m-2"
+          ></p-fileUpload>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger m-2"
+            (click)="removeMapImage()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-column align-items-center" style="width: 50%">
+      <div class="m-2">
+        <p-accordion *ngIf="selectedStratMap">
+          <p-accordionTab
+            header=""
+            [selected]="step === 1"
+            (onOpen)="setStep(1)"
+          >
+            <ng-template pTemplate="header">
+              <span *ngIf="selectedFloor !== null; else floorIsNull">
+                {{ selectedFloor.name }}
+              </span>
+              <ng-template #floorIsNull>
+                <span>
+                  {{ 'add-strat-map.add_floor' | translate }}
+                </span>
+              </ng-template>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <collab-tools-add-floor
+                [selectedFloor]="selectedFloor"
+                (floorAdded)="onFloorAdded($event)"
+                (floorUpdated)="onFloorUpdated($event)"
+                (floorDeleted)="onFloorDeleted($event)"
+              ></collab-tools-add-floor
+            ></ng-template>
+          </p-accordionTab>
+          <p-accordionTab [selected]="step === 2" (onOpen)="setStep(2)">
+            <ng-template pTemplate="header">
+              {{ 'add-strat-map.floor_list' | translate }}
+            </ng-template>
+            <ng-template pTemplate="content">
+              <collab-tools-floor-list
+                #floorList
+                *ngIf="selectedStratMap"
+                [floors]="selectedStratMap.floors"
+                [mapId]="selectedStratMap._id"
+                (deleteFloor)="onFloorDeleted($event)"
+                (floorSelected)="onFloorSelected($event)"
+              ></collab-tools-floor-list>
+            </ng-template>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-content-around" style="width: 50%">
+    <button
+      pButton
+      pRipple
+      type="button"
+      [label]="'add-strat-map.delete' | translate"
+      class="p-button-raised p-button-danger"
+      [disabled]="selectedStratMap === null"
+      (click)="delete()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="sumbit"
+      [label]="'add-strat-map.save' | translate"
+      class="p-button-raised p-button-primary"
+      [disabled]="stratMapForm.invalid"
+    ></button>
+  </div>
+</form>
+<p-confirmDialog
+  key="delete-strat-map-confirmation"
+  [header]="'delete-strat-map-confirmation.header' | translate"
+  [message]="
+    'delete-strat-map-confirmation.message'
+      | translate: { value: selectedStratMap?.name }
+  "
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

@@ -1,0 +1,17 @@
+<p-sidebar
+  [(visible)]="leftIsOpened"
+  position="left"
+  (onHide)="onCloseLeftSidenav()"
+  [modal]="false"
+  styleClass="editor-left-sidebar"
+>
+  <div *ngIf="$isAgentsPanelOpened | async">
+    <collab-tools-agents-panel
+      [agents]="$agents | async"
+      (agentDragged)="onAgentDragged($event)"
+    ></collab-tools-agents-panel>
+  </div>
+  <div *ngIf="$isGadgetsPanelOpened | async">
+    <collab-tools-gadget-panel></collab-tools-gadget-panel>
+  </div>
+</p-sidebar>

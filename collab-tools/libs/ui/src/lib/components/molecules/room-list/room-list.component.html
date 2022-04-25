@@ -1,0 +1,10 @@
+<p-listbox
+  [options]="rooms"
+  [multiple]="false"
+  optionLabel="name"
+  [listStyle]="{ 'max-height': '250px' }"
+>
+  <ng-template let-room pTemplate="item">
+    {{ room }}
+  </ng-template>
+</p-listbox>

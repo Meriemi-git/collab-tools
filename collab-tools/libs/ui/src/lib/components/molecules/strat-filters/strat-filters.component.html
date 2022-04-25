@@ -1,0 +1,85 @@
+<div class="align-items-center">
+  <div class="grid justify-content-evenly">
+    <div class="col">
+      <div class="flex flex-column align-items-center">
+        <div class="m-2">
+          <h4 class="title">{{ 'strats-filter-filter_by_map' | translate }}</h4>
+          <p-multiSelect
+            [options]="stratMaps"
+            [(ngModel)]="selectedStratMaps"
+            [placeholder]="'strats-filter-select_map_placeholder' | translate"
+            optionLabel="name"
+            selectedItemsLabel="{0} maps selected"
+          >
+          </p-multiSelect>
+        </div>
+        <div class="m-2">
+          <h4 class="title">
+            {{ 'strats-filter-filter_by_name' | translate }}
+          </h4>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="stratName"
+              [placeholder]="'strats-filter-search_map_by_name' | translate"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="flex flex-column align-items-center">
+        <div class="flex flex-row align-items-center">
+          <div class="m-2">
+            <p-triStateCheckbox [(ngModel)]="liked"></p-triStateCheckbox>
+          </div>
+          <div class="m-2">
+            <h4 class="title" *ngIf="liked">
+              {{ 'strats-filter.only_liked' | translate }}
+            </h4>
+            <h4 class="title" *ngIf="!liked">
+              {{ 'strats-filter.only_non_liked' | translate }}
+            </h4>
+            <h4 class="title" *ngIf="liked === undefined">
+              {{ 'strats-filter.liked_and_non_liked' | translate }}
+            </h4>
+          </div>
+        </div>
+        <div class="m-2">
+          <h4 class="title">{{ 'strats-filter-sort_result' | translate }}</h4>
+          <div class="field-radiobutton">
+            <p-radioButton
+              value="sortedBy"
+              [(ngModel)]="sortedBy"
+              inputId="name"
+            ></p-radioButton>
+            <label for="name">{{
+              'strats-filter-sort_by_name' | translate
+            }}</label>
+          </div>
+          <div class="field-radiobutton">
+            <p-radioButton
+              name="sortedBy"
+              value="Los Angeles"
+              [(ngModel)]="sortedBy"
+              inputId="votes"
+            ></p-radioButton>
+            <label for="votes">{{
+              'strats-filter-sort_by_vote' | translate
+            }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <button
+      pButton
+      class="p-button-primary"
+      (click)="onFilter()"
+      [label]="'strats-filter-validate' | translate"
+    ></button>
+  </div>
+</div>

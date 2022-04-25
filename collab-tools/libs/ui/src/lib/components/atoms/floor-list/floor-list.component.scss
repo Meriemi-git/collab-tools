@@ -1,0 +1,20 @@
+.list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.infos {
+  padding: 10px !important;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.images {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.line {
+  height: 150px !important;
+}

@@ -1,0 +1,8 @@
+<p-dropdown
+  [options]="layers"
+  [(ngModel)]="selectedLayer"
+  optionLabel="floor.name"
+  (onChange)="onLayerSelected($event.value)"
+  dataKey="floor._id"
+  [placeholder]="'layer-selector.placeholder' | translate"
+></p-dropdown>

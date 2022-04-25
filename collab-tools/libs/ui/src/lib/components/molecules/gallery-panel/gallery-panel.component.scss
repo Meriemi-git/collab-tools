@@ -1,0 +1,31 @@
+.not-connected {
+  text-align: center;
+}
+.container {
+  text-align: center;
+}
+.title {
+  color: var(--primary-color) !important;
+  margin: 0px !important;
+  padding-bottom: 10px;
+}
+
+:host::ng-deep.p-button-label {
+  display: none;
+}
+
+.filename {
+  text-align: center;
+  width: 100%;
+}
+
+.delete-zone {
+  cursor: 'drag';
+}
+
+:host::ng-deep.p-fieldset-legend {
+  border: 1px solid var(--danger-color);
+}
+:host::ng-deep.p-fieldset {
+  border: 1px solid var(--danger-color);
+}

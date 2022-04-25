@@ -1,0 +1,32 @@
+:host h1 {
+  margin: 0;
+  padding: 0;
+}
+
+:host::ng-deep.p-tabview-nav {
+  justify-content: center;
+  flex: 0 1 auto;
+}
+
+:host::ng-deep.p-tabview {
+  width: 100vw;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+:host::ng-deep.p-tabview-panels {
+  flex: 1 1 auto;
+}
+
+:host::ng-deep.p-tabview-panel {
+  flex: 1 1 auto;
+}
+
+.container {
+  height: 100%;
+}
+
+.title {
+  height: 0px;
+}

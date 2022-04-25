@@ -1,0 +1,43 @@
+<h1>{{ 'notification.title' | translate }}</h1>
+<div class="flex flex-row space-evenly align-items-top">
+  <div>
+    <h3>{{ 'notification.chat-invitation-title' | translate }}</h3>
+    <p-listbox
+      [options]="notifications | filter: 'type':[NType.CHAT_INVITATION]"
+      [multiple]="false"
+      optionLabel="name"
+      [listStyle]="{ 'min-width': '300px' }"
+    >
+      <ng-template let-notification pTemplate="item">
+        <div>
+          <collab-tools-notification-list-item
+            [notification]="notification"
+            class="list-item"
+            (dismissedNotification)="onDismissNotification($event)"
+          ></collab-tools-notification-list-item>
+          <p-divider layout="horizontal"></p-divider>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </div>
+  <div>
+    <h3>{{ 'notification.room-invitation-title' | translate }}</h3>
+    <p-listbox
+      [options]="notifications | filter: 'type':[NType.ROOM_INVITATION]"
+      [multiple]="false"
+      optionLabel="name"
+      [listStyle]="{ 'min-width': '300px' }"
+    >
+      <ng-template let-notification pTemplate="item" class="flex flex-column">
+        <div>
+          <collab-tools-notification-list-item
+            [notification]="notification"
+            class="list-item"
+            (dismissedNotification)="onDismissNotification($event)"
+          ></collab-tools-notification-list-item
+          ><p-divider layout="horizontal"></p-divider>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </div>
+</div>

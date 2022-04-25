@@ -1,0 +1,20 @@
+<div class="flex flex-row justify-content-center flex-wrap">
+  <div class="m-3">
+    <h3>{{ 'account-security.change_email' | translate }}</h3>
+    <collab-tools-mail-changer
+      [oldMail]="userInfos.mail"
+      [errorMessage]="errorMessage"
+      (mailChange)="mailChange.emit($event)"
+    ></collab-tools-mail-changer>
+    <collab-tools-lang-selector (langSelected)="onLangSelected($event)">
+    </collab-tools-lang-selector>
+  </div>
+  <div class="m-3">
+    <h3>{{ 'account-security.change_password' | translate }}</h3>
+    <collab-tools-password-changer
+      [errorMessage]="errorMessage"
+      (passwordChanged)="passwordChange.emit($event)"
+    >
+    </collab-tools-password-changer>
+  </div>
+</div>

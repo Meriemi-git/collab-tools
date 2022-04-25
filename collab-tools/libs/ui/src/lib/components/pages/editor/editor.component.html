@@ -1,0 +1,237 @@
+<button
+  pButton
+  pRipple
+  type="button"
+  [icon]="headingToolbarIsOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+  class="p-button p-button-rounded heading-toolbar-button"
+  (click)="headingToolbarIsOpen = !headingToolbarIsOpen"
+  [ngStyle]="{ top: headingToolbarIsOpen ? '19em' : '5em' }"
+></button>
+
+<p-sidebar
+  [(visible)]="headingToolbarIsOpen"
+  position="top"
+  (onHide)="headingToolbarIsOpen = false"
+  (onShow)="headingToolbarIsOpen = true"
+  [showCloseIcon]="false"
+  [modal]="false"
+>
+  <div class="map-layer-chooser">
+    <div class="item">
+      <collab-tools-map-selector
+        #mapSelector
+        (mapSelected)="onStratMapSelected($event)"
+        [maps]="$maps | async"
+        [readOnly]="isReadOnly"
+        [selectedStratMap]="selectedStratMap"
+      ></collab-tools-map-selector>
+    </div>
+    <div class="item">
+      <collab-tools-layer-selector
+        (layerSelected)="onLayerSelected($event)"
+        [layers]="$layers | async | sortBy: 'asc':layerComparer"
+        [selectedLayer]="selectedLayer"
+      ></collab-tools-layer-selector>
+    </div>
+  </div>
+  <span class="strat-title">{{ currentStrat?.name }}</span>
+
+  <collab-tools-tactical-switch
+    [tacticalMode]="tacticalMode"
+    (setTacticalMode)="onSetTacticalMode($event)"
+  ></collab-tools-tactical-switch>
+</p-sidebar>
+<div
+  class="icons-left"
+  *ngIf="!isReadOnly && selectedStratMap"
+  (wheel)="stopWheelEvent($event)"
+>
+  <div (click)="openAgentsPanel()">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="p-button-text p-button-lg p-button-primary"
+      [pTooltip]="'editor.agents.tooltip' | translate"
+      tooltipPosition="right"
+    >
+      {{ 'editor.agents' | translate }}
+    </button>
+  </div>
+  <div (click)="openGadgetsPanel()">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="p-button-text p-button-lg p-button-success"
+      [pTooltip]="'editor.gadgets.tooltip' | translate"
+      tooltipPosition="right"
+    >
+      {{ 'editor.gadgets' | translate }}
+    </button>
+  </div>
+</div>
+<div
+  class="icons-right"
+  *ngIf="!isReadOnly && selectedStratMap"
+  (wheel)="stopWheelEvent($event)"
+>
+  <div (click)="openDrawingPanel()">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="p-button-text p-button-lg p-button-primary"
+      [pTooltip]="'editor.drawing.tooltip' | translate"
+      tooltipPosition="left"
+    >
+      {{ 'editor.drawing' | translate }}
+    </button>
+  </div>
+  <div (click)="openGalleryPanel()">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="p-button-text p-button-lg p-button-success"
+      [pTooltip]="'editor.gallery.tooltip' | translate"
+      tooltipPosition="left"
+    >
+      {{ 'editor.gallery' | translate }}
+    </button>
+  </div>
+  <div (click)="openRoomPanel()">
+    <button
+      pButton
+      pRipple
+      type="button"
+      class="p-button-text p-button-lg p-button-help"
+      [pTooltip]="'editor.room.tooltip' | translate"
+      tooltipPosition="right"
+    >
+      {{ 'editor.room' | translate }}
+    </button>
+  </div>
+</div>
+<div #mapContainer class="map-container">
+  <div *ngIf="selectedStratMap">
+    <collab-tools-drawer class="editor"></collab-tools-drawer>
+    <collab-tools-svg-icon
+      *ngIf="layerIsDeprecated"
+      [name]="'deprecated'"
+      [width]="'200px'"
+      [ngClass]="'deprecated'"
+    >
+    </collab-tools-svg-icon>
+    <collab-tools-drawing-status
+      [drawingMode]="$drawingMode | async"
+      class="collab-tools-drawing-status"
+    >
+    </collab-tools-drawing-status>
+  </div>
+</div>
+
+<button
+  pButton
+  pRipple
+  type="button"
+  *ngIf="!isReadOnly"
+  [icon]="drawingToolbarIsOpen ? 'pi pi-chevron-down' : 'pi pi-chevron-up'"
+  class="p-button p-button-rounded drawing-toolbar-button"
+  (click)="drawingToolbarIsOpen = !drawingToolbarIsOpen"
+  [ngStyle]="{ bottom: drawingToolbarIsOpen ? '8rem' : '1rem' }"
+></button>
+<p-sidebar
+  *ngIf="!isReadOnly"
+  [(visible)]="drawingToolbarIsOpen"
+  position="bottom"
+  (onHide)="drawingToolbarIsOpen = false"
+  [showCloseIcon]="false"
+  [modal]="false"
+>
+  <collab-tools-drawing-toolbar
+    class="collab-tools-drawing-toolbar"
+    [isConnected]="userInfos !== null"
+    [canBeDeleted]="currentStrat?._id !== null"
+    (selectedAction)="onSelectToolbarAction($event)"
+    (wheel)="stopWheelEvent($event)"
+  >
+  </collab-tools-drawing-toolbar>
+</p-sidebar>
+<collab-tools-left-panel></collab-tools-left-panel>
+<collab-tools-right-panel></collab-tools-right-panel>
+<p-confirmDialog
+  #mapChange
+  key="editor.map-changing"
+  [header]="'editor.map-changing.header' | translate"
+  [message]="'editor.map-changing.message' | translate"
+>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      pButton
+      class="p-button p-button-danger"
+      (click)="mapChange.reject()"
+      [label]="'editor.map-changing.cancel' | translate"
+    ></button>
+    <button
+      type="button"
+      pButton
+      class="p-button p-button-primary"
+      (click)="mapChange.accept()"
+      [label]="'editor.map-changing.change' | translate"
+    ></button>
+  </ng-template>
+</p-confirmDialog>
+<p-confirmDialog
+  key="editor.delete-strat"
+  #delStrat
+  [header]="'editor.delete-strat.header' | translate"
+  [message]="
+    'editor.delete-strat.message' | translate: { value: currentStrat?.name }
+  "
+>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-danger p-button-outlined"
+      pButton
+      icon="pi pi-times"
+      [label]="'general.no' | translate"
+      (click)="delStrat.reject()"
+    ></button>
+    <button
+      type="button"
+      class="p-button-primary p-button-outlined"
+      pButton
+      icon="pi pi-check"
+      [label]="'general.yes' | translate"
+      (click)="delStrat.accept()"
+    ></button>
+  </ng-template>
+</p-confirmDialog>
+<p-confirmDialog
+  #navOut
+  key="editor.navigate-out"
+  [message]="'editor.navigate-out.message' | translate"
+  [header]="'editor.navigate-out.header' | translate"
+>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-danger p-button-outlined"
+      pButton
+      icon="pi pi-times"
+      [label]="'general.no' | translate"
+      (click)="navOut.reject()"
+    ></button>
+    <button
+      type="button"
+      class="p-button-primary p-button-outlined"
+      pButton
+      icon="pi pi-check"
+      [label]="'general.yes' | translate"
+      (click)="navOut.accept()"
+    ></button>
+  </ng-template>
+</p-confirmDialog>

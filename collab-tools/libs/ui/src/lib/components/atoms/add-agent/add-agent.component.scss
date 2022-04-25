@@ -1,0 +1,26 @@
+.sizes {
+  .p-inputtext {
+    display: block;
+    margin-bottom: 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.p-field * {
+  display: block;
+}
+
+.sub-title {
+  color: var(--secondary-color);
+}
+
+:host::ng-deep.p-dropdown {
+  width: 100%;
+}
+
+:host::ng-deep.p-inputtext {
+  width: 100%;
+}

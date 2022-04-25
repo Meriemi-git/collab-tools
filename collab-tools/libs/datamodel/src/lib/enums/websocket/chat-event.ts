@@ -1,0 +1,4 @@
+export enum ChatEvent {
+  ON_MEMBER_STATUS_CHANGED = 'STATUS',
+  ON_MESSAGES = 'ON_MESSAGES',
+}

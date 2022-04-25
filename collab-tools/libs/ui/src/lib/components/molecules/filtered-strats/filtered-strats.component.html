@@ -1,0 +1,52 @@
+<div
+  *ngIf="($userInfos | async) || isPublic; let userInfos; else: notConnected"
+  class="strat-container flex flex-column align-items-center"
+>
+  <div class="filters">
+    <p-accordion
+      #filters
+      [activeIndex]="activeIndex"
+      (onOpen)="activeIndex = $event.index"
+    >
+      <p-accordionTab>
+        <ng-template pTemplate="header">
+          <div
+            class="flex flex-row justify-content-between align-items-center header-container"
+          >
+            <div>{{ 'filtered-strats.title' | translate }}</div>
+            <div>
+              <p-paginator
+                [rows]="rows"
+                [totalRecords]="length"
+                (onPageChange)="paginate($event)"
+              ></p-paginator>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <collab-tools-strat-filters
+            [stratMaps]="$stratMaps | async"
+            (filter)="onFilterStrat($event)"
+            [connected]="($userInfos | async) !== null"
+            [public]="isPublic"
+          >
+          </collab-tools-strat-filters>
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <collab-tools-strat-grid
+    [strats]="$strats | async | sortBy: stratFilter?.order:stratComparer"
+    [userInfos]="$userInfos | async"
+    [likes]="$userLikes | async"
+    (selectStrat)="onSelectStrat($event)"
+    (deleteStrat)="onDeleteStrat($event)"
+    (likeStrat)="onLikeStrat($event)"
+    (dislikeStrat)="onDislikeStrat($event)"
+  ></collab-tools-strat-grid>
+</div>
+<ng-template #notConnected>
+  <div class="not-connected">
+    {{ 'filtered-strats.not_connected' | translate }}
+  </div>
+</ng-template>

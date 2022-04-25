@@ -1,0 +1,130 @@
+<p-table
+  [value]="users"
+  [paginator]="false"
+  [rows]="2"
+  [globalFilterFields]="[
+    'username',
+    'mail',
+    'role',
+    'cguAgreementDate',
+    'confirmed'
+  ]"
+  [lazy]="true"
+  (onLazyLoad)="loadUsers($event)"
+  [totalRecords]="totalRecords"
+  sortField="username"
+  [sortOrder]="1"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="username">
+        {{ 'app-table.username' | translate }}
+        <p-sortIcon field="username"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="mail">
+        {{ 'app-table.mail' | translate }}
+        <p-sortIcon field="mail"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="role">
+        {{ 'app-table.user-role' | translate }}
+        <p-sortIcon field="role"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="cguAgreementDate">
+        {{ 'app-table.registered-at' | translate }}
+        <p-sortIcon field="cguAgreementDate"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="confirmed">
+        {{ 'app-table.confirmed' | translate }}
+        <p-sortIcon field="confirmed"></p-sortIcon>
+      </th>
+      <th scope="col">{{ 'app-table.actions' | translate }}</th>
+    </tr>
+    <tr>
+      <th scope="col">
+        <p-columnFilter type="text" field="username"> </p-columnFilter>
+      </th>
+      <th scope="col">
+        <p-columnFilter type="numeric" field="mail"> </p-columnFilter>
+      </th>
+      <th scope="col">
+        <p-columnFilter type="text" field="role"> </p-columnFilter>
+      </th>
+      <th scope="col">
+        <p-columnFilter type="date" field="cguAgreementDate"> </p-columnFilter>
+      </th>
+      <th scope="col">
+        <p-columnFilter type="boolean" field="confirmed"> </p-columnFilter>
+      </th>
+
+      <th scope="col"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.mail }}</td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-dropdown
+              [options]="roles"
+              (onChange)="onRoleUpdate(user, $event.value)"
+              [placeholder]="'app-table.role_placeholder' | translate"
+            ></p-dropdown>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ user.role }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>{{ user.cguAgreementDate | date: 'MM/d/y' }}</td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-triStateCheckbox
+              (onChange)="onConfirmationUpdated(user, $event.value)"
+            ></p-triStateCheckbox>
+          </ng-template>
+          <ng-template pTemplate="output">
+            <i class="pi pi-check-circle" *ngIf="user.confirmed"></i>
+            <i class="pi pi-times-circle" *ngIf="!user.confirmed"></i>
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times-circle"
+          class="p-button-rounded p-button-outlined p-button-info"
+          (click)="updatingUser = null"
+          *ngIf="updatingUser !== null && user._id === updatingUser._id"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-save"
+          class="p-button-rounded p-button-outlined p-button-primary"
+          (click)="onUpdateUser()"
+          *ngIf="updatingUser !== null && user._id === updatingUser._id"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-outlined p-button-danger"
+          (click)="onDeleteUser(user)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-paginator
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  (onPageChange)="paginate($event)"
+  [rowsPerPageOptions]="[2, 5, 10]"
+></p-paginator>

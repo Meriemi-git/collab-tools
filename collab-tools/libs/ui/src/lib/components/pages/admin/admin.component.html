@@ -1,0 +1,22 @@
+<p-tabView>
+  <p-tabPanel header="Agents">
+    <ng-template pTemplate="content">
+      <collab-tools-admin-agent-panel></collab-tools-admin-agent-panel>
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Gadgets">
+    <ng-template pTemplate="content">
+      <collab-tools-admin-gadget-panel></collab-tools-admin-gadget-panel>
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Map">
+    <ng-template pTemplate="content">
+      <collab-tools-admin-strat-map-panel></collab-tools-admin-strat-map-panel>
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Users" [selected]="true">
+    <ng-template pTemplate="content">
+      <collab-tools-admin-user-panel></collab-tools-admin-user-panel>
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>

@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "typescript",
+      "tsconfig": "apps/backend/tsconfig.app.json",
+      "problemMatcher": ["$tsc"],
+      "group": "build",
+      "label": "tsc: build - apps/backend/tsconfig.app.json"
+    },
+    {
+      "type": "npm",
+      "script": "build:backend",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build:backend",
+      "detail": "nx build backend"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "apps/backend/tsconfig.app.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"],
+      "group": "build",
+      "label": "tsc: watch - apps/backend/tsconfig.app.json"
+    }
+  ]
+}

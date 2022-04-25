@@ -1,0 +1,22 @@
+import * as Joi from 'joi';
+export const validationSchema = Joi.object({
+  NODE_ENV: Joi.string().valid('development', 'production').required(),
+  PORT: Joi.number().default(3333),
+  JWT_SECRET: Joi.string().required(),
+  MAINTENANCE_MODE_ON: Joi.string().required(),
+  LOG_LEVEL: Joi.string().default('INFOS'),
+  ASSETS_FOLDER: Joi.string().required(),
+  AGENTS_FOLDER: Joi.string().required(),
+  GADGETS_FOLDER: Joi.string().required(),
+  MAPS_FOLDER: Joi.string().required(),
+  FLOORS_FOLDER: Joi.string().required(),
+  ICONS_FOLDER: Joi.string().required(),
+  FONTS_FOLDER: Joi.string().required(),
+  UPLOAD_FOLDER: Joi.string().required(),
+  IMAGES_FOLDER: Joi.string().required(),
+  THUMBS_FOLDER: Joi.string().required(),
+  SMTP_HOST: Joi.string().required(),
+  SMTP_MAIL: Joi.string().required(),
+  SMTP_PWD: Joi.string().required(),
+  TEMPLATES_FOLDER: Joi.string().required(),
+});

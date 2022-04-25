@@ -1,0 +1,17 @@
+<div *ngIf="userInfos$ | async; let userInfos; else: notConnected">
+  <div *ngIf="$roomJoined | async; else connecting">
+    <div class="drawer-container" *ngIf="connectedToTheRoom"></div>
+    <collab-tools-drawer [readonly]="true"></collab-tools-drawer>
+    <button
+      pButton
+      [label]="'room.leave_room' | translate"
+      class="p-button-danger btn-leave"
+      (click)="leaveRoom()"
+    ></button>
+    <div></div>
+  </div>
+  <ng-template #connecting>
+    <collab-tools-loading message="Connecting..."></collab-tools-loading>
+  </ng-template>
+</div>
+<ng-template #notConnected> Vous devez être connecté </ng-template>

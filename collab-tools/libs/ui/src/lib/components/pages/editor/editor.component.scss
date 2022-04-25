@@ -1,0 +1,120 @@
+.icons-left {
+  z-index: 20;
+  float: left;
+  top: 50%;
+  position: relative;
+}
+
+.icons-right {
+  z-index: 20;
+  float: right;
+  position: relative;
+  top: 50%;
+}
+
+.editor {
+  cursor: pointer;
+}
+
+::ng-deep.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+  direction: rtl;
+}
+
+.deprecated {
+  position: absolute;
+  top: 0;
+  display: block;
+  transform: rotate(-45deg);
+}
+
+.p-dialog-header {
+  text-align: center;
+}
+
+:host::ng-deep.p-sidebar-bottom {
+  background-color: transparent !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  border: 0;
+  box-shadow: none;
+  width: fit-content;
+  right: 0;
+  left: 0;
+}
+
+:host::ng-deep.p-sidebar-top {
+  background-color: transparent !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  border: 0;
+  box-shadow: none;
+  width: fit-content;
+  right: 0;
+  left: 0;
+}
+
+:host::ng-deep.p-sidebar-top.p-sidebar-active {
+  top: 73px;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 0px 0px 10px 10px;
+}
+
+:host::ng-deep.p-sidebar-close {
+  top: 0px;
+}
+
+.drawing-toolbar-button {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 49vw;
+  z-index: 999;
+}
+
+.heading-toolbar-button {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 49vw;
+  z-index: 999;
+}
+
+.map-layer-chooser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.item {
+  margin: 10px 10px 0px 10px;
+  height: max-content;
+}
+
+.strat-title {
+  width: max-content;
+  font-size: 1.5em;
+  display: block;
+  margin: 5px auto 0px auto;
+}
+
+:host::ng-deep.p-dialog.p-confirm-dialog {
+  text-align: left;
+}
+
+:host::ng-deep.confirm-dialog-accept {
+  background: var(--primary-color);
+}
+:host::ng-deep.reject-dialog-accept {
+  background: var(--danger-color);
+}
+
+:host::ng-deep.p-dialog-header {
+  text-align: center !important;
+  color: var(--primary-color) !important;
+  margin: 0px !important;
+}

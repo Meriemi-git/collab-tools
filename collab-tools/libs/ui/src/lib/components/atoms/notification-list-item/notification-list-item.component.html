@@ -1,0 +1,45 @@
+<div class="flex flex-column">
+  <ng-container
+    *ngIf="notification.type === NotifType.ROOM_INVITATION; else chatInvitation"
+  >
+    <div class="notification-title">
+      {{ 'notification_room_invitation_title' | translate }}
+    </div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded p-button-danger p-button-text button-close"
+      (click)="dismissNotification(notification)"
+    ></button>
+    <div
+      [innerHtml]="
+        'notification_room_invitation_message'
+          | translate
+            : {
+                roomPageUrl: environment.roomPageUrl,
+                wsRoomId: notification.wsRoomId
+              }
+      "
+      class="notification-content"
+    ></div>
+  </ng-container>
+  <ng-template #chatInvitation>
+    <div class="notification-title">
+      {{ 'notification_chat_invitation_title' | translate }}
+    </div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded p-button-danger p-button-text button-close"
+      (click)="dismissNotification(notification)"
+    ></button>
+    <div
+      [innerHTML]="'chat_room_invitation_message' | translate"
+      class="notification-content"
+    ></div>
+  </ng-template>
+</div>

@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="grid">
+    <div fxFlex="25%" *ngFor="let map of maps" (click)="onSelectStratMap(map)">
+      <collab-tools-map-item [map]="map"> </collab-tools-map-item>
+    </div>
+  </div>
+</div>

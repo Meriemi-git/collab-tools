@@ -1,0 +1,9 @@
+<collab-tools-user-table
+  [users]="$users | async"
+  [totalRecords]="length"
+  [rows]="rows"
+  (userUpdated)="onUserUpdated($event)"
+  (userDeleted)="onUserDeleted($event)"
+  (userFiltered)="onUserFiltered($event)"
+  class="user-table"
+></collab-tools-user-table>

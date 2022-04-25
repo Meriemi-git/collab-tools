@@ -1,0 +1,38 @@
+:host::ng-deep.collab-tools-toolbar {
+  color: white;
+  height: 1rem;
+}
+
+:host::ng-deep.btn-login {
+  margin-right: 20px;
+}
+:host::ng-deep.p-toolbar {
+  padding: 0rem;
+  height: 73px;
+}
+
+:host::ng-deep.username {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-right: 21px;
+}
+:host::ng-deep.lbl-pseudo {
+  margin: 25px;
+  padding-right: 12px;
+}
+:host::ng-deep.notif-highlighted .p-menuitem-text {
+  color: var(--primary-color);
+}
+:host::ng-deep.userinfos-container {
+  margin-right: 15px;
+}
+:host::ng-deep.badge-icon {
+  padding: 5px;
+  font-size: 1.2rem;
+  color: var(--danger-color);
+}
+:host::ng-deep.badge-icon {
+  padding-top: 10px;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}

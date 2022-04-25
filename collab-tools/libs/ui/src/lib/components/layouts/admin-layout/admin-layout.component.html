@@ -1,0 +1,38 @@
+<div class="container">
+  <p-toolbar #topbar styleClass="collab-tools-toolbar">
+    <div class="p-toolbar-group-left">
+      <div class="flex align-items-center">
+        <div class="mr-2">
+          <button
+            type="button"
+            pButton
+            class="p-button-primary"
+            icon="pi pi-home"
+            (click)="onHomeClick()"
+          ></button>
+        </div>
+        <div class="mr-2">
+          <span class="app-title">
+            {{ 'admin-page.app_title' | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="p-toolbar-group-right">
+      <span class="m-2">{{ ($userInfos | async)?.username }}</span>
+      <div class="disconnected">
+        <button
+          type="button"
+          pButton
+          icon="pi pi-user"
+          (click)="menu.toggle($event)"
+        ></button>
+        <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+      </div>
+    </div>
+  </p-toolbar>
+  <div class="flex justify-content-center main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<p-toast position="bottom-center" [preventOpenDuplicates]="true"></p-toast>

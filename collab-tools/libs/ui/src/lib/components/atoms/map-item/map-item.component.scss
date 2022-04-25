@@ -1,0 +1,29 @@
+.map {
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  min-width: 350px;
+  min-height: 200px;
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  padding-top: 16px;
+}
+.map-title {
+  color: white;
+  font-size: 39.96px;
+  line-height: 33.29987px;
+  text-shadow: 2px 2px #585858;
+  font-weight: bold;
+  font-family: Amiko, sans-serif;
+}
+
+.map-image {
+  border-radius: 2px;
+}

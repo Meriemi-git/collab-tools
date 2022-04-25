@@ -1,0 +1,22 @@
+<div *ngIf="$userInfos | async; let userInfos" class="container">
+  <p-tabView>
+    <p-tabPanel [header]="'account-page.account' | translate">
+      <collab-tools-account-overview
+        [userInfos]="userInfos"
+        [errorMessage]="($httpError | async)?.error.message"
+        (resendEmailLink)="onResendEmailLink()"
+      ></collab-tools-account-overview>
+    </p-tabPanel>
+    <p-tabPanel [header]="'account-page.settings' | translate">
+      <collab-tools-account-security
+        [userInfos]="userInfos"
+        [errorMessage]="($httpError | async)?.error.message"
+        (langChange)="onLangChange($event)"
+        (mailChange)="onMailChange($event)"
+      ></collab-tools-account-security
+    ></p-tabPanel>
+    <p-tabPanel [header]="'account-page.cgu' | translate"> </p-tabPanel>
+  </p-tabView>
+
+  <div *ngIf="!userInfos">{{ 'account-page.not_connected' | translate }}</div>
+</div>

@@ -1,0 +1,23 @@
+<div class="grid">
+  <div class="col-4">
+    <collab-tools-add-strat-map
+      [selectedStratMap]="selectedStratMap"
+      [selectedFloor]="selectedFloor"
+      (stratMapAdded)="onStratMapAdded($event)"
+      (stratMapUpdated)="onStratMapUpdated($event)"
+      (stratMapDeleted)="onStratMapDeleted($event)"
+      (floorAdded)="onFloorAdded($event)"
+      (floorUpdated)="onFloorUpdated($event)"
+      (floorDeleted)="onFloorDeleted($event)"
+    >
+    </collab-tools-add-strat-map>
+  </div>
+  <div class="col-6">
+    <collab-tools-strat-map-table
+      [stratMaps]="$stratMaps | async"
+      (floorSelected)="onFloorSelected($event)"
+      (stratMapSelected)="onStratMapSelected($event)"
+      class="strat-map-table"
+    ></collab-tools-strat-map-table>
+  </div>
+</div>

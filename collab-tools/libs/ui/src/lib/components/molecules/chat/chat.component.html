@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="flex flex-row justify-content-between chat-header">
+    <button
+      pButton
+      class="p-button-rounded p-button-text"
+      icon="pi pi-arrow-left"
+      pRipple
+      (click)="closeChat.emit()"
+    ></button>
+    <p-avatarGroup>
+      <p-avatar
+        *ngFor="let member of chat.members"
+        [ngClass]="
+          member.status === WStatus.JOINED ? 'connected' : 'notConnected'
+        "
+        shape="circle"
+        [label]="member.username.substr(0, 3)"
+      ></p-avatar>
+    </p-avatarGroup>
+    <button
+      pButton
+      class="p-button-rounded p-button-text"
+      icon="pi pi-plus"
+      pRipple
+      (click)="inviteUsers.emit()"
+    ></button>
+  </div>
+  <p-scrollPanel
+    #scrollPanel
+    [style]="{ width: '100%', height: '300px' }"
+    styleClass="message-list"
+  >
+    <div class="line centered">
+      <button
+        type="submit"
+        pButton
+        class="p-button-text"
+        pRipple
+        [label]="'chat.old-messages' | translate"
+        (click)="loadMoreMessages()"
+      ></button>
+    </div>
+    <div class="line" *ngFor="let message of messages.slice().reverse()">
+      <p-chip
+        [label]="message.content"
+        [ngClass]="message.userId === userId ? 'right-message' : 'left-message'"
+        styleClass="custom-chip"
+      >
+      </p-chip>
+    </div>
+    <br />
+  </p-scrollPanel>
+
+  <div class="p-inputgroup">
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="text"
+      [placeholder]="'chat.input-placeholder' | translate"
+      (keyup.enter)="onSendMessage()"
+    />
+    <button
+      type="button"
+      pButton
+      pRipple
+      [label]="'chat.btn-send' | translate"
+      (click)="onSendMessage()"
+    ></button>
+  </div>
+</div>

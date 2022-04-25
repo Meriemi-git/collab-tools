@@ -1,0 +1,79 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "firefox",
+      "request": "launch",
+      "name": "Frontend",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "profile": "default-release",
+      "pathMappings": [
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///apps/frontend/src",
+          "path": "${workspaceFolder}/apps/frontend/src"
+        },
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///src",
+          "path": "${workspaceFolder}/apps/frontend/src"
+        }
+      ]
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "name": "Admin",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "profile": "default-release",
+      "pathMappings": [
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///apps/admin/src",
+          "path": "${workspaceFolder}/apps/admin/src"
+        },
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///src",
+          "path": "${workspaceFolder}/apps/admin/src"
+        }
+      ]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Backend",
+      "port": 3334,
+      "restart": true,
+      "outFiles": [
+        "${workspaceFolder}/dist/apps/backend/**/*.js"
+      ],
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+<div class="container">
+  <button
+    pButton
+    class="p-button p-button-text"
+    [ngClass]="{
+      'p-button-danger': action.active,
+      'p-button-primary': !action.active
+    }"
+    (click)="onClick()"
+  >
+    <collab-tools-svg-icon
+      [name]="action.name"
+      [width]="'22px'"
+      [color]="action.active ? 'rgb(248, 109, 113)' : 'rgb(16, 123, 227)'"
+    ></collab-tools-svg-icon>
+  </button>
+  <div class="label">
+    {{ action.label }}
+  </div>
+</div>

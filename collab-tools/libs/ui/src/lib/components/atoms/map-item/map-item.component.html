@@ -1,0 +1,14 @@
+<div class="map" (mouseover)="onHover = true" (mouseout)="onHover = false">
+  <img
+    mat-image
+    class="map-image"
+    [src]="ihs.getStratMapImage(map)"
+    alt="{{ map.name }} image"
+    [width]="350"
+    [class.mat-elevation-z2]="!onHover"
+    [class.mat-elevation-z10]="onHover"
+  />
+  <div class="centered">
+    <h2 class="map-title mat-title">{{ map.name }}</h2>
+  </div>
+</div>

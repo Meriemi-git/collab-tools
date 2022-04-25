@@ -1,0 +1,38 @@
+<div class="container">
+  <collab-tools-top-bar
+    #mainToolbar
+    (disconnect)="onDisconnect()"
+    (login)="onLogin()"
+    (register)="onRegister()"
+    [$userInfos]="$userInfos"
+    [$notifCounter]="$notifCounter"
+    class="topbar"
+  ></collab-tools-top-bar>
+
+  <div class="flex justify-content-center main-content">
+    <router-outlet></router-outlet>
+  </div>
+  <p-toast position="bottom-center" [baseZIndex]="9999999">
+    <ng-template let-message pTemplate="message">
+      <div class="notif-content" style="flex: 1">
+        <h4 class="notif-title">{{ message.summary }}</h4>
+        <p class="notif-message" [innerHTML]="message.detail"></p>
+      </div>
+    </ng-template>
+  </p-toast>
+</div>
+<div *ngIf="$userInfos | async; let userInfos">
+  <button
+    pButton
+    type="button"
+    [icon]="!chatsOpened ? 'pi pi-comments' : 'pi pi-times'"
+    class="p-button-rounded btn-chat"
+    (click)="chatsOpened = !chatsOpened"
+  ></button>
+
+  <collab-tools-chats-panel
+    [userInfos]="userInfos"
+    *ngIf="chatsOpened"
+    class="chats-panel"
+  ></collab-tools-chats-panel>
+</div>
