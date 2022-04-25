@@ -1,3 +1,2 @@
-export * from './lib/abstracts';
-export * from './lib/contracts';
-
+export * from './abstracts';
+export * from './contracts';

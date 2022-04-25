@@ -9,7 +9,7 @@ import {
   TokenExpiredError,
   User,
   UserDocument,
-  UserDto,
+  UserDto
 } from '@collab-tools/datamodel';
 import { MailerService } from '@nestjs-modules/mailer';
 import {
@@ -18,7 +18,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -267,7 +267,7 @@ export class UserService {
         return this.toDTO(created);
       })
       .catch((error) => {
-        this.logger.debug(`Error when saving user`);
+        this.logger.debug(`Error when saving user`, error);
         throw new HttpException(`Error when saving user`, 466);
       });
   }
@@ -306,28 +306,27 @@ export class UserService {
     }
   }
 
-  public sendConfirmationMail(user: UserDto): Promise<void> {
+  public async sendConfirmationMail(user: UserDto): Promise<void> {
     const payload: MailConfirmationToken = { mail: user.mail, id: user._id };
     const token = this.jwtTokenService.getSignedToken(payload, '30m');
     const link = `${this.configService.get('CONFIRM_URL')}/${token}`;
     const locale = user.locale == null ? 'en' : user.locale;
-    return this.mailerService
-      .sendMail({
-        to: user.mail, // list of receivers
-        from: this.configService.get('SMTP_MAIL'), // sender address
-        subject: 'Strat Editor confirmation', // Subject line
-        template: `./confirmation-${locale}`,
-        context: {
-          username: user.username,
-          link: link,
-        },
-      })
-      .then(() => {
-        this.logger.debug('Confirmation mail successfully sent');
-        Promise.resolve();
-      })
-      .catch(() => {
-        this.logger.error('Error during confirmation mail sending');
+    const maiConf = {
+      to: user.mail, // list of receivers
+      from: this.configService.get('SMTP_MAIL'), // sender address
+      subject: 'Strat Editor confirmation', // Subject line
+      template: `${this.configService.get(
+        'TEMPLATES_FOLDER'
+      )}/confirmation-${locale}.hbs`,
+      context: {
+        username: user.username,
+        link: link,
+      },
+    };
+    return await this.mailerService
+      .sendMail(maiConf)
+      .catch((error) => {
+        this.logger.error('Error during confirmation mail sending', error);
         throw new HttpException('Error during confirmation mail sending', 466);
       });
   }

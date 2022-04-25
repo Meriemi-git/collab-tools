@@ -1,1 +1,1 @@
-export * from './lib/components/drawer/drawer.module';
+export * from './components/drawer/drawer.module';

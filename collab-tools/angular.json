@@ -32,7 +32,8 @@
         "serve": {
           "builder": "@nrwl/node:node",
           "options": {
-            "buildTarget": "backend:build"
+            "buildTarget": "backend:build",
+            "port": 3334
           }
         },
         "lint": {

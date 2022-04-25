@@ -1,4 +1,12 @@
 import {
+  AttributeFilter,
+  AuthInfos,
+  PaginateResult,
+  PasswordChangeWrapper,
+  UserDto,
+  UserPartialDto,
+} from '@collab-tools/datamodel';
+import {
   BadRequestException,
   Body,
   Controller,
@@ -17,14 +25,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  AttributeFilter,
-  AuthInfos,
-  PaginateResult,
-  PasswordChangeWrapper,
-  UserDto,
-  UserPartialDto,
-} from '@collab-tools/datamodel';
 import { Request, Response } from 'express';
 import { RateLimit } from 'nestjs-rate-limiter';
 import { Strategies } from '../../strategies/strategies';
@@ -186,8 +186,8 @@ export class UserController {
     @Body() userDto: Partial<UserDto>,
     @Res() response: Response
   ): Promise<UserDto> {
-    return this.userService.addUser(userDto).then((createdUser) => {
-      this.userService.sendConfirmationMail(createdUser);
+    return this.userService.addUser(userDto).then(async (createdUser) => {
+      await this.userService.sendConfirmationMail(createdUser);
       return this.logIn(userDto, response);
     });
   }

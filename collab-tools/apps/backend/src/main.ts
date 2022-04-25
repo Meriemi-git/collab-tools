@@ -30,7 +30,7 @@ async function bootstrap() {
   //   },
   // });
 
-  app.use(function (err, req: Request, res: Response, next) {
+  app.use(function (err, req: Request, res: Response, next: any) {
     if (err.code !== 'EBADCSRFTOKEN') {
       return next(err);
     } else {
