@@ -1,8 +1,7 @@
-import * as mongoose from 'mongoose';
-import { Schema } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
-export type DrawDocument = Draw & mongoose.Document;
+export type DrawDocument = Draw & Document;
 
 export class Draw {
   _id?: string;
@@ -21,7 +20,7 @@ export class Draw {
   canvas: unknown;
 }
 
-export const DrawSchema = new mongoose.Schema({
+export const DrawSchema = new Schema({
   name: String,
   description: String,
   createdAt: Date,

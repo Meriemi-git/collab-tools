@@ -145,7 +145,12 @@
             "polyfills": "apps/frontend/src/polyfills.ts",
             "tsConfig": "apps/frontend/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "allowedCommonJsDependencies": ["fabric", "validator"],
+            "allowedCommonJsDependencies": [
+              "fabric",
+              "validator",
+              "mongoose",
+              "mongoose-paginate-v2"
+            ],
             "assets": [
               "apps/frontend/src/favicon.ico",
               "apps/frontend/src/assets"

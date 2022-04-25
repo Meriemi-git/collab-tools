@@ -1,5 +1,4 @@
-import * as mongoose from 'mongoose';
-
+import { Schema } from 'mongoose';
 export interface ChatMessage {
   content: string;
   userId: string;
@@ -7,9 +6,9 @@ export interface ChatMessage {
   chatId: string;
 }
 
-export const ChatMessageSchema = new mongoose.Schema({
+export const ChatMessageSchema = new Schema({
   content: { type: String, maxlength: 256 },
   socketId: String,
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   sendAt: { type: Date, default: Date.now },
 });

@@ -1,10 +1,9 @@
 import * as bcrypt from 'bcryptjs';
-import * as mongoose from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { UserRole } from '../../enums/user-role';
 
-export type UserDocument = User & mongoose.Document;
-
+export type UserDocument = User & Document;
 export class User {
   _id: string;
   username: string;
@@ -21,7 +20,7 @@ export class User {
   notificationSocketId: string;
 }
 
-export const UserSchema = new mongoose.Schema({
+export const UserSchema = new Schema({
   username: {
     type: String,
     required: true,

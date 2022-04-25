@@ -63,7 +63,7 @@
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "mongo-sanitize": "^1.1.0",
-    "mongoose": "^6.1.5",
+    "mongoose": "^6.3.1",
     "mongoose-paginate-v2": "^1.4.2",
     "nest-winston": "^1.5.0",
     "nestjs-rate-limiter": "^2.7.4",
