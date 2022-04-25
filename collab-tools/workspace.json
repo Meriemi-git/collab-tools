@@ -1,0 +1,42 @@
+{
+  "projects": {
+    "admin": {
+      "tags": []
+    },
+    "admin-e2e": {
+      "tags": [],
+      "implicitDependencies": ["admin"]
+    },
+    "backend": {
+      "tags": ["scope:back"]
+    },
+    "bases": {
+      "tags": ["scope:front"]
+    },
+    "datamodel": {
+      "tags": ["scope:shared"]
+    },
+    "drawer": {
+      "tags": ["scope:front"]
+    },
+    "frontend": {
+      "tags": ["scope:front"]
+    },
+    "frontend-e2e": {
+      "tags": [],
+      "implicitDependencies": ["frontend"]
+    },
+    "services": {
+      "tags": ["scope:front"]
+    },
+    "store": {
+      "tags": ["scope:front"]
+    },
+    "ui": {
+      "tags": ["scope:front"]
+    },
+    "websocket": {
+      "tags": ["scope:shared"]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.strat-container {
+  width: 100vw;
+}
+
+.filters {
+  width: 40vw;
+}
+
+:host::ng-deep.p-paginator {
+  padding: 0 !important;
+}
+
+:host::ng-deep.header-container {
+  width: 100%;
+}

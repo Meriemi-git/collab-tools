@@ -1,0 +1,55 @@
+<div
+  class="strat-container"
+  (mouseover)="onHover = true"
+  (mouseout)="onHover = false"
+  [ngClass]="{ 'shadow-3': onHover }"
+>
+  <div class="strat-map-image" (click)="selectStrat.emit()">
+    <div class="title flex flex-column align-items-center">
+      <div class="m-2">
+        <span class="big-title">{{ strat.name | slice: 0:30 }}</span>
+      </div>
+      <div class="m-2">
+        <span class="sub-title">{{ strat.mapName }}</span>
+      </div>
+    </div>
+    <img
+      [src]="ihs.getStratMapImageByName(strat.stratMapImage)"
+      alt="Strat map image"
+      class="map-image"
+      width="250"
+    />
+  </div>
+  <div class="buttons flex flex-column align-items-center">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-thumbs-up"
+      class="p-button-rounded p-button-text"
+      (click)="likeStrat.emit()"
+      *ngIf="connected && !itsMine && !liked"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-thumbs-down"
+      class="p-button-rounded p-button-text p-button-danger"
+      (click)="dislikeStrat.emit()"
+      *ngIf="connected && !itsMine && liked"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-trash"
+      class="p-button-rounded p-button-text p-button-danger"
+      *ngIf="connected && itsMine"
+      (click)="deleteStrat.emit()"
+    ></button>
+  </div>
+  <div class="likes" *ngIf="strat.votes !== 0">
+    <p-chip [label]="strat.votes + ' likes'" styleClass="likes-chip"></p-chip>
+  </div>
+</div>

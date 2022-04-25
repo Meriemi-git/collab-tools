@@ -1,0 +1,14 @@
+.notification-content {
+  text-align: center;
+}
+
+.notification-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+:host::ng-deep.button-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  float: right;
+}

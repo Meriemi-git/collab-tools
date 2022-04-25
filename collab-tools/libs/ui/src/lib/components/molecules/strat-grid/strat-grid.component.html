@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="grid" *ngIf="strats?.length > 0; else noStrats">
+    <collab-tools-strat-item
+      *ngFor="let strat of strats"
+      (selectStrat)="onSelectStrat(strat)"
+      [strat]="strat"
+      [itsMine]="isItMine(strat)"
+      [connected]="userInfos !== null"
+      [liked]="stratIsLiked(strat)"
+      (deleteStrat)="deleteStrat.emit(strat)"
+      (likeStrat)="onLikeStrat(strat)"
+      (dislikeStrat)="onDislikeStrat(strat)"
+    >
+    </collab-tools-strat-item>
+  </div>
+  <ng-template #noStrats>
+    <p>{{ 'strats-grid-no_strat' | translate }}</p>
+  </ng-template>
+</div>

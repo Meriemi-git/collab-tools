@@ -1,0 +1,25 @@
+:host::ng-deep.p-tabview-nav {
+  justify-content: center;
+  flex: 0 1 auto;
+}
+
+:host::ng-deep.p-tabview {
+  width: 100vw;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+:host::ng-deep.p-tabview-panels {
+  flex: 1 1 auto;
+}
+
+:host::ng-deep.p-tabview-panel {
+  flex: 1 1 auto;
+}
+
+:host ::ng-deep.p-scrollpanel {
+  width: 100%;
+  height: calc(80vh);
+  overflow-y: hidden;
+}

@@ -1,0 +1,115 @@
+<form
+  [formGroup]="gadgetForm"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-column align-items-center"
+>
+  <div class="flex flex-row align-items-center">
+    <div class="m-2">
+      <h2 *ngIf="gadget !== null; else gadgetIsNull">
+        {{ gadget.name }}
+      </h2>
+      <ng-template #gadgetIsNull>
+        <h2>{{ 'add-gadget.new-gadget' | translate }}</h2>
+      </ng-template>
+    </div>
+    <div class="m-2">
+      <button
+        *ngIf="gadget"
+        pButton
+        type="button"
+        icon="pi pi-times"
+        class="p-button-rounded p-button-danger"
+        (click)="clearGadget()"
+      ></button>
+    </div>
+  </div>
+  <div class="field flex flex-column align-items-center">
+    <label for="gadget-name" class="sub-title">
+      {{ 'add-gadget.gadget-name' | translate }}</label
+    >
+    <input
+      type="text"
+      pInputText
+      id="gadget-name"
+      formControlName="gadgetName"
+    />
+  </div>
+  <div class="field flex flex-column align-items-center">
+    <label for="gadgetType" class="sub-title">
+      {{ 'add-gadget.gadget-type' | translate }}
+    </label>
+    <p-dropdown
+      id="gadgetType"
+      [options]="types"
+      formControlName="gadgetType"
+      [placeholder]="'add-gadget.gadget-type-placeholder' | translate"
+    ></p-dropdown>
+  </div>
+  <div class="field flex flex-column align-items-center">
+    <label for="Gadget-image" class="sub-title">
+      {{ 'add-gadget.gadget-image' | translate }}
+    </label>
+    <div
+      class="flex flex-row justify-content-evenly align-items-center"
+      style="width: 100%"
+    >
+      <div>
+        <img
+          *ngIf="gadget && image"
+          [src]="ihs.getGadgetImageByName(image)"
+          alt="{{ gadget.name }} image"
+          [width]="80"
+        />
+      </div>
+      <div>
+        <p-fileUpload
+          #fileUpload
+          [customUpload]="true"
+          [auto]="true"
+          mode="basic"
+          [maxFileSize]="5242880"
+          [multiple]="false"
+          accept="image/*"
+          id="gadget-image"
+          [showCancelButton]="false"
+          (uploadHandler)="onImageUploaded($event.files); fileUpload.clear()"
+        ></p-fileUpload>
+      </div>
+      <div>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-rounded p-button-danger"
+          (click)="removeImage()"
+        ></button>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-content-between">
+    <button
+      pButton
+      type="button"
+      class="p-button p-button-danger m-4"
+      (click)="onDelete()"
+      [disabled]="gadgetForm.invalid"
+      [label]="'add-gadget.delete' | translate"
+    ></button>
+    <button
+      type="submit"
+      pButton
+      class="p-button p-button-primary m-4"
+      [disabled]="gadgetForm.invalid"
+      [label]="'add-gadget.save' | translate"
+    ></button>
+  </div>
+</form>
+<p-confirmDialog
+  key="delete-gadget-confirmation"
+  [header]="'add-gadget.delete-gadget-confirmation.header' | translate"
+  [message]="
+    'add-gadget.delete-gadget-confirmation.message'
+      | translate: { value: gadget?.name }
+  "
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>

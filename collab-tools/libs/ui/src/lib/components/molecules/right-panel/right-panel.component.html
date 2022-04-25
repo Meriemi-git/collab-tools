@@ -1,0 +1,20 @@
+<p-sidebar
+  [(visible)]="rightIsOpened"
+  position="right"
+  (onHide)="onCloseRightSidenav()"
+  [modal]="false"
+  styleClass="editor-right-sidebar"
+>
+  <div *ngIf="$isDrawingPanelOpened | async">
+    <collab-tools-drawing-panel> </collab-tools-drawing-panel>
+  </div>
+  <div *ngIf="$isGalleryPanelOpened | async">
+    <collab-tools-gallery-panel></collab-tools-gallery-panel>
+  </div>
+  <div
+    *ngIf="($room | async) || ($isRoomPanelOpened | async)"
+    [hidden]="($isRoomPanelOpened | async) === false"
+  >
+    <collab-tools-room-panel></collab-tools-room-panel>
+  </div>
+</p-sidebar>

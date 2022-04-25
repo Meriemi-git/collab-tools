@@ -1,0 +1,47 @@
+.right-message {
+  float: right;
+  margin-left: 50px;
+}
+
+.left-message {
+  float: left;
+  margin-right: 50px;
+}
+
+:host::ng-deep.right-message > .custom-chip {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+:host::ng-deep.left-message > .custom-chip {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+:host::ng-deep.p-scrollpanel-content {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.line {
+  width: 100%;
+  line-height: 3rem;
+}
+
+.container {
+  background-color: rgba(30, 30, 30, 0.95);
+  border-radius: 7px;
+}
+
+:host::ng-deep.message-list,
+:host::ng-deep.chat-header {
+  padding: 5px;
+}
+
+.centered {
+  text-align: center;
+}
+
+:host::ng-deep.connected > .p-avatar {
+  background-color: var(--primary-color);
+}

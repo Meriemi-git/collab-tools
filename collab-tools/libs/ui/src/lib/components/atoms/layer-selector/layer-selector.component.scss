@@ -1,0 +1,8 @@
+.field {
+  line-height: 1em;
+  padding-bottom: 1em;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 14rem;
+}

@@ -1,0 +1,13 @@
+:host::ng-deep.list-item {
+  width: 100%;
+  text-align: center;
+}
+
+:host::ng-deep.notification-list {
+  min-height: 300px;
+}
+
+:host::ng-deep.p-listbox-item {
+  display: flex;
+  justify-content: center;
+}

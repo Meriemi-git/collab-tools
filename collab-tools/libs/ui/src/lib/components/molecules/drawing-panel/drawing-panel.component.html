@@ -1,0 +1,94 @@
+<div class="container flex flex-column">
+  <h1>{{ 'drawing-panel.title' | translate }}</h1>
+  <h3 class="title">{{ 'drawing-panel.shapes.title' | translate }}</h3>
+  <div class="flex flex-wrap justify-content-around">
+    <collab-tools-drawing-action
+      *ngFor="
+        let action of drawerActions
+          | filter: 'type':['shape']
+          | sortBy: 'asc':drawActionComparer
+      "
+      [action]="action"
+      (actionSelected)="onActionSelected($event)"
+      class="m-2"
+    ></collab-tools-drawing-action>
+  </div>
+  <p-divider layout="horizontal"></p-divider>
+  <h3 class="title">{{ 'drawing-panel.stamps.title' | translate }}</h3>
+  <div class="flex flex-wrap justify-content-around">
+    <collab-tools-drawing-action
+      *ngFor="
+        let action of drawerActions
+          | filter: 'type':['form']
+          | sortBy: 'asc':drawActionComparer
+      "
+      [action]="action"
+      (actionSelected)="onActionSelected($event)"
+      class="m-2"
+    ></collab-tools-drawing-action>
+  </div>
+  <p-divider layout="horizontal"></p-divider>
+
+  <h3 class="title">{{ 'drawing-panel.colors.title' | translate }}</h3>
+  <div class="flex justify-content-evenly">
+    <div class="m-2">
+      <h4>{{ 'drawing-panel.choose_color' | translate }}</h4>
+      <p-colorPicker
+        (onChange)="onSelectColor()"
+        format="rgb"
+        [(ngModel)]="color"
+      ></p-colorPicker>
+    </div>
+    <div class="m-2">
+      <h4>{{ 'drawing-panel.set_opacity' | translate }}</h4>
+      <div class="flex flex-column">
+        <div class="m-2 opacity-slide">
+          <p-slider
+            [(ngModel)]="opacity"
+            [min]="0"
+            [max]="1"
+            [step]="0.1"
+            (onSlideEnd)="onSelectColor()"
+          ></p-slider>
+        </div>
+        <div class="m-2">
+          {{ opacity }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-divider layout="horizontal"></p-divider>
+  <h3 class="title">{{ 'drawing-panel.options.title' | translate }}</h3>
+  <div class="flex flex-column">
+    <div class="m-2">
+      <p-selectButton
+        [options]="drawerOptions | filter: 'type':['TEXT']"
+        [(ngModel)]="selectedTextOptions"
+        [multiple]="true"
+        optionLabel="label"
+        (onOptionClick)="onTextOptionClicked($event.option)"
+        dataKey="name"
+      ></p-selectButton>
+    </div>
+    <div class="mx-auto">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <collab-tools-svg-icon
+            [name]="'stroke'"
+            [width]="'22px'"
+            [color]="'rgb(16, 123, 227)'"
+          ></collab-tools-svg-icon>
+        </span>
+        <span class="p-float-label">
+          <p-dropdown
+            [options]="strokeSizes"
+            [(ngModel)]="selectedStrokeWidth"
+            optionLabel="label"
+            optionValue="size"
+            (onChange)="onSetStrokeWidth($event.value)"
+          ></p-dropdown>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

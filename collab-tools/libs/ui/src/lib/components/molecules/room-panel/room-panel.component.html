@@ -1,0 +1,168 @@
+<div class="flex flex-row justify-content-center align-items-center m-4">
+  <h1>{{ 'room-panel.title' | translate }}</h1>
+</div>
+<div *ngIf="userInfos; else notConnected">
+  <div *ngIf="room; else createOrJoinRoom">
+    <div *ngIf="!connectedToTheRoom">
+      <p>{{ 'room-panel.previous-room' | translate }}</p>
+      <button
+        pButton
+        class="p-button-raised p-button-infos"
+        icon="pi pi-sign-in"
+        [label]="'room-panel.join' | translate"
+        (click)="joinRoom(room._id)"
+      ></button>
+      <button
+        pButton
+        class="p-button-raised p-button-danger"
+        icon="pi pi-times"
+        [label]="'room-panel.close' | translate"
+        (click)="closeRoom($event)"
+      ></button>
+    </div>
+
+    <div *ngIf="connectedToTheRoom">
+      <div
+        class="flex flex-column justify-content-center align-items-center m-4"
+      >
+        <div class="flex flex-column m-2">
+          <div>
+            <button
+              *ngIf="!isBroadcasting"
+              pButton
+              class="p-button-raised p-button-success"
+              icon="fas fa-podcast"
+              [label]="'room-panel.start_broadcast' | translate"
+              (click)="toogleBroadcast()"
+              [disabled]="!canBroadcast()"
+            ></button>
+            <button
+              *ngIf="isBroadcasting"
+              pButton
+              class="p-button-raised p-button-warn"
+              icon="fas fa-podcast"
+              [label]="'room-panel.stop_broadcast' | translate"
+              (click)="toogleBroadcast()"
+            ></button>
+            <button
+              pButton
+              class="p-button-raised p-button-danger"
+              icon="pi pi-times"
+              [label]="'room-panel.close' | translate"
+              (click)="closeRoom($event)"
+            ></button>
+          </div>
+          <div class="m-2">
+            <button
+              pButton
+              class="p-button-text p-button-info"
+              icon="fas fa-copy"
+              [label]="'room-panel.copy_url' | translate"
+              [cdkCopyToClipboard]="getRoomUrl()"
+            ></button>
+          </div>
+        </div>
+        <div class="m-2"></div>
+      </div>
+      <div class="flex flex-column justify-content-center align-items-center">
+        <collab-tools-user-finder
+          [exclusions]="[userInfos.username]"
+          (inviteAll)="onInviteAll($event)"
+        ></collab-tools-user-finder>
+        <div class="m-2">
+          <h3 class="title">{{ 'room-panel.user-list' | translate }}</h3>
+          <p-scrollPanel [style]="{ width: '100%', height: '350px' }">
+            <p-listbox [options]="filteredRoomMembers">
+              <ng-template let-member pTemplate="item">
+                <div
+                  class="flex flex-row justify-content-between"
+                  style="width: 100%"
+                >
+                  <div>
+                    <p-chip
+                      [label]="member.username"
+                      icon="fas fa-question"
+                      *ngIf="member.status === RoomMemberStatusEnum.UNKNOWN"
+                      styleClass="unknow"
+                    ></p-chip>
+                    <p-chip
+                      [label]="member.username"
+                      icon="pi pi-user"
+                      *ngIf="member.status === RoomMemberStatusEnum.JOINED"
+                      styleClass="joined"
+                    ></p-chip>
+                    <p-chip
+                      [label]="member.username"
+                      icon="fas fa-sign-out-alt"
+                      *ngIf="member.status === RoomMemberStatusEnum.LEAVED"
+                      styleClass="leaved"
+                    ></p-chip>
+                    <p-chip
+                      [label]="member.username"
+                      icon="fas fa-times"
+                      *ngIf="
+                        member.status === RoomMemberStatusEnum.DISCONNECTED
+                      "
+                      styleClass="disconnected"
+                    ></p-chip>
+                  </div>
+                  <div>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-times"
+                      class="p-button-text p-button-danger p-button-outlined"
+                      (click)="ejectUserFromRoom(member)"
+                    ></button>
+                  </div>
+                </div>
+              </ng-template>
+            </p-listbox>
+          </p-scrollPanel>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #createOrJoinRoom>
+    <div *ngIf="!room">
+      <h3 class="title">{{ 'room-panel.create_room' | translate }}</h3>
+      <div class="flex flex-column justify-content-center">
+        <div class="m-3">
+          <button
+            pButton
+            class="p-button p-button-primary"
+            icon="pi pi-plus"
+            [label]="'room-panel.create_room' | translate"
+            (click)="createRoom()"
+          ></button>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <h3 class="title">{{ 'room-panel.join_room_title' | translate }}</h3>
+      <div class="m-3">
+        <input
+          pInputText
+          id="room-id"
+          type="text"
+          [placeholder]="'room-joiner.roomId-placeholder' | translate"
+          [(ngModel)]="roomId"
+        />
+      </div>
+      <div class="m-3">
+        <button
+          pButton
+          class="p-button p-button-primary"
+          [label]="'room-panel.join' | translate"
+          [disabled]="!roomId"
+          (click)="redirectToRoom(roomId)"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<ng-template #notConnected>
+  {{ 'room-panel.not_connected' | translate }}
+</ng-template>
+
+<p-confirmPopup key="room-panel.close-room"></p-confirmPopup>

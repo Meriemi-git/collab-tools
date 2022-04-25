@@ -1,0 +1,23 @@
+<div class="grid">
+  <div class="col-4">
+    <collab-tools-add-agent
+      [agent]="agent"
+      [gadgets]="$gadgets | async"
+      (agentAdded)="onAgentAdded($event)"
+      (agentUpdated)="onAgentUpdated($event)"
+      (agentDeleted)="onAgentDeleted($event)"
+    ></collab-tools-add-agent>
+  </div>
+  <div class="col-8">
+    <p-scrollPanel>
+      <div class="grid" #gridAttackers>
+        <collab-tools-agent-item
+          *ngFor="let agent of $agents | async"
+          [agent]="agent"
+          (agentDragged)="onAgentDragged($event)"
+        >
+        </collab-tools-agent-item>
+      </div>
+    </p-scrollPanel>
+  </div>
+</div>

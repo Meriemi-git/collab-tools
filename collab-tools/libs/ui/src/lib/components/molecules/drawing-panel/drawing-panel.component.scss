@@ -1,0 +1,20 @@
+.container {
+  text-align: center;
+}
+
+.opacity-slide {
+  width: 10rem;
+}
+
+.title {
+  color: var(--primary-color) !important;
+  margin: 0px !important;
+}
+
+.stroke {
+  text-align: center;
+}
+
+:host::ng-deep.p-inputgroup-addon {
+  color: var(--primary-color) !important;
+}

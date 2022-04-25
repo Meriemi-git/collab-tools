@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "60093166f2aaa305481fe0b7"
+  },
+  "role": "ADMIN",
+  "username": "Doremus",
+  "mail": "remi.plantade.pro@gmail.com",
+  "password": "$2a$10$jGF0mnqTJn5CsGrB8eJWweOzUhpuX7E9frAB3uqvSzUztaLzgUB9u",
+  "uid": "55eb92c4-8b46-4c93-8530-52d327ba80f5",
+  "cguAgreement": true,
+  "cguAgreementDate": {
+    "$date": "2021-01-21T07:46:46.277Z"
+  },
+  "confirmed": true,
+  "locale": "fr",
+  "normalized_username": "doremus"
+},{
+  "_id": {
+    "$oid": "60db3e1b86df480e280d5149"
+  },
+  "role": "REGULAR",
+  "username": "test",
+  "mail": "meriemi@protonmail.com",
+  "password": "$2a$10$h7g.OLB62jVxKzV/QjD20elrHgCI3BoWIrovOOdmE5p4ktio0USjO",
+  "locale": "fr",
+  "uid": "e45233a3-b4f0-4a28-8fcb-bd7f592385eb",
+  "cguAgreement": true,
+  "cguAgreementDate": {
+    "$date": "2021-06-29T15:36:59.856Z"
+  },
+  "confirmed": true,
+  "normalized_username": "test"
+},{
+  "_id": {
+    "$oid": "60dc105effe90641f8444555"
+  },
+  "role": "REGULAR",
+  "username": "Aboucipu",
+  "mail": "d0r3mu5@gmail.com",
+  "password": "$2a$10$kgCY/Z2y4b0Ib7Pa5PbYbOVGLsYyCLE1uZJRluH70/tWU87ls0zBC",
+  "locale": "fr",
+  "uid": "2cf17f34-d2b3-4e7a-ba00-f555eae121b0",
+  "cguAgreement": true,
+  "cguAgreementDate": {
+    "$date": "2021-06-30T06:34:06.471Z"
+  },
+  "confirmed": true,
+  "normalized_username": "aboucipu"
+},{
+  "_id": {
+    "$oid": "613bb3c566ad224dffaa1866"
+  },
+  "username": "Yolo",
+  "password": "$2a$10$CFdWIxLHdG8uJMVZZ9qIQu76zvmWk.rA8oB6CKVQOqc3cl8SWyMCC",
+  "mail": "sdfdsfds@sdfsdf.com",
+  "locale": "fr",
+  "cguAgreement": true,
+  "role": "REGULAR",
+  "confirmed": false,
+  "normalized_username": "yolo"
+}]

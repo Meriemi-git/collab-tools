@@ -1,0 +1,175 @@
+<form
+  [formGroup]="registerForm"
+  class="flex flex-column align-items-center mt-2"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="m-2 title">
+    <h1 class="title">{{ 'register-form.title' | translate }}</h1>
+  </div>
+  <div class="m-2">
+    <label for="username">
+      <strong>
+        {{ 'register-form.username' | translate }}
+      </strong>
+    </label>
+  </div>
+  <div class="m-2 input">
+    <span class="p-input-icon-right">
+      <i class="pi pi-user"></i>
+      <input
+        id="username"
+        type="text"
+        pInputText
+        [placeholder]="'register-form.username_placeholder' | translate"
+        formControlName="username"
+      />
+    </span>
+    <div
+      *ngIf="
+        formControls.username.errors?.required && formControls.username.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.username_required' | translate }}
+    </div>
+    <div
+      *ngIf="
+        formControls.username.errors?.minlength && formControls.username.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.username_length' | translate }}
+    </div>
+  </div>
+  <div class="m-2">
+    <label for="email">
+      <strong>
+        {{ 'register-form.mail' | translate }}
+      </strong>
+    </label>
+  </div>
+  <div class="m-2 input">
+    <span class="p-input-icon-right">
+      <i class="pi pi-envelope"></i>
+      <input
+        type="email"
+        pInputText
+        [placeholder]="'register-form.mail_placeholder' | translate"
+        formControlName="mail"
+      />
+    </span>
+    <div
+      *ngIf="formControls.mail.errors?.required && formControls.mail.dirty"
+      class="p-invalid"
+    >
+      {{ 'register-form.mail_required' | translate }}
+    </div>
+    <div
+      *ngIf="formControls.mail.errors?.email && formControls.mail.dirty"
+      class="p-invalid"
+    >
+      {{ 'register-form.mail_invalid' | translate }}
+    </div>
+  </div>
+  <div class="m-2">
+    <label for="password">
+      <strong>
+        {{ 'register-form.password' | translate }}
+      </strong>
+    </label>
+  </div>
+  <div class="m-2 input">
+    <p-password
+      id="password"
+      [placeholder]="'register-form.password_placeholder' | translate"
+      formControlName="password"
+      [toggleMask]="true"
+    ></p-password>
+    <div
+      *ngIf="
+        formControls.password.errors?.required && formControls.password.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.password_required' | translate }}
+    </div>
+    <div
+      *ngIf="
+        formControls.password.errors?.pattern && formControls.password.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.password_strong' | translate }}
+    </div>
+  </div>
+  <div class="m-2">
+    <label for="confirm-password">
+      <strong>
+        {{ 'register-form.confirm_password' | translate }}
+      </strong>
+    </label>
+  </div>
+  <div class="m-2 input">
+    <p-password
+      id="confirm-password"
+      [placeholder]="'register-form.confirm_password_placeholder' | translate"
+      formControlName="confirmPassword"
+      [toggleMask]="true"
+    ></p-password>
+
+    <div
+      *ngIf="
+        formControls.confirmPassword.errors?.required &&
+        formControls.confirmPassword.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.confirm_required' | translate }}
+    </div>
+    <div
+      *ngIf="
+        formControls.confirmPassword.errors?.pattern &&
+        formControls.confirmPassword.dirty
+      "
+      class="p-invalid"
+    >
+      {{ 'register-form.confirm_invalid' | translate }}
+    </div>
+    <div
+      *ngIf="registerForm.errors?.invalid && formControls.confirmPassword.dirty"
+      class="p-invalid"
+    >
+      {{ 'register-form.passwords_not_match' | translate }}
+    </div>
+  </div>
+  <div class="flex flex-column align-items-center">
+    <div class="mentions flex flex-row align-items-baseline">
+      <p-triStateCheckbox
+        class="chkbx-mentions"
+        formControlName="cgu"
+        class="m-2"
+      >
+      </p-triStateCheckbox>
+      <p
+        [innerHTML]="'register-form.mentions' | translate"
+        class="mentions m-2"
+      ></p>
+    </div>
+  </div>
+  <div class="flex flex-row justify-content-between" width="100%;">
+    <button
+      pButton
+      type="button"
+      class="p-button-raised p-button-danger mr-2"
+      (click)="closeRegisterForm()"
+      [label]="'register-form.cancel' | translate"
+    ></button>
+    <button
+      pButton
+      type="submit"
+      class="p-button-raised p-button-primary mr-2"
+      [disabled]="!registerForm.valid"
+      [label]="'register-form.validate' | translate"
+    ></button>
+  </div>
+</form>

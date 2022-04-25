@@ -1,0 +1,76 @@
+<div
+  class="container flex flex-column justify-content-end"
+  *ngIf="$canJoinChats | async"
+>
+  <div
+    class="chat"
+    *ngIf="$currentChat | async; let currentChat; else: chatList"
+  >
+    <collab-tools-user-finder
+      *ngIf="invitePanelOpened"
+      [exclusions]="[userInfos?.username]"
+      (inviteAll)="inviteAllUsersToChat($event)"
+      class="user-finder"
+    ></collab-tools-user-finder>
+    <collab-tools-chat
+      [messages]="($currentChat | async)?.messages"
+      [chat]="$currentChat | async"
+      [userId]="userInfos._id"
+      (sendMessage)="onSendMessage($event)"
+      (loadMore)="onLoadMoreMessages()"
+      (closeChat)="closeCurrentChat()"
+      (inviteUsers)="openInvitePanel()"
+    ></collab-tools-chat>
+  </div>
+  <ng-template class="chat-list flex flex-column align-content-end" #chatList>
+    <div>
+      <p-listbox
+        [options]="$chats | async"
+        [multiple]="false"
+        optionLabel="name"
+        [listStyle]="{ 'max-height': '250px' }"
+      >
+        <ng-template let-chat pTemplate="item">
+          <div
+            class="flex flex-row justify-content-between"
+            style="width: 100%"
+            (click)="selectChat(chat)"
+          >
+            <p-avatarGroup
+              pBadge
+              styleClass="badge-class"
+              [value]="chat.unreadMessageCounter?.toString()"
+            >
+              <p-avatar
+                [label]="member.username.substr(0, 3)"
+                size="large"
+                shape="circle"
+                *ngFor="let member of chat.members"
+                [ngClass]="
+                  member.status === WStatus.JOINED
+                    ? 'connected'
+                    : 'notConnected'
+                "
+              ></p-avatar>
+            </p-avatarGroup>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-text p-button-danger"
+              (click)="onLeaveChat(chat, $event)"
+            ></button>
+          </div>
+        </ng-template>
+      </p-listbox>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-plus-circle"
+        class="p-button btn-add-chat"
+        (click)="createChat()"
+        [label]="'chats-panel.new-chat' | translate"
+      ></button>
+    </div>
+  </ng-template>
+</div>

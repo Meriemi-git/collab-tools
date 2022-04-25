@@ -1,0 +1,61 @@
+<form
+  [formGroup]="authForm"
+  class="flex flex-column justify-content-evenly align-items-center form"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="m-2 title">
+    <h1 class="title">{{ 'login-form.title' | translate }}</h1>
+  </div>
+  <label for="mail" class="m-2">
+    <strong [innerHTML]="'login-form.mail_or_username' | translate"> </strong>
+  </label>
+  <span class="p-input-icon-right">
+    <i class="pi pi-envelope"></i>
+    <input id="mail" type="mail" pInputText formControlName="mailOrUsername" />
+  </span>
+  <div
+    *ngIf="
+      formControls.mailOrUsername.dirty &&
+      formControls.mailOrUsername.errors?.required
+    "
+    class="p-invalid"
+  >
+    {{ 'login-form.username_email_required' | translate }}
+  </div>
+  <label for="password" class="m-2">
+    <strong>
+      {{ 'login-form.password' | translate }}
+    </strong>
+  </label>
+
+  <p-password
+    [feedback]="false"
+    [toggleMask]="true"
+    formControlName="password"
+  ></p-password>
+
+  <div
+    *ngIf="
+      formControls.password.dirty && formControls.password.errors?.required
+    "
+    class="p-invalid"
+  >
+    {{ 'login-form.password-required' | translate }}
+  </div>
+  <div class="flex flex-row justify-content-evenly mt-5 w-full">
+    <button
+      pButton
+      type="button"
+      class="p-button-raised p-button-danger"
+      (click)="onCancel()"
+      [label]="'login-form.cancel' | translate"
+    ></button>
+    <button
+      pButton
+      type="submit"
+      class="p-button-raised p-button-primary"
+      [label]="'login-form.connect' | translate"
+      [disabled]="!authForm.valid"
+    ></button>
+  </div>
+</form>

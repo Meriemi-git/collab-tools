@@ -1,0 +1,23 @@
+<div class="confirmation-wrapper">
+  <h2 class="mat-h2 title">{{ 'confirmation-page.title' | translate }}</h2>
+  <div *ngIf="$httpError | async; let httpError">
+    <ng-container *ngIf="httpError.status === 467; else second">
+      {{ 'user-service.error.email-confirmation.link_invalid' | translate }}
+    </ng-container>
+    <ng-template #second>
+      <ng-container *ngIf="httpError.status === 468; else third">
+        {{ 'user-service.error.email-confirmation.link_expired' | translate }}
+      </ng-container>
+    </ng-template>
+    <ng-template #third>
+      <ng-container *ngIf="httpError.status === 469; else fourth">
+        {{
+          'user-service.error.email-confirmation.already_confirmed' | translate
+        }}
+      </ng-container>
+    </ng-template>
+    <ng-template #fourth>
+      {{ 'confirmation-page.description' | translate }}
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@collab-tools/bases": ["libs/bases/src/index.ts"],
+      "@collab-tools/datamodel": ["libs/datamodel/src/index.ts"],
+      "@collab-tools/drawer": ["libs/drawer/src/index.ts"],
+      "@collab-tools/services": ["libs/services/src/index.ts"],
+      "@collab-tools/store": ["libs/store/src/index.ts"],
+      "@collab-tools/ui": ["libs/ui/src/index.ts"],
+      "@collab-tools/websocket": ["libs/websocket/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

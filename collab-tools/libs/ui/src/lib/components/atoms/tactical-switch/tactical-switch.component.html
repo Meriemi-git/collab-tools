@@ -1,0 +1,11 @@
+<div class="flex justify-content-center align-items-center">
+  <div class="m-2">
+    <p-inputSwitch
+      [(ngModel)]="tacticalMode"
+      (onChange)="onSetTacticalMode($event.checked)"
+    ></p-inputSwitch>
+  </div>
+  <div class="m-2">
+    <span>{{ 'tactical-switch.label' | translate }}</span>
+  </div>
+</div>

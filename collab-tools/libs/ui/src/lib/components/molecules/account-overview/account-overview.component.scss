@@ -1,0 +1,37 @@
+:host::ng-deep.p-tabview-nav {
+  justify-content: center;
+}
+
+:host ::ng-deep .p-chip.donator {
+  background: var(--green-600);
+  color: var(--green-100);
+}
+
+:host ::ng-deep .p-chip.tester {
+  background: var(--indigo-500);
+  color: var(--indigo-100);
+}
+
+:host ::ng-deep .p-chip.regular {
+  background: var(--bluegray-600);
+  color: var(--bluegray-100);
+}
+
+:host ::ng-deep .p-chip.admin {
+  background: var(--pink-700);
+  color: var(--bluegray-100);
+}
+
+:host ::ng-deep .p-chip.confirmed {
+  background: var(--primary-color);
+  color: var(--bluegray-100);
+}
+
+:host ::ng-deep .p-chip.not-confirmed {
+  background: var(--pink-700);
+  color: var(--bluegray-100);
+}
+
+.hello {
+  color: var(--primary-color);
+}

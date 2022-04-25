@@ -1,0 +1,66 @@
+:host::ng-deep.container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+:host::ng-deep.topbar {
+  flex: 0 1 auto;
+}
+
+:host::ng-deep.main-content {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+:host::ng-deep.btn-dial {
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
+  z-index: 999;
+}
+
+:host::ng-deep.p-speeddial-button {
+  height: 3rem !important;
+  width: 3rem !important;
+}
+
+:host::ng-deep.p-speeddial-button.p-button.p-button-icon-only .p-button-icon {
+  font-size: 1.1rem !important;
+}
+
+:host::ng-deep.notif-title {
+  margin: 0;
+}
+
+:host::ng-deep.notif-message {
+  margin-bottom: 0;
+}
+
+:host::ng-deep.notif-content {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+:host::ng-deep.room-invit-link {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+:host::ng-deep.btn-chat {
+  position: fixed;
+  bottom: 1rem;
+  right: 3rem;
+  z-index: 999;
+}
+
+:host::ng-deep.chats-panel {
+  position: fixed;
+  bottom: 4rem;
+  right: 3rem;
+  width: 350px;
+  height: 350px;
+}

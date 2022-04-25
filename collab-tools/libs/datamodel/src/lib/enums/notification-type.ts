@@ -1,0 +1,4 @@
+export enum NotificationType {
+  CHAT_INVITATION = 'CHAT_INVITATION',
+  ROOM_INVITATION = 'ROOM_INVITATION',
+}

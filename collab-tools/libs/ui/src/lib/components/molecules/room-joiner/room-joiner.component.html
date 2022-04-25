@@ -1,0 +1,64 @@
+<h3 class="title">{{ 'room-joiner.join_room' | translate }}</h3>
+<form
+  class="flex flex-column justify-content-center"
+  [formGroup]="existingRoomForm"
+  (ngSubmit)="onJoinRoom()"
+>
+  <div class="mb-2">
+    <label for="room-id">
+      {{ 'room-panel.room-id' | translate }}
+    </label>
+  </div>
+  <div class="mb-2">
+    <input
+      pInputText
+      [(ngModel)]="roomId"
+      id="room-id"
+      type="text"
+      formControlName="roomId"
+      [placeholder]="'room-joiner.room-id_placeholder' | translate"
+    />
+    <div
+      *ngIf="formSubmitted && formControls.roomId.errors?.required"
+      class="p-invalid"
+    >
+      {{ 'room-joiner.roomId_required' | translate }}
+    </div>
+  </div>
+  <div class="mb-2">
+    <label for="room-password">
+      {{ 'room-joiner.room-password' | translate }}
+    </label>
+  </div>
+  <div class="mb-2">
+    <input
+      pInputText
+      id="room-password"
+      type="password"
+      formControlName="password"
+      [placeholder]="'room-joiner.room-password_placeholder' | translate"
+    />
+    <div
+      *ngIf="formSubmitted && formControls.password.errors?.required"
+      class="p-invalid"
+    >
+      {{ 'room-joiner.password_required' | translate }}
+    </div>
+    <div
+      *ngIf="formSubmitted && formControls.password.errors?.minlength"
+      class="p-invalid"
+    >
+      {{ 'room-joiner.password_length' | translate }}
+    </div>
+  </div>
+  <div class="mb-2">
+    <button
+      pButton
+      type="submit"
+      class="p-button-raised p-button-primary"
+      [disabled]="!existingRoomForm.valid"
+    >
+      {{ 'room-joiner.validation' | translate }}
+    </button>
+  </div>
+</form>

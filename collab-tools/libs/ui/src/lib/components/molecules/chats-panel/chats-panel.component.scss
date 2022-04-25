@@ -1,0 +1,23 @@
+:host::ng-deep.p-tabview-nav-link {
+  padding: 0.5rem !important;
+}
+
+.btn-add-chat {
+  float: right;
+}
+
+.container {
+  height: 100%;
+}
+
+:host::ng-deep.user-finder {
+  background-color: rgba(30, 30, 30, 0.95);
+}
+
+:host::ng-deep.connected > .p-avatar {
+  background-color: var(--primary-color);
+}
+
+:host::ng-deep.p-badge-dot {
+  display: none;
+}

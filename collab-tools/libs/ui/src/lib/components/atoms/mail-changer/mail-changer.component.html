@@ -1,0 +1,46 @@
+<form [formGroup]="mailForm" class="mail-container" (ngSubmit)="onSubmit()">
+  <div class="flex-column">
+    <div class="mb-2">
+      <label for="new-mail">{{ 'mail-changer.new_mail' | translate }}</label>
+    </div>
+    <div class="mb-2">
+      <span class="p-input-icon-left">
+        <i class="pi pi-envelope"></i>
+        <input
+          type="email"
+          pInputText
+          [placeholder]="'mail-changer.new_mail_placeholder ' | translate"
+          formControlName="newMail"
+        />
+      </span>
+      <div
+        *ngIf="
+          formControls.newMail.dirty && formControls.newMail.errors?.required
+        "
+        class="p-invalid"
+      >
+        {{ 'mail-changer.mail_required' | translate }}
+      </div>
+      <div
+        *ngIf="formControls.newMail.dirty && formControls.newMail.errors?.email"
+        class="p-invalid"
+      >
+        {{ 'mail-changer.mail_invalid' | translate }}
+      </div>
+      <div
+        *ngIf="formControls.newMail.dirty && mailForm.errors?.notDifferent"
+        class="p-invalid"
+      >
+        {{ 'mail-changer.mail_not_different' | translate }}
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    <button
+      pButton
+      type="submit"
+      class="p-button-raised p-button-primary mr-2"
+      [label]="'mail-changer.validate' | translate"
+    ></button>
+  </div>
+</form>

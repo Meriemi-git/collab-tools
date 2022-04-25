@@ -1,0 +1,20 @@
+.mentions {
+  text-align: justify;
+  max-width: 450px;
+}
+
+.mentions-link {
+  color: #107be3;
+}
+.title {
+  color: var(--primary-color) !important;
+  text-align: center;
+}
+
+:host::ng-deep.p-dialog-content {
+  text-align: center !important;
+}
+
+.input {
+  text-align: center;
+}
