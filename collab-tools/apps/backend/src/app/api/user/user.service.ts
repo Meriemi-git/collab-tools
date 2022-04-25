@@ -9,7 +9,7 @@ import {
   TokenExpiredError,
   User,
   UserDocument,
-  UserDto
+  UserDto,
 } from '@collab-tools/datamodel';
 import { MailerService } from '@nestjs-modules/mailer';
 import {
@@ -18,7 +18,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -314,7 +314,7 @@ export class UserService {
     const maiConf = {
       to: user.mail, // list of receivers
       from: this.configService.get('SMTP_MAIL'), // sender address
-      subject: 'Strat Editor confirmation', // Subject line
+      subject: 'Draw Editor confirmation', // Subject line
       template: `${this.configService.get(
         'TEMPLATES_FOLDER'
       )}/confirmation-${locale}.hbs`,
@@ -323,12 +323,10 @@ export class UserService {
         link: link,
       },
     };
-    return await this.mailerService
-      .sendMail(maiConf)
-      .catch((error) => {
-        this.logger.error('Error during confirmation mail sending', error);
-        throw new HttpException('Error during confirmation mail sending', 466);
-      });
+    return await this.mailerService.sendMail(maiConf).catch((error) => {
+      this.logger.error('Error during confirmation mail sending', error);
+      throw new HttpException('Error during confirmation mail sending', 466);
+    });
   }
 
   public async login(userDto: Partial<UserDto>): Promise<AuthInfos> {
@@ -446,21 +444,21 @@ export class UserService {
     } as AuthInfos;
   }
 
-  public addLikedStrat(userId: string, stratId: string): Promise<User> {
+  public addLikedDraw(userId: string, drawId: string): Promise<User> {
     return this.userModel
       .findOneAndUpdate(
-        { _id: userId, liked: { $nin: [stratId] } },
-        { $push: { liked: stratId } },
+        { _id: userId, liked: { $nin: [drawId] } },
+        { $push: { liked: drawId } },
         { new: true }
       )
       .exec();
   }
 
-  public removeLikedStrat(userId: string, stratId: string): Promise<User> {
+  public removeLikedDraw(userId: string, drawId: string): Promise<User> {
     return this.userModel
       .findOneAndUpdate(
-        { _id: userId, liked: { $in: [stratId] } },
-        { $pull: { liked: { $in: [stratId] } } },
+        { _id: userId, liked: { $in: [drawId] } },
+        { $pull: { liked: { $in: [drawId] } } },
         { new: true }
       )
       .exec();

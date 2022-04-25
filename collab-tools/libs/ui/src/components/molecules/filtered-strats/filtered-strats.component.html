@@ -1,6 +1,6 @@
 <div
   *ngIf="($userInfos | async) || isPublic; let userInfos; else: notConnected"
-  class="strat-container flex flex-column align-items-center"
+  class="draw-container flex flex-column align-items-center"
 >
   <div class="filters">
     <p-accordion
@@ -13,7 +13,7 @@
           <div
             class="flex flex-row justify-content-between align-items-center header-container"
           >
-            <div>{{ 'filtered-strats.title' | translate }}</div>
+            <div>{{ 'filtered-draws.title' | translate }}</div>
             <div>
               <p-paginator
                 [rows]="rows"
@@ -24,29 +24,29 @@
           </div>
         </ng-template>
         <ng-template pTemplate="content">
-          <collab-tools-strat-filters
-            [stratMaps]="$stratMaps | async"
-            (filter)="onFilterStrat($event)"
+          <collab-tools-draw-filters
+            [drawMaps]="$drawMaps | async"
+            (filter)="onFilterDraw($event)"
             [connected]="($userInfos | async) !== null"
             [public]="isPublic"
           >
-          </collab-tools-strat-filters>
+          </collab-tools-draw-filters>
         </ng-template>
       </p-accordionTab>
     </p-accordion>
   </div>
-  <collab-tools-strat-grid
-    [strats]="$strats | async | sortBy: stratFilter?.order:stratComparer"
+  <collab-tools-draw-grid
+    [draws]="$draws | async | sortBy: drawFilter?.order:drawComparer"
     [userInfos]="$userInfos | async"
     [likes]="$userLikes | async"
-    (selectStrat)="onSelectStrat($event)"
-    (deleteStrat)="onDeleteStrat($event)"
-    (likeStrat)="onLikeStrat($event)"
-    (dislikeStrat)="onDislikeStrat($event)"
-  ></collab-tools-strat-grid>
+    (selectDraw)="onSelectDraw($event)"
+    (deleteDraw)="onDeleteDraw($event)"
+    (likeDraw)="onLikeDraw($event)"
+    (dislikeDraw)="onDislikeDraw($event)"
+  ></collab-tools-draw-grid>
 </div>
 <ng-template #notConnected>
   <div class="not-connected">
-    {{ 'filtered-strats.not_connected' | translate }}
+    {{ 'filtered-draws.not_connected' | translate }}
   </div>
 </ng-template>

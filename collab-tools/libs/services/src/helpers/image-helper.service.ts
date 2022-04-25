@@ -1,6 +1,6 @@
 import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Agent, Gadget, Image, StratMap } from '@collab-tools/datamodel';
+import { Agent, DrawMap, Gadget, Image } from '@collab-tools/datamodel';
 
 @Injectable()
 export class ImageHelperService {
@@ -62,17 +62,17 @@ export class ImageHelperService {
     );
   }
 
-  getStratMapImage(stratMap: StratMap): string | null {
+  getDrawMapImage(drawMap: DrawMap): string | null {
     return this.domSanitizer.sanitize(
       SecurityContext.URL,
-      `assets/strat-maps/${stratMap?.image}`
+      `assets/draw-maps/${drawMap?.image}`
     );
   }
 
-  getStratMapImageByName(stratMapImage: string) {
+  getDrawMapImageByName(drawMapImage: string) {
     return this.domSanitizer.sanitize(
       SecurityContext.URL,
-      `assets/strat-maps/${stratMapImage}`
+      `assets/draw-maps/${drawMapImage}`
     );
   }
 

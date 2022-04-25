@@ -49,17 +49,17 @@ export const UpdateDrawSuccess = createAction(
 
 export const DeleteDraw = createAction(
   '[Draw] Deleting Draw',
-  props<{ DrawId: string }>()
+  props<{ drawId: string }>()
 );
 
 export const DeleteDrawSuccess = createAction(
   '[Draw] Delete Draw Success',
-  props<{ DrawId: string }>()
+  props<{ drawId: string }>()
 );
 
 export const LoadDraw = createAction(
   '[Draw] Load Draw',
-  props<{ DrawId: string }>()
+  props<{ drawId: string }>()
 );
 
 export const LoadDrawSuccess = createAction(

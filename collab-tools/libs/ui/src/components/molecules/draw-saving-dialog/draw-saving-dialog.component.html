@@ -1,0 +1,70 @@
+<form [formGroup]="drawForm" class="draw-saving-form flex flex-column">
+  <div class="m-2">
+    <h2 class="title">{{ 'draws-saving-dialog-title' | translate }}</h2>
+  </div>
+  <div class="flex-column">
+    <div class="m-2">
+      <label for="username">
+        <strong>
+          {{ 'draws-saving-dialog-draw_name' | translate }}
+        </strong>
+      </label>
+    </div>
+    <div class="m-2">
+      <input pInputText type="text" formControlName="name" class="draw-input" />
+      <div *ngIf="isSubmitted && fc.name.errors?.required">
+        {{ 'draws-saving-dialog-draw_name_required' | translate }}
+      </div>
+      <div *ngIf="isSubmitted && fc.name.errors?.minlength">
+        {{ 'draws-saving-dialog-draw_name_too_short' | translate }}
+      </div>
+    </div>
+  </div>
+  <div class="flex-column">
+    <div class="m-2">
+      <label for="description">
+        <strong>
+          {{ 'draws-saving-dialog-draw_description' | translate }}
+        </strong>
+      </label>
+    </div>
+    <div class="m-2">
+      <textarea
+        pInputTextarea
+        formControlName="description"
+        [placeholder]="
+          'draws-saving-dialog-draw_description_placeholder' | translate
+        "
+        [rows]="5"
+        [cols]="30"
+      ></textarea>
+    </div>
+  </div>
+  <p>
+    <strong>{{ 'draws-saving-dialog-make_draw_public' | translate }}</strong>
+  </p>
+  <p-inputSwitch
+    [(ngModel)]="drawInfos.isPublic"
+    [ngModelOptions]="{ standalone: true }"
+  ></p-inputSwitch>
+  <div class="flex flex-row justify-content-evenly">
+    <div class="m-2">
+      <button
+        type="button"
+        pButton
+        class="p-button-outlined p-button-danger"
+        (click)="onClose()"
+        [label]="'draws-saving-dialog-close' | translate"
+      ></button>
+    </div>
+    <div class="m-2">
+      <button
+        type="button"
+        pButton
+        class="p-button-outlined p-button-primary"
+        (click)="onSubmit()"
+        [label]="'draws-saving-dialog-save' | translate"
+      ></button>
+    </div>
+  </div>
+</form>

@@ -5,6 +5,6 @@ export * from './gadget-type';
 export * from './key_code';
 export * from './notification-type';
 export * from './side';
-export * from './strat-actions';
+export * from './draw-actions';
 export * from './user-role';
 export * from './websocket';

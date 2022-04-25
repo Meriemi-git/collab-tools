@@ -31,9 +31,9 @@
         type="button"
         pButton
         class="p-button-text p-button-success"
-        (click)="onSharedStratClick()"
+        (click)="onSharedDrawClick()"
       >
-        {{ 'top-bar.shared-strats-link' | translate }}
+        {{ 'top-bar.shared-draws-link' | translate }}
       </button>
     </div>
     <div class="m-2" *ngIf="$userInfos | async">
@@ -41,9 +41,9 @@
         type="button"
         pButton
         class="p-button-text p-button-danger"
-        (click)="onMyStratClick()"
+        (click)="onMyDrawClick()"
       >
-        {{ 'top-bar.my-strats-link' | translate }}
+        {{ 'top-bar.my-draws-link' | translate }}
       </button>
     </div>
   </div>

@@ -1,7 +1,7 @@
+import { ChatSchema } from '@collab-tools/datamodel';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ChatSchema } from '@collab-tools/datamodel';
-import { WebsocketStrategy } from '../../strategies/websocket.strategy';
+import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
 import { NotificationModule } from '../notification/notification.module';
 import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
@@ -17,7 +17,7 @@ import { ChatService } from './chat.service';
     NotificationModule,
   ],
   controllers: [ChatController],
-  providers: [ChatService, ChatGateway, WebsocketStrategy],
+  providers: [ChatService, ChatGateway, WebsocketDrawegy],
   exports: [ChatService],
 })
 export class ChatModule {}

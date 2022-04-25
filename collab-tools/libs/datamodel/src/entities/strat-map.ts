@@ -2,9 +2,9 @@ import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Floor, FloorSchema } from './floor';
 
-export type StratMapDocument = StratMap & mongoose.Document;
+export type DrawMapDocument = DrawMap & mongoose.Document;
 
-export interface StratMap {
+export interface DrawMap {
   _id?: string;
   name: string;
   year: number;
@@ -13,7 +13,7 @@ export interface StratMap {
   floors: Floor[];
 }
 
-export const StratMapSchema = new mongoose.Schema({
+export const DrawMapSchema = new mongoose.Schema({
   name: String,
   badge: String,
   year: Number,
@@ -27,4 +27,4 @@ export const StratMapSchema = new mongoose.Schema({
   ],
 });
 
-StratMapSchema.plugin(mongoosePaginate);
+DrawMapSchema.plugin(mongoosePaginate);

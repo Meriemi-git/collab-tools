@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractRoomListenerComponent } from '@collab-tools/bases';
 import {
   CanvasDetails,
-  StratMap,
   UserDto,
   WebsocketMemberStatus,
 } from '@collab-tools/datamodel';
@@ -38,7 +37,6 @@ export class RoomComponent
   extends AbstractRoomListenerComponent
   implements OnInit, OnDestroy
 {
-  public selectedStratMap: StratMap;
   public roomId: string;
   public userInfos$: Observable<UserDto>;
   public userInfos: UserDto;

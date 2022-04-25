@@ -7,9 +7,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { UserDto } from '@collab-tools/datamodel';
+import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { combineLatest, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -109,11 +109,11 @@ export class TopBarComponent
     this.router.navigateByUrl('/map-selector');
   }
 
-  onMyStratClick() {
-    this.router.navigateByUrl('/my-strats');
+  onMyDrawClick() {
+    this.router.navigateByUrl('/my-draws');
   }
 
-  onSharedStratClick() {
-    this.router.navigateByUrl('/shared-strats');
+  onSharedDrawClick() {
+    this.router.navigateByUrl('/shared-draws');
   }
 }

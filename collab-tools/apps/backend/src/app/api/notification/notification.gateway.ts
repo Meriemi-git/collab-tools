@@ -1,3 +1,4 @@
+import { Notification, NotificationEvent } from '@collab-tools/datamodel';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
@@ -5,9 +6,8 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Notification, NotificationEvent } from '@collab-tools/datamodel';
 import { Namespace, Socket } from 'socket.io';
-import { WebsocketStrategy } from '../../strategies/websocket.strategy';
+import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
 import { CookieParser } from '../../utils/cookie-parser';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { UserService } from '../user/user.service';
@@ -73,7 +73,7 @@ export class NotificationGateway
     try {
       return this.jwtTokenService.decodeToken(
         CookieParser.GetCookieValue(
-          WebsocketStrategy.X_WS_TOKEN,
+          WebsocketDrawegy.X_WS_TOKEN,
           client?.handshake?.headers?.cookie
         )
       )['userId'];

@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="grid" *ngIf="draws?.length > 0; else noDraws">
+    <collab-tools-draw-item
+      *ngFor="let draw of draws"
+      (selectDraw)="onSelectDraw(draw)"
+      [draw]="draw"
+      [itsMine]="isItMine(draw)"
+      [connected]="userInfos !== null"
+      [liked]="drawIsLiked(draw)"
+      (deleteDraw)="deleteDraw.emit(draw)"
+      (likeDraw)="onLikeDraw(draw)"
+      (dislikeDraw)="onDislikeDraw(draw)"
+    >
+    </collab-tools-draw-item>
+  </div>
+  <ng-template #noDraws>
+    <p>{{ 'draws-grid-no_draw' | translate }}</p>
+  </ng-template>
+</div>

@@ -6,5 +6,5 @@ export * from './layer-and-action';
 export * from './pagination';
 export * from './password-change-wrapper';
 export * from './websocket';
-export * from './strat-and-action';
+export * from './draw-and-action';
 export * from './translated-message';

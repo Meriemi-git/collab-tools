@@ -1,3 +1,4 @@
+import { Chat, ChatMessage, UserDto } from '@collab-tools/datamodel';
 import {
   Body,
   Controller,
@@ -9,9 +10,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Chat, ChatMessage, UserDto } from '@collab-tools/datamodel';
 import { Request } from 'express';
-import { Strategies } from '../../strategies/strategies';
+import { Drawegies } from '../../drawegies/drawegies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { ChatService } from './chat.service';
 
@@ -25,14 +25,14 @@ export class ChatController {
     private readonly chatGateway: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Get('all')
   public async getAllOpenedChat(@Req() req: Request): Promise<Chat[]> {
     const ownerId: string = this.jwtTokenService.getUserIdFromRequest(req);
     return this.chatService.getOpenChats(ownerId);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Post()
   public async createChat(
     @Body('usernames') usernames: string[],
@@ -42,7 +42,7 @@ export class ChatController {
     return this.chatService.createChat(userInfos, usernames);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Patch('join/:chatId')
   public async joinChat(
     @Param('chatId') chatId: string,
@@ -52,7 +52,7 @@ export class ChatController {
     return this.chatService.joinChat(chatId, ownerId);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Patch('leave/:chatId')
   public async leaveChat(
     @Param('chatId') chatId: string,
@@ -62,7 +62,7 @@ export class ChatController {
     return this.chatService.leaveChat(chatId, ownerId);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Patch('invite/:chatId')
   public async inviteUsersToChat(
     @Param('chatId') chatId: string,
@@ -73,7 +73,7 @@ export class ChatController {
     return this.chatService.inviteUsers(chatId, usernames, ownerId);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Post('messages/:chatId')
   public async getLastMessages(
     @Param('chatId') chatId: string,
@@ -84,7 +84,7 @@ export class ChatController {
     return this.chatService.getLastMessages(chatId, userId, new Date(time));
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Patch('message/:chatId')
   public async sendMessage(
     @Param('chatId') chatId: string,
@@ -95,7 +95,7 @@ export class ChatController {
     return this.chatService.addMessageToChat(chatId, userId, content);
   }
 
-  @UseGuards(AuthGuard(Strategies.AdminStrategy))
+  @UseGuards(AuthGuard(Drawegies.AdminDrawegy))
   @Patch('close/:chatId')
   public async closeChat(
     @Param('chatId') chatId: string,

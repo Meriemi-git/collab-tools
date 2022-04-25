@@ -1,10 +1,3 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import {
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
 import {
   Chat,
   ChatChannel,
@@ -14,8 +7,15 @@ import {
   WebsocketMemberStatus,
   WebsocketStatus,
 } from '@collab-tools/datamodel';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
-import { WebsocketStrategy } from '../../strategies/websocket.strategy';
+import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
 import { CookieParser } from '../../utils/cookie-parser';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { UserService } from '../user/user.service';
@@ -164,7 +164,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     try {
       return this.jwtTokenService.decodeToken(
         CookieParser.GetCookieValue(
-          WebsocketStrategy.X_WS_TOKEN,
+          WebsocketDrawegy.X_WS_TOKEN,
           client?.handshake?.headers?.cookie
         )
       )['userId'];

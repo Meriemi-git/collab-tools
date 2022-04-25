@@ -36,13 +36,13 @@ export class RoomService {
 
   public async createRoom(
     userInfos: UserDto,
-    stratMapId: string
+    drawMapId: string
   ): Promise<Room> {
     const createdRoom = new this.roomModel({
       ownerId: userInfos._id,
       createdAt: new Date(),
       closed: false,
-      stratMapId,
+      drawMapId,
       members: [
         {
           userId: userInfos._id,

@@ -142,9 +142,9 @@ const authReducer = createReducer(
     ...state,
     likes: [...state.likes, like],
   })),
-  on(actions.RemoveToUserLikes, (state, { stratId }) => ({
+  on(actions.RemoveToUserLikes, (state, { drawId }) => ({
     ...state,
-    likes: state.likes.filter((l) => l.stratId !== stratId),
+    likes: state.likes.filter((l) => l.drawId !== drawId),
   })),
   on(actions.UpdateUserSuccess, (state, { updated }) => {
     return adapter.updateOne(

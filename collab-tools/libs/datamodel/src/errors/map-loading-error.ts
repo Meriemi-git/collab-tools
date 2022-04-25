@@ -1,4 +1,4 @@
-export class StratMapLoadingError extends Error {
+export class DrawMapLoadingError extends Error {
   name: string;
   stack?: string;
   message: string;

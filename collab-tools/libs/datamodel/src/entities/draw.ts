@@ -14,7 +14,7 @@ export class Draw {
   votes: number;
   attachedImages: string[];
   mapId: string;
-  stratMapImage: string;
+  drawMapImage: string;
   mapName: string;
   isPublic: boolean;
   deprecated: boolean;

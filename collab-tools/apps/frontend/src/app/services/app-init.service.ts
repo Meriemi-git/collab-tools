@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { DrawerService } from '@collab-tools/services';
-import { StratEditorState, RefreshTokens, FeedDrawerActions, FeedDrawerOptions } from '@collab-tools/store';
+import {
+  DrawEditorState,
+  FeedDrawerActions,
+  FeedDrawerOptions,
+  RefreshTokens,
+} from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInitService {
   constructor(
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<DrawEditorState>,
     private readonly drawingService: DrawerService
   ) {}
 

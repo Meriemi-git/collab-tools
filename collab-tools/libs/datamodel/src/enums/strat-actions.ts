@@ -1,4 +1,4 @@
-export enum StratActions {
+export enum DrawActions {
   CREATE = 'CREATE',
   LOAD = 'LOAD',
   SAVE = 'SAVE',

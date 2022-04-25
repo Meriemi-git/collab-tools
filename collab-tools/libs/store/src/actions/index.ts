@@ -1,6 +1,6 @@
 export * from './canvas.action';
 export * from './chat.action';
-export * from './draw.action;';
+export * from './draw.action';
 export * from './drawer-action.action';
 export * from './drawer-option.action';
 export * from './gallery.action';

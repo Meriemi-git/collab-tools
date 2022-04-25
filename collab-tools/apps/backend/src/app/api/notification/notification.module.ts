@@ -1,7 +1,7 @@
+import { NotificationSchema } from '@collab-tools/datamodel';
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NotificationSchema } from '@collab-tools/datamodel';
-import { WebsocketStrategy } from '../../strategies/websocket.strategy';
+import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
 import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
 import { NotificationController } from './notification.controller';
@@ -17,7 +17,7 @@ import { NotificationService } from './notification.service';
     UserModule,
   ],
   controllers: [NotificationController],
-  providers: [NotificationGateway, NotificationService, WebsocketStrategy],
+  providers: [NotificationGateway, NotificationService, WebsocketDrawegy],
   exports: [NotificationService],
 })
 export class NotificationModule {}

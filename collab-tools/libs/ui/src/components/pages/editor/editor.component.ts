@@ -7,18 +7,14 @@ import {
   DrawerActionType,
   DrawingMode,
   DrawingToolbarAction,
-  Layer,
   UserDto,
 } from '@collab-tools/datamodel';
 import {
-  ClearStratMapState,
-  ClearStratState,
+  ClearDrawState,
   CollabToolsState,
-  DeleteStrat,
-  FetchAgents,
-  FetchStratMaps,
+  DeleteDraw,
+  getDraw,
   getDrawingMode,
-  getStrat,
   getUserInfos,
   SetDrawerAction,
   SetDrawingMode,
@@ -27,7 +23,7 @@ import {
   showGadgetsPanel,
   showGalleryPanel,
   showRoomPanel,
-  UpdateStratInfosAndSave,
+  UpdateDrawInfosAndSave,
 } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
 import { ConfirmationService } from 'primeng/api';
@@ -36,9 +32,9 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../../guards/can-leave-editor-guard';
 import {
-  StratInfosDialogData,
-  StratSavingDialogComponent,
-} from '../../molecules/strat-saving-dialog/strat-saving-dialog.component';
+  DrawInfosDialogData,
+  DrawSavingDialogComponent,
+} from '../../molecules/draw-saving-dialog/draw-saving-dialog.component';
 
 @Component({
   selector: 'collab-tools-editor',
@@ -51,7 +47,7 @@ export class EditorComponent
   implements OnInit, OnDestroy, ComponentCanDeactivate
 {
   public $drawingMode: Observable<DrawingMode>;
-  public currentStrat: Draw;
+  public currentDraw: Draw;
   public userInfos: UserDto;
   public drawingToolbarIsOpen = false;
   public headingToolbarIsOpen = true;
@@ -60,7 +56,7 @@ export class EditorComponent
   public hasUnsavedModifications: boolean;
   public navigateOut = new Subject<boolean>();
 
-  private stratSavingDialog: DynamicDialogRef;
+  private drawSavingDialog: DynamicDialogRef;
 
   constructor(
     private readonly store: Store<CollabToolsState>,
@@ -94,10 +90,9 @@ export class EditorComponent
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(ClearStratState());
-    this.store.dispatch(ClearStratMapState());
-    if (this.stratSavingDialog) {
-      this.stratSavingDialog.close();
+    this.store.dispatch(ClearDrawState());
+    if (this.drawSavingDialog) {
+      this.drawSavingDialog.close();
     }
   }
 
@@ -107,17 +102,17 @@ export class EditorComponent
       .pipe(takeUntil(this.unsubscriber));
 
     this.store
-      .select(getStrat)
+      .select(getDraw)
       .pipe(takeUntil(this.unsubscriber))
-      .subscribe((strat) => {
-        this.currentStrat = strat;
-        if (strat.userId) {
+      .subscribe((draw) => {
+        this.currentDraw = draw;
+        if (draw.userId) {
           this.store
             .select(getUserInfos)
             .pipe(takeUntil(this.unsubscriber))
             .subscribe((userInfos) => {
               this.userInfos = userInfos;
-              if (userInfos && strat.userId === userInfos._id) {
+              if (userInfos && draw.userId === userInfos._id) {
                 this.store.dispatch(
                   SetDrawingMode({ drawingMode: DrawingMode.Drawing })
                 );
@@ -138,53 +133,42 @@ export class EditorComponent
         this.isReadOnly = drawingMode === DrawingMode.ReadOnly;
         this.changeDetector.detectChanges();
       });
-
-    this.store.dispatch(FetchStratMaps());
-    this.store.dispatch(FetchAgents());
   }
 
-  private askForDeleteStrat(strat: Draw): void {
+  private askForDeleteDraw(draw: Draw): void {
     this.confirmationService.confirm({
       icon: 'pi pi-exclamation-triangle',
-      key: 'editor.delete-strat',
+      key: 'editor.delete-draw',
       accept: () => {
-        this.store.dispatch(DeleteStrat({ stratId: strat._id }));
+        this.store.dispatch(DeleteDraw({ drawId: draw._id }));
       },
     });
   }
 
-  private askForSaveStrat() {
-    if (this.currentStrat) {
-      this.stratSavingDialog = this.dialogService.open(
-        StratSavingDialogComponent,
+  private askForSaveDraw() {
+    if (this.currentDraw) {
+      this.drawSavingDialog = this.dialogService.open(
+        DrawSavingDialogComponent,
         {
           data: {
-            name: this.currentStrat.name,
-            description: this.currentStrat.description,
-            isPublic: this.currentStrat.isPublic,
+            name: this.currentDraw.name,
+            description: this.currentDraw.description,
+            isPublic: this.currentDraw.isPublic,
           },
-          styleClass: 'strat-saving-dialog',
+          styleClass: 'draw-saving-dialog',
           baseZIndex: 10000,
           showHeader: false,
         }
       );
-      this.stratSavingDialog.onClose
+      this.drawSavingDialog.onClose
         .pipe(takeUntil(this.unsubscriber))
-        .subscribe((stratInfos: StratInfosDialogData) => {
-          if (stratInfos) {
-            this.store.dispatch(UpdateStratInfosAndSave(stratInfos));
+        .subscribe((drawInfos: DrawInfosDialogData) => {
+          if (drawInfos) {
+            this.store.dispatch(UpdateDrawInfosAndSave(drawInfos));
             this.hasUnsavedModifications = false;
           }
         });
     }
-  }
-
-  public layerComparer(f1: Layer, f2: Layer): number {
-    return f1.floor.level < f2.floor.level
-      ? -1
-      : f1.floor.level === f2.floor.level
-      ? 0
-      : 1;
   }
 
   public openAgentsPanel() {
@@ -222,7 +206,7 @@ export class EditorComponent
         );
         break;
       case DrawingToolbarAction.DELETE_STRAT:
-        this.askForDeleteStrat(this.currentStrat);
+        this.askForDeleteDraw(this.currentDraw);
         break;
       case DrawingToolbarAction.ENABLE_DRAGGING_MODE:
         this.store.dispatch(
@@ -240,13 +224,13 @@ export class EditorComponent
         );
         break;
       case DrawingToolbarAction.OPEN_STRAT:
-        this.router.navigateByUrl('my-strats');
+        this.router.navigateByUrl('my-draws');
         break;
       case DrawingToolbarAction.SAVE_STRAT:
-        this.askForSaveStrat();
+        this.askForSaveDraw();
         break;
       case DrawingToolbarAction.SHOW_INFOS:
-        this.askForSaveStrat();
+        this.askForSaveDraw();
         break;
       case DrawingToolbarAction.DOWNLOAD_STRAT:
         this.store.dispatch(
@@ -254,7 +238,7 @@ export class EditorComponent
             action: {
               type: DrawerActionType.MISC,
               name: 'Download',
-              label: this.currentStrat.name,
+              label: this.currentDraw.name,
             } as DrawerAction,
           })
         );

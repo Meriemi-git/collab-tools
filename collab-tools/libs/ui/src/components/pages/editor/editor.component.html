@@ -16,7 +16,7 @@
   [showCloseIcon]="false"
   [modal]="false"
 >
-  <span class="strat-title">{{ currentStrat?.name }}</span>
+  <span class="draw-title">{{ currentDraw?.name }}</span>
 </p-sidebar>
 <div class="icons-left" *ngIf="!isReadOnly" (wheel)="stopWheelEvent($event)">
   <div (click)="openAgentsPanel()">
@@ -112,7 +112,7 @@
   <collab-tools-drawing-toolbar
     class="collab-tools-drawing-toolbar"
     [isConnected]="userInfos !== null"
-    [canBeDeleted]="currentStrat?._id !== null"
+    [canBeDeleted]="currentDraw?._id !== null"
     (selectedAction)="onSelectToolbarAction($event)"
     (wheel)="stopWheelEvent($event)"
   >
@@ -144,11 +144,11 @@
   </ng-template>
 </p-confirmDialog>
 <p-confirmDialog
-  key="editor.delete-strat"
-  #delStrat
-  [header]="'editor.delete-strat.header' | translate"
+  key="editor.delete-draw"
+  #delDraw
+  [header]="'editor.delete-draw.header' | translate"
   [message]="
-    'editor.delete-strat.message' | translate: { value: currentStrat?.name }
+    'editor.delete-draw.message' | translate: { value: currentDraw?.name }
   "
 >
   <ng-template pTemplate="footer">
@@ -158,7 +158,7 @@
       pButton
       icon="pi pi-times"
       [label]="'general.no' | translate"
-      (click)="delStrat.reject()"
+      (click)="delDraw.reject()"
     ></button>
     <button
       type="button"
@@ -166,7 +166,7 @@
       pButton
       icon="pi pi-check"
       [label]="'general.yes' | translate"
-      (click)="delStrat.accept()"
+      (click)="delDraw.accept()"
     ></button>
   </ng-template>
 </p-confirmDialog>

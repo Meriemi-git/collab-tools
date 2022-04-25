@@ -1,3 +1,4 @@
+import { Notification } from '@collab-tools/datamodel';
 import {
   Controller,
   Delete,
@@ -5,12 +6,11 @@ import {
   Logger,
   Param,
   Req,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Notification } from '@collab-tools/datamodel';
 import { Request } from 'express';
-import { Strategies } from '../../strategies/strategies';
+import { Drawegies } from '../../drawegies/drawegies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { NotificationService } from './notification.service';
 
@@ -23,14 +23,14 @@ export class NotificationController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
+  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
   @Get()
   public getNotifications(@Req() request: Request): Promise<Notification[]> {
     const userId = this.jwtTokenService.getUserIdFromRequest(request);
     return this.notificationService.getAllNotifications(userId);
   }
 
-  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
+  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
   @Delete(':id')
   public deleteNotification(
     @Param('id') id: string,

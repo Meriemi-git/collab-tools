@@ -6,15 +6,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
 import { PipesModule } from '../../../pipes.module';
-import { StratFiltersModule } from '../strat-filters/strat-filters.module';
-import { StratGridModule } from '../strat-grid/strat-grid.module';
-import { FilteredStratsComponent } from './filtered-strats.component';
+import { DrawFiltersModule } from '../draw-filters/draw-filters.module';
+import { DrawGridModule } from '../draw-grid/draw-grid.module';
+import { FilteredDrawsComponent } from './filtered-draws.component';
 @NgModule({
-  declarations: [FilteredStratsComponent],
+  declarations: [FilteredDrawsComponent],
   imports: [
     CommonModule,
-    StratFiltersModule,
-    StratGridModule,
+    DrawFiltersModule,
+    DrawGridModule,
     PipesModule,
     AccordionModule,
     ConfirmDialogModule,
@@ -22,6 +22,6 @@ import { FilteredStratsComponent } from './filtered-strats.component';
     OverlayPanelModule,
     TranslateModule,
   ],
-  exports: [FilteredStratsComponent],
+  exports: [FilteredDrawsComponent],
 })
-export class FilteredStratsModule {}
+export class FilteredDrawsModule {}

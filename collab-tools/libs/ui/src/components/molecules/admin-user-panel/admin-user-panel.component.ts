@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { AttributeFilter, PageOptions, UserDto } from '@collab-tools/datamodel';
 import {
   DeleteUser,
+  DrawEditorState,
   getAllUsers,
   getUserPageMetadata,
   GetUsersPaginated,
-  StratEditorState,
   UpdateUser,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
   selector: 'collab-tools-admin-user-panel',
@@ -25,7 +25,7 @@ export class AdminUserPanelComponent
   public length: number;
   public rows = 2;
 
-  constructor(private readonly store: Store<StratEditorState>) {
+  constructor(private readonly store: Store<DrawEditorState>) {
     super();
   }
 

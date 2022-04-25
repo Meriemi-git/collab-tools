@@ -8,14 +8,14 @@ import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServicesModule } from '@collab-tools/services';
+import { effects, reducers } from '@collab-tools/store';
+import { FrontendLayoutModule } from '@collab-tools/ui';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ServicesModule } from '@collab-tools/services';
-import { effects, reducers } from '@collab-tools/store';
-import { FrontendLayoutModule } from '@collab-tools/ui';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { environment } from '../environments/environment';
@@ -48,7 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientXsrfModule.withOptions(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      registrationStrategy: 'registerImmediately',
+      regidrawionDrawegy: 'registerImmediately',
     }),
     TranslateModule.forRoot({
       loader: {

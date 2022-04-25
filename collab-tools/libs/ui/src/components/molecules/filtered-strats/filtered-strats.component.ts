@@ -1,60 +1,60 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import {
   AttributeFilter,
   BooleanOperators,
+  Draw,
   DrawingMode,
+  DrawMap,
   Like,
   PageEvent,
   PageOptions,
-  Strat,
-  StratMap,
   UserDto,
 } from '@collab-tools/datamodel';
 import {
-  DeleteStrat,
-  DislikeStrat,
-  FetchStratMaps,
-  getAllStratMaps,
-  getStratPageMetadata,
-  GetStratsPaginated,
+  DeleteDraw,
+  DislikeDraw,
+  DrawEditorState,
+  FetchDrawMaps,
+  getAllDrawMaps,
+  getDrawPageMetadata,
+  GetDrawsPaginated,
   getUserInfos,
   getUserLikes,
   GetUserLikes,
-  LikeStrat,
-  LoadStratSuccess,
-  selectAllStrats,
+  LikeDraw,
+  LoadDrawSuccess,
+  selectAllDraws,
   SetDrawingMode,
-  StratEditorState,
 } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
-  selector: 'collab-tools-filtered-strats',
-  templateUrl: './filtered-strats.component.html',
-  styleUrls: ['./filtered-strats.component.scss'],
+  selector: 'collab-tools-filtered-draws',
+  templateUrl: './filtered-draws.component.html',
+  styleUrls: ['./filtered-draws.component.scss'],
 })
-export class FilteredStratsComponent
+export class FilteredDrawsComponent
   extends AbsctractObserverComponent
   implements OnInit
 {
   @Input()
   public isPublic: boolean;
-  public $strats: Observable<Strat[]>;
+  public $draws: Observable<Draw[]>;
   public $userInfos: Observable<UserDto>;
   public $userLikes: Observable<Like[]>;
-  public $stratMaps: Observable<StratMap[]>;
+  public $drawMaps: Observable<DrawMap[]>;
   public length: number;
   public rows = 10;
   public activeIndex: number;
-  public stratFilter: AttributeFilter;
+  public drawFilter: AttributeFilter;
 
   constructor(
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<DrawEditorState>,
     private readonly confirmationService: ConfirmationService,
     public readonly router: Router
   ) {
@@ -70,23 +70,23 @@ export class FilteredStratsComponent
       .select(getUserLikes)
       .pipe(takeUntil(this.unsubscriber));
 
-    this.$strats = this.store
-      .select(selectAllStrats)
+    this.$draws = this.store
+      .select(selectAllDraws)
       .pipe(takeUntil(this.unsubscriber));
 
-    this.$stratMaps = this.store
-      .select(getAllStratMaps)
+    this.$drawMaps = this.store
+      .select(getAllDrawMaps)
       .pipe(takeUntil(this.unsubscriber));
 
     this.store
-      .select(getStratPageMetadata)
+      .select(getDrawPageMetadata)
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((pageMetadata) => {
         if (pageMetadata) {
           this.length = pageMetadata.totalDocs;
         }
       });
-    this.stratFilter = {
+    this.drawFilter = {
       filters: [
         {
           attributeName: 'public',
@@ -98,48 +98,48 @@ export class FilteredStratsComponent
       order: 'asc',
       sortedBy: 'name',
     };
-    this.store.dispatch(FetchStratMaps());
+    this.store.dispatch(FetchDrawMaps());
     this.store.dispatch(GetUserLikes());
     this.store.dispatch(
-      GetStratsPaginated({
+      GetDrawsPaginated({
         pageOptions: {
           limit: this.rows,
           page: 1,
         },
-        stratFilter: this.stratFilter,
+        drawFilter: this.drawFilter,
       })
     );
   }
 
-  onSelectStrat(strat: Strat) {
-    this.store.dispatch(LoadStratSuccess({ strat }));
+  onSelectDraw(draw: Draw) {
+    this.store.dispatch(LoadDrawSuccess({ draw }));
     this.store.dispatch(SetDrawingMode({ drawingMode: DrawingMode.ReadOnly }));
     this.router.navigateByUrl('editor');
   }
 
-  onFilterStrat(filter: AttributeFilter) {
-    this.stratFilter = filter;
+  onFilterDraw(filter: AttributeFilter) {
+    this.drawFilter = filter;
     this.activeIndex = -1;
     this.store.dispatch(
-      GetStratsPaginated({
+      GetDrawsPaginated({
         pageOptions: {
           limit: this.rows,
           page: 1,
         },
-        stratFilter: {
-          ...this.stratFilter,
+        drawFilter: {
+          ...this.drawFilter,
         },
       })
     );
   }
 
-  onDeleteStrat(strat: Strat) {
+  onDeleteDraw(draw: Draw) {
     this.confirmationService.confirm({
-      message: `Do you really want to delete this strat :<br />${strat.name}`,
-      header: 'Deleting strat',
+      message: `Do you really want to delete this draw :<br />${draw.name}`,
+      header: 'Deleting draw',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.store.dispatch(DeleteStrat({ stratId: strat._id }));
+        this.store.dispatch(DeleteDraw({ drawId: draw._id }));
       },
     });
   }
@@ -147,25 +147,25 @@ export class FilteredStratsComponent
   public paginate(pageEvent: PageEvent) {
     this.rows = pageEvent.rows;
     this.store.dispatch(
-      GetStratsPaginated({
+      GetDrawsPaginated({
         pageOptions: {
           limit: pageEvent.rows,
           page: pageEvent.page + 1,
         } as PageOptions,
-        stratFilter: this.stratFilter,
+        drawFilter: this.drawFilter,
       })
     );
   }
 
-  public onLikeStrat(strat: Strat) {
-    this.store.dispatch(LikeStrat({ strat }));
+  public onLikeDraw(draw: Draw) {
+    this.store.dispatch(LikeDraw({ draw }));
   }
 
-  public onDislikeStrat(strat: Strat) {
-    this.store.dispatch(DislikeStrat({ strat }));
+  public onDislikeDraw(draw: Draw) {
+    this.store.dispatch(DislikeDraw({ draw }));
   }
 
-  stratComparer(a: Strat, b: Strat): number {
+  drawComparer(a: Draw, b: Draw): number {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
 }

@@ -378,7 +378,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
     let url: string;
     switch (action.name.toLocaleLowerCase()) {
       case 'clear':
-        this.clearAllExceptForStratMap();
+        this.clearAllExceptForDrawMap();
         this.resetView();
         break;
       case 'download':
@@ -391,7 +391,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private clearAllExceptForStratMap() {
+  private clearAllExceptForDrawMap() {
     this.canvas.forEachObject((object: fabric.Object) => {
       if (object.name !== 'floor') {
         this.canvas.remove(object);

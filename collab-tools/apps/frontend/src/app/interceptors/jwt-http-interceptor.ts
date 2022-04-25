@@ -7,10 +7,10 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { UserDto } from '@collab-tools/datamodel';
 import { UserService } from '@collab-tools/services';
-import { Disconnect, StratEditorState } from '@collab-tools/store';
+import { Disconnect, DrawEditorState } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
     new BehaviorSubject<unknown>(null);
   constructor(
     private readonly userService: UserService,
-    private readonly store: Store<StratEditorState>,
+    private readonly store: Store<DrawEditorState>,
     private readonly router: Router
   ) {}
 

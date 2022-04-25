@@ -111,7 +111,7 @@ const DrawReducer = createReducer(
     ...state,
     error: null,
   })),
-  on(actions.DislikeDrawSuccess, (state, { Draw }) => {
+  on(actions.DislikeDrawSuccess, (state, { draw: Draw }) => {
     return adapter.updateOne(
       { id: Draw._id, changes: { votes: Draw.votes - 1 } },
       {

@@ -1,0 +1,55 @@
+<div
+  class="draw-container"
+  (mouseover)="onHover = true"
+  (mouseout)="onHover = false"
+  [ngClass]="{ 'shadow-3': onHover }"
+>
+  <div class="draw-map-image" (click)="selectDraw.emit()">
+    <div class="title flex flex-column align-items-center">
+      <div class="m-2">
+        <span class="big-title">{{ draw.name | slice: 0:30 }}</span>
+      </div>
+      <div class="m-2">
+        <span class="sub-title">{{ draw.mapName }}</span>
+      </div>
+    </div>
+    <img
+      [src]="ihs.getDrawMapImageByName(draw.drawMapImage)"
+      alt="Draw map image"
+      class="map-image"
+      width="250"
+    />
+  </div>
+  <div class="buttons flex flex-column align-items-center">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-thumbs-up"
+      class="p-button-rounded p-button-text"
+      (click)="likeDraw.emit()"
+      *ngIf="connected && !itsMine && !liked"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-thumbs-down"
+      class="p-button-rounded p-button-text p-button-danger"
+      (click)="dislikeDraw.emit()"
+      *ngIf="connected && !itsMine && liked"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-trash"
+      class="p-button-rounded p-button-text p-button-danger"
+      *ngIf="connected && itsMine"
+      (click)="deleteDraw.emit()"
+    ></button>
+  </div>
+  <div class="likes" *ngIf="draw.votes !== 0">
+    <p-chip [label]="draw.votes + ' likes'" styleClass="likes-chip"></p-chip>
+  </div>
+</div>

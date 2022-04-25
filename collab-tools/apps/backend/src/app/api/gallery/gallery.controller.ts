@@ -1,3 +1,4 @@
+import { Image } from '@collab-tools/datamodel';
 import {
   Controller,
   Delete,
@@ -15,9 +16,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Image } from '@collab-tools/datamodel';
 import { Request, Response } from 'express';
-import { Strategies } from '../../strategies/strategies';
+import { Drawegies } from '../../drawegies/drawegies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { GalleryService } from './gallery.service';
 
@@ -30,7 +30,7 @@ export class GalleryController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Get('images')
   public allMyImages(
     @Req() request: Request,
@@ -47,7 +47,7 @@ export class GalleryController {
     });
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
+  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
   @Post('upload')
   @UseInterceptors(FileInterceptor('image'))
   public uploadFile(

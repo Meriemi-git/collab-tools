@@ -5,7 +5,7 @@ export type LikeDocument = Like & mongoose.Document;
 
 export interface Like {
   userId: string;
-  stratId: string;
+  drawId: string;
 }
 
 export const LikeSchema = new mongoose.Schema({
@@ -13,9 +13,9 @@ export const LikeSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  stratId: {
+  drawId: {
     type: Schema.Types.ObjectId,
-    ref: 'StratMap',
+    ref: 'DrawMap',
   },
 });
-LikeSchema.index({ userId: 1, stratId: 1 }, { unique: true });
+LikeSchema.index({ userId: 1, drawId: 1 }, { unique: true });

@@ -1,7 +1,7 @@
 import { Layer } from '../entities';
-import { StratActions } from '../enums';
+import { DrawActions } from '../enums';
 
 export interface LayerAndAction {
   layer: Layer;
-  action: StratActions;
+  action: DrawActions;
 }

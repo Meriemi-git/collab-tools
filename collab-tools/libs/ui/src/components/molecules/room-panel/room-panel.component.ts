@@ -18,7 +18,6 @@ import {
   ConnectToRoomWSSuccess,
   CreateRoom,
   EjectUserFromRoom,
-  getActiveLayer,
   getCanvas,
   GetOwnRoom,
   getOwnRoom,

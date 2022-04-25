@@ -18,6 +18,6 @@ export class HomeComponent {
   }
 
   onClickSharedLibrary() {
-    this.router.navigateByUrl('/shared-strats');
+    this.router.navigateByUrl('/shared-draws');
   }
 }

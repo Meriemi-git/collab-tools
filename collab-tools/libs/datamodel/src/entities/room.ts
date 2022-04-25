@@ -9,7 +9,7 @@ export class Room {
   createdAt: Date;
   members: WebsocketMember[];
   closed: boolean;
-  stratMapId: string;
+  drawMapId: string;
   joined: true;
 }
 
@@ -25,9 +25,9 @@ export const RoomSchema = new mongoose.Schema({
       ref: 'WebsocketMember',
     },
   ],
-  stratMapId: {
+  drawMapId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'StratMap',
+    ref: 'DrawMap',
   },
   closed: Boolean,
 });
