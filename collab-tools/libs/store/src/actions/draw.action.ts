@@ -89,12 +89,12 @@ export const LikeDrawSuccess = createAction(
 
 export const DislikeDraw = createAction(
   '[Draw]  Dislike Draw',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const DislikeDrawSuccess = createAction(
   '[Draw]  Dislike Draw Success',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const AttachImage = createAction(

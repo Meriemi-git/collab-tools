@@ -1,5 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { createAction, props } from '@ngrx/store';
 import {
   AttributeFilter,
   Language,
@@ -9,6 +8,7 @@ import {
   PasswordChangeWrapper,
   UserDto,
 } from '@collab-tools/datamodel';
+import { createAction, props } from '@ngrx/store';
 
 export const GetUsersPaginated = createAction(
   '[User] Get paginated users',
@@ -86,13 +86,13 @@ export const SendConfirmationEmailSuccess = createAction(
 );
 
 export const AddToUserLikes = createAction(
-  '[User] Add to liked Strat',
+  '[User] Add to liked Draw',
   props<{ like: Like }>()
 );
 
 export const RemoveToUserLikes = createAction(
-  '[User]  Remove to liked Strat',
-  props<{ stratId: string }>()
+  '[User]  Remove to liked Draw',
+  props<{ drawId: string }>()
 );
 
 export const UpdateUser = createAction(

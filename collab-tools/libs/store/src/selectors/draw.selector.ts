@@ -3,23 +3,23 @@ import { selectAll } from '../reducers/draw.reducer';
 import { DrawState } from '../states/draw.state';
 
 /**
- * Strat state
+ * Draw state
  */
-const stratFeature = createFeatureSelector<DrawState>('StratState');
+const drawFeature = createFeatureSelector<DrawState>('DrawState');
 
-export const getStratState = createSelector(
-  stratFeature,
+export const getDrawState = createSelector(
+  drawFeature,
   (state: DrawState) => state
 );
 
-export const selectAllStrats = createSelector(stratFeature, selectAll);
+export const selectAllDraws = createSelector(drawFeature, selectAll);
 
-export const getStratPageMetadata = createSelector(
-  getStratState,
+export const getDrawPageMetadata = createSelector(
+  getDrawState,
   (state: DrawState) => state.pageMetadata
 );
 
-export const getStrat = createSelector(
-  getStratState,
+export const getDraw = createSelector(
+  getDrawState,
   (state: DrawState) => state.draw
 );

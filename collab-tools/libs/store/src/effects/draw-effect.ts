@@ -1,186 +1,131 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { Layer } from '@collab-tools/datamodel';
 import { DrawService } from '@collab-tools/services';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { AddToUserLikes, RemoveToUserLikes } from '../actions';
+import { ClearCanvasState } from '../actions/canvas.action';
 import {
-  ClearCanvasState,
-  InitCanvas,
-  LoadCanvas,
-  SetFloorImage,
-} from '../actions/canvas.action';
-import {
-  SetActiveLayer,
-  SetFirstLayerActive,
-  SetTacticalMode,
+  ClearDrawState,
+  DeleteDraw,
+  DeleteDrawSuccess,
+  DislikeDraw,
+  DislikeDrawSuccess,
+  DrawError,
+  GetDrawsPaginated,
+  GetDrawsPaginatedSuccess,
+  LikeDraw,
+  LikeDrawSuccess,
+  LoadDraw,
+  LoadDrawSuccess,
+  SaveDraw,
+  SaveDrawSuccess,
+  UpdateDraw,
+  UpdateDrawInfosAndSave,
+  UpdateDrawSuccess,
 } from '../actions/draw.action';
 import { DisplayMessage } from '../actions/notification.action';
 import { CollabToolsState } from '../reducers';
-import { getActiveLayer, getStrat } from '../selectors/draw.selector';
+import { getDraw } from '../selectors/draw.selector';
 
 @Injectable()
 export class DrawEffect {
-  private readonly STRAT_SERVICE_SUMMARY_KEY = _('draw-service.summary');
+  private readonly DRAW_SERVICE_SUMMARY_KEY = _('draw-service.summary');
 
   constructor(
     private readonly actions$: Actions,
-    private readonly stratService: DrawService,
+    private readonly drawService: DrawService,
     private readonly store: Store<CollabToolsState>
   ) {}
 
-  afterCreateStrat$ = createEffect(() =>
+  afterUpdateDrawInfos$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CreateStrat),
-      mergeMap(() => of(SetFirstLayerActive()))
-    )
-  );
-
-  afterLoadStratSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(LoadStratSuccess),
-      mergeMap((action) =>
-        this.store.select(getStratMapById(action.strat.mapId)).pipe(take(1))
-      ),
-      switchMap((stratMap) => [
-        SelectStratMap({ stratMap }),
-        SetFirstLayerActive(),
-      ])
-    )
-  );
-
-  afterSetFirstLayerActive$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SetFirstLayerActive),
-      switchMap(() => this.store.select(getActiveLayer).pipe(take(1))),
-      mergeMap((layer) => {
-        return this.initOrLoadCanvas(layer);
-      })
-    )
-  );
-
-  afterSetActiveLayer$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SetActiveLayer),
-      map((action) => action.layer),
-      mergeMap((layer) => {
-        return this.initOrLoadCanvas(layer);
-      })
-    )
-  );
-
-  afterUpdateStratInfos$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UpdateStratInfosAndSave),
-      switchMap(() => this.store.select(getStrat).pipe(take(1))),
-      mergeMap((strat) => {
-        if (strat._id) {
-          return of(UpdateStrat({ strat: strat }));
+      ofType(UpdateDrawInfosAndSave),
+      switchMap(() => this.store.select(getDraw).pipe(take(1))),
+      mergeMap((Draw) => {
+        if (Draw._id) {
+          return of(UpdateDraw({ Draw: Draw }));
         } else {
-          return of(SaveStrat({ strat: strat }));
+          return of(SaveDraw({ Draw: Draw }));
         }
       })
     )
   );
 
-  afterDeletingStrat$ = createEffect(() =>
+  afterDeletingDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DeleteStratSuccess),
-      switchMap(() => [
-        ClearStratState(),
-        ClearCanvasState(),
-        ClearStratMapState(),
-      ])
+      ofType(DeleteDrawSuccess),
+      switchMap(() => [ClearDrawState(), ClearCanvasState()])
     )
   );
 
-  afterSetTacticalMode$ = createEffect(() =>
+  getDrawsPaginated$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SetTacticalMode),
-      map((action) => action.tacticalMode),
-      switchMap((enabled) =>
-        forkJoin({
-          enabled: of(enabled),
-          layer: this.store.select(getActiveLayer).pipe(take(1)),
-        })
-      ),
-      mergeMap((result) => {
-        const floorImage = result.layer.tacticalMode
-          ? result.layer.floor.image_tactical
-          : result.layer.floor.image_realistic;
-        return of(SetFloorImage({ floorImage }));
-      })
-    )
-  );
-
-  getStratsPaginated$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(GetStratsPaginated),
+      ofType(GetDrawsPaginated),
       mergeMap((action) =>
-        this.stratService
-          .getStratsPaginated(action.pageOptions, action.stratFilter)
+        this.drawService
+          .getDrawsPaginated(action.pageOptions, action.DrawFilter)
           .pipe(
-            map((pageResults) => GetStratsPaginatedSuccess({ pageResults })),
+            map((pageResults) => GetDrawsPaginatedSuccess({ pageResults })),
             catchError((error: HttpErrorResponse) => {
               this.store.dispatch(
                 DisplayMessage({
                   message: {
                     level: 'error',
                     messageKey: _('draw-service.error.get-all'),
-                    titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                    titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                   },
                 })
               );
-              return of(StratError({ error }));
+              return of(DrawError({ error }));
             })
           )
       )
     )
   );
 
-  loadStratById$ = createEffect(() =>
+  loadDrawById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LoadStrat),
+      ofType(LoadDraw),
       mergeMap((action) =>
-        this.stratService.loadStratById(action.stratId).pipe(
-          map((strat) => LoadStratSuccess({ strat })),
+        this.drawService.loadDrawById(action.DrawId).pipe(
+          map((Draw) => LoadDrawSuccess({ Draw })),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
                   level: 'error',
                   messageKey: _('draw-service.error.load'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
 
-  saveStrat$ = createEffect(() =>
+  saveDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SaveStrat),
+      ofType(SaveDraw),
       mergeMap((action) =>
-        this.stratService.saveStrat(action.strat).pipe(
-          map((strat) => {
+        this.drawService.saveDraw(action.Draw).pipe(
+          map((Draw) => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
                   level: 'success',
                   messageKey: _('draw-service.success.save'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return SaveStratSuccess({ strat });
+            return SaveDrawSuccess({ Draw });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -188,33 +133,33 @@ export class DrawEffect {
                 message: {
                   level: 'error',
                   messageKey: _('draw-service.error.save'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
 
-  updateStrat$ = createEffect(() =>
+  updateDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UpdateStrat),
+      ofType(UpdateDraw),
       mergeMap((action) =>
-        this.stratService.updateStrat(action.strat).pipe(
-          map((strat) => {
+        this.drawService.updateDraw(action.Draw).pipe(
+          map((Draw) => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
                   level: 'success',
                   messageKey: _('draw-service.success.update'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return UpdateStratSuccess({ strat });
+            return UpdateDrawSuccess({ Draw });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -222,33 +167,33 @@ export class DrawEffect {
                 message: {
                   level: 'error',
                   messageKey: _('draw-service.error.update'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
 
-  deleteStrat$ = createEffect(() =>
+  deleteDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DeleteStrat),
+      ofType(DeleteDraw),
       mergeMap((action) =>
-        this.stratService.deleteStrat(action.stratId).pipe(
+        this.drawService.deleteDraw(action.DrawId).pipe(
           map(() => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
                   level: 'success',
                   messageKey: _('draw-service.success.delete'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return DeleteStratSuccess({ stratId: action.stratId });
+            return DeleteDrawSuccess({ DrawId: action.DrawId });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -256,22 +201,22 @@ export class DrawEffect {
                 message: {
                   level: 'error',
                   messageKey: _('draw-service.error.delete'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
 
-  likeStrat$ = createEffect(() =>
+  likeDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LikeStrat),
+      ofType(LikeDraw),
       mergeMap((action) =>
-        this.stratService.likeStrat(action.strat._id).pipe(
+        this.drawService.likeDraw(action.Draw._id).pipe(
           map((like) => {
             this.store.dispatch(AddToUserLikes({ like }));
             this.store.dispatch(
@@ -279,11 +224,11 @@ export class DrawEffect {
                 message: {
                   level: 'success',
                   messageKey: _('draw-service.success.like'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return LikeStratSuccess({ strat: action.strat });
+            return LikeDrawSuccess({ Draw: action.Draw });
           }),
           catchError((error: HttpErrorResponse) => {
             let messageKey: string;
@@ -299,36 +244,34 @@ export class DrawEffect {
                 message: {
                   level: 'error',
                   messageKey,
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
 
-  dislikeStrat$ = createEffect(() =>
+  dislikeDraw$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DislikeStrat),
+      ofType(DislikeDraw),
       mergeMap((action) =>
-        this.stratService.dislikeStrat(action.strat._id).pipe(
+        this.drawService.dislikeDraw(action.draw._id).pipe(
           map(() => {
-            this.store.dispatch(
-              RemoveToUserLikes({ stratId: action.strat._id })
-            );
+            this.store.dispatch(RemoveToUserLikes({ drawId: action.draw._id }));
             this.store.dispatch(
               DisplayMessage({
                 message: {
                   level: 'success',
                   messageKey: _('draw-service.success.dislike'),
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return DislikeStratSuccess({ strat: action.strat });
+            return DislikeDrawSuccess({ draw: action.draw });
           }),
           catchError((error: HttpErrorResponse) => {
             let messageKey: string;
@@ -345,25 +288,14 @@ export class DrawEffect {
                 message: {
                   level: 'error',
                   messageKey,
-                  titleKey: this.STRAT_SERVICE_SUMMARY_KEY,
+                  titleKey: this.DRAW_SERVICE_SUMMARY_KEY,
                 },
               })
             );
-            return of(StratError({ error }));
+            return of(DrawError({ error }));
           })
         )
       )
     )
   );
-
-  private initOrLoadCanvas(layer: Layer) {
-    if (layer.canvas) {
-      return of(LoadCanvas({ canvas: layer.canvas }));
-    } else {
-      const floorImage = layer.tacticalMode
-        ? layer.floor.image_tactical
-        : layer.floor.image_realistic;
-      return of(InitCanvas({ floorImage: floorImage }));
-    }
-  }
 }

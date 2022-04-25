@@ -17,51 +17,51 @@ export class DrawService {
   private readonly controller = 'draws';
   constructor(private readonly http: HttpClient) {}
 
-  public getStratsPaginated(
+  public getDrawsPaginated(
     pageOptions: PageOptions,
-    stratFilter: AttributeFilter
+    drawFilter: AttributeFilter
   ) {
     return this.http.post<PaginateResult<Draw>>(
       `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`,
-      stratFilter
+      drawFilter
     );
   }
 
-  public saveStrat(strat: Draw): Observable<Draw> {
+  public saveDraw(draw: Draw): Observable<Draw> {
     return this.http.post<Draw>(
       `${environment.apiUrl}/${this.controller}`,
-      strat
+      draw
     );
   }
 
-  public deleteStrat(stratId: string): Observable<void> {
+  public deleteDraw(drawId: string): Observable<void> {
     return this.http.delete<void>(
-      `${environment.apiUrl}/${this.controller}/${stratId}`
+      `${environment.apiUrl}/${this.controller}/${drawId}`
     );
   }
 
-  public updateStrat(strat: Draw): Observable<Draw> {
+  public updateDraw(draw: Draw): Observable<Draw> {
     return this.http.patch<Draw>(
       `${environment.apiUrl}/${this.controller}`,
-      strat
+      draw
     );
   }
 
-  public loadStratById(stratId: string): Observable<Draw> {
+  public loadDrawById(drawId: string): Observable<Draw> {
     return this.http.get<Draw>(
-      `${environment.apiUrl}/${this.controller}/${stratId}`
+      `${environment.apiUrl}/${this.controller}/${drawId}`
     );
   }
 
-  public likeStrat(stratId: string): Observable<Like> {
+  public likeDraw(drawId: string): Observable<Like> {
     return this.http.get<Like>(
-      `${environment.apiUrl}/${this.controller}/like/${stratId}`
+      `${environment.apiUrl}/${this.controller}/like/${drawId}`
     );
   }
 
-  public dislikeStrat(stratId: string): Observable<string> {
+  public dislikeDraw(drawId: string): Observable<string> {
     return this.http.get<string>(
-      `${environment.apiUrl}/${this.controller}/dislike/${stratId}`
+      `${environment.apiUrl}/${this.controller}/dislike/${drawId}`
     );
   }
 }
