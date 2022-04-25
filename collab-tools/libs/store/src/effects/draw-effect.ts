@@ -45,11 +45,11 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(UpdateDrawInfosAndSave),
       switchMap(() => this.store.select(getDraw).pipe(take(1))),
-      mergeMap((Draw) => {
-        if (Draw._id) {
-          return of(UpdateDraw({ Draw: Draw }));
+      mergeMap((draw) => {
+        if (draw._id) {
+          return of(UpdateDraw({ draw }));
         } else {
-          return of(SaveDraw({ Draw: Draw }));
+          return of(SaveDraw({ draw }));
         }
       })
     )
@@ -91,8 +91,8 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(LoadDraw),
       mergeMap((action) =>
-        this.drawService.loadDrawById(action.DrawId).pipe(
-          map((Draw) => LoadDrawSuccess({ Draw })),
+        this.drawService.loadDrawById(action.drawId).pipe(
+          map((draw) => LoadDrawSuccess({ draw })),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
               DisplayMessage({
@@ -114,8 +114,8 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(SaveDraw),
       mergeMap((action) =>
-        this.drawService.saveDraw(action.Draw).pipe(
-          map((Draw) => {
+        this.drawService.saveDraw(action.draw).pipe(
+          map((draw) => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
@@ -125,7 +125,7 @@ export class DrawEffect {
                 },
               })
             );
-            return SaveDrawSuccess({ Draw });
+            return SaveDrawSuccess({ draw });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -148,8 +148,8 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(UpdateDraw),
       mergeMap((action) =>
-        this.drawService.updateDraw(action.Draw).pipe(
-          map((Draw) => {
+        this.drawService.updateDraw(action.draw).pipe(
+          map((draw) => {
             this.store.dispatch(
               DisplayMessage({
                 message: {
@@ -159,7 +159,7 @@ export class DrawEffect {
                 },
               })
             );
-            return UpdateDrawSuccess({ Draw });
+            return UpdateDrawSuccess({ draw });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -182,7 +182,7 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(DeleteDraw),
       mergeMap((action) =>
-        this.drawService.deleteDraw(action.DrawId).pipe(
+        this.drawService.deleteDraw(action.drawId).pipe(
           map(() => {
             this.store.dispatch(
               DisplayMessage({
@@ -193,7 +193,7 @@ export class DrawEffect {
                 },
               })
             );
-            return DeleteDrawSuccess({ DrawId: action.DrawId });
+            return DeleteDrawSuccess({ drawId: action.drawId });
           }),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(
@@ -216,7 +216,7 @@ export class DrawEffect {
     this.actions$.pipe(
       ofType(LikeDraw),
       mergeMap((action) =>
-        this.drawService.likeDraw(action.Draw._id).pipe(
+        this.drawService.likeDraw(action.draw._id).pipe(
           map((like) => {
             this.store.dispatch(AddToUserLikes({ like }));
             this.store.dispatch(
@@ -228,7 +228,7 @@ export class DrawEffect {
                 },
               })
             );
-            return LikeDrawSuccess({ Draw: action.Draw });
+            return LikeDrawSuccess({ draw: action.draw });
           }),
           catchError((error: HttpErrorResponse) => {
             let messageKey: string;

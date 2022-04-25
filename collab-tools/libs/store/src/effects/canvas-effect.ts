@@ -13,7 +13,7 @@ export class CanvasEffect {
     this.actions$.pipe(
       ofType(canvasActions.UpdateCanvas),
       mergeMap((action) =>
-        of(drawActions.UpdateLayerCanvas({ canvas: action.canvas }))
+        of(drawActions.UpdateDrawCanvas({ canvas: action.canvas }))
       )
     )
   );

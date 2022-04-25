@@ -4,7 +4,6 @@ export * from './draw.selector';
 export * from './drawer-action.selector';
 export * from './drawer-option.selector';
 export * from './gallery.selector';
-export * from './global.selector';
 export * from './notification.selector';
 export * from './room.selector';
 export * from './sidenav.selector';

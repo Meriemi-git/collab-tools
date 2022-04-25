@@ -178,16 +178,16 @@ export class RoomPanelComponent
     if (!this.isBroadcasting) {
       this.isBroadcasting = true;
       this.store
-        .select(getActiveLayer)
+        .select(getCanvas)
         .pipe(takeUntil(this.unsubscriber))
-        .subscribe((layer) => {
-          if (layer && layer.canvas) {
-            const objecList = layer.canvas['objects']
+        .subscribe((canvas) => {
+          if (canvas) {
+            const objecList = canvas['objects']
               .filter((object) => object.guid)
               .map((object) => object.guid);
             const details: CanvasDetails = {
-              width: layer.canvas['width'],
-              height: layer.canvas['height'],
+              width: canvas['width'],
+              height: canvas['height'],
               guids: objecList,
             };
             this.wsService.broadcastObjects(this.room._id, details);
@@ -238,16 +238,16 @@ export class RoomPanelComponent
     } else {
       if (memberStatus.status === WebsocketStatus.JOINED) {
         this.store
-          .select(getActiveLayer)
+          .select(getCanvas)
           .pipe(take(1))
-          .subscribe((layer) => {
-            if (layer && layer.canvas) {
-              const objecList: string[] = layer.canvas['objects']
+          .subscribe((canvas) => {
+            if (canvas) {
+              const objecList: string[] = canvas['objects']
                 .filter((object) => object.guid)
                 .map((object) => object.guid);
               const details: CanvasDetails = {
-                width: layer.canvas['width'],
-                height: layer.canvas['height'],
+                width: canvas['width'],
+                height: canvas['height'],
                 guids: objecList,
               };
               this.wsService.broadcastObjects(this.room._id, details);

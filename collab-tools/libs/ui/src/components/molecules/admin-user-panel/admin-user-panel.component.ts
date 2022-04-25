@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { AttributeFilter, PageOptions, UserDto } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   DeleteUser,
-  DrawEditorState,
   getAllUsers,
   getUserPageMetadata,
   GetUsersPaginated,
@@ -25,7 +25,7 @@ export class AdminUserPanelComponent
   public length: number;
   public rows = 2;
 
-  constructor(private readonly store: Store<DrawEditorState>) {
+  constructor(private readonly store: Store<CollabToolsState>) {
     super();
   }
 

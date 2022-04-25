@@ -1,5 +1,5 @@
-import { Action, createReducer, on } from '@ngrx/store';
 import { CanvasActions } from '@collab-tools/datamodel';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as actions from '../actions/canvas.action';
 import { CanvasState } from '../states/canvas.state';
 
@@ -7,7 +7,6 @@ export const initialstate: CanvasState = {
   history: [],
   canvas: null,
   historyIndex: -1,
-  floorImage: null,
   action: null,
   distantCanvas: null,
   objectsToAdd: [],
@@ -59,11 +58,6 @@ const drawingActionReducer = createReducer(
         ? state.history[state.historyIndex + 1]
         : state.canvas,
     action: CanvasActions.REDO_CANVAS,
-  })),
-  on(actions.SetFloorImage, (state, { floorImage }) => ({
-    ...state,
-    floorImage: floorImage,
-    action: CanvasActions.SET_FLOOR_IMAGE,
   })),
   on(actions.UpdateDistantCanvas, (state, { canvas }) => ({
     ...state,

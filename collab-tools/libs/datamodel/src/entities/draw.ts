@@ -18,6 +18,7 @@ export class Draw {
   mapName: string;
   isPublic: boolean;
   deprecated: boolean;
+  canvas: unknown;
 }
 
 export const DrawSchema = new mongoose.Schema({
@@ -37,6 +38,7 @@ export const DrawSchema = new mongoose.Schema({
   attachedImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
   isPublic: Boolean,
   deprecated: Boolean,
+  canvas: JSON,
 });
 
 DrawSchema.plugin(mongoosePaginate);

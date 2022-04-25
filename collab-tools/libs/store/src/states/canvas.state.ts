@@ -4,7 +4,6 @@ export interface CanvasState {
   history: unknown[];
   historyIndex: number;
   canvas: unknown;
-  floorImage: string;
   action: CanvasActions;
   distantCanvasWidth: number;
   distantCanvasHeight: number;

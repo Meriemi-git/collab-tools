@@ -10,7 +10,6 @@ import {
   Output,
 } from '@angular/core';
 import {
-  Agent,
   CanvasActions,
   DrawerAction,
   DrawerActionType,
@@ -25,16 +24,13 @@ import {
   AttachImage,
   ClearCanvasState,
   CollabToolsState,
-  DragAgentSuccess,
   DragImageSuccess,
   getAllOptions,
   getCanvasAndAction,
   getDistantCanavasDimensions,
-  getDraggedAgent,
   getDraggedImage,
   getDraggedImageLink,
   getDrawingMode,
-  getFloorImage,
   getObjectsToAdd,
   getObjectsToRemove,
   getSelectedAction,
@@ -92,7 +88,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
   private lastPosX = 0;
   private lastPosY = 0;
 
-  private draggingAgent: Agent;
   private draggingImage: Image;
   private CTRLPressed: boolean;
   private canvasLoading: boolean;
@@ -145,24 +140,12 @@ export class DrawerComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(getDraggedAgent)
-      .pipe(takeUntil(this.unsubscriber))
-      .subscribe((agent) => {
-        this.draggingAgent = agent;
-        if (agent) {
-          this.draggingImage = null;
-          this.draggingImageLink = null;
-        }
-      });
-
-    this.store
       .select(getDraggedImage)
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((image) => {
         this.draggingImage = image;
         if (image) {
           this.draggingImageLink = null;
-          this.draggingAgent = null;
         }
       });
 
@@ -173,7 +156,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
         this.draggingImageLink = link;
         if (link) {
           this.draggingImage = null;
-          this.draggingAgent = null;
         }
       });
 
@@ -245,31 +227,12 @@ export class DrawerComponent implements OnInit, OnDestroy {
     switch (action) {
       case CanvasActions.INIT_CANVAS:
         this.clear();
-        this.store
-          .select(getFloorImage)
-          .pipe(take(1))
-          .subscribe((floorImage) => {
-            this.drawFloorImage(floorImage);
-            this.store.dispatch(
-              SetDrawerAction({ action: new PolyLineAction() })
-            );
-          });
         break;
       case CanvasActions.LOAD_CANVAS:
         this.clear();
         this.setCanvasState(canvas);
         this.store.dispatch(SetDrawerAction({ action: new PolyLineAction() }));
-
         break;
-      case CanvasActions.SET_FLOOR_IMAGE:
-        this.store
-          .select(getFloorImage)
-          .pipe(take(1))
-          .subscribe((floorImage) => {
-            this.drawFloorImage(floorImage);
-          });
-        break;
-
       default:
         break;
     }
@@ -570,44 +533,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public drawFloorImage(floorImageName: string): any {
-    this.removePreviousFloorImageIfExists();
-    if (floorImageName) {
-      fabric.Image.fromURL(
-        this.ihs.getFloorImage(floorImageName),
-        function (image) {
-          const scale =
-            this.canvas.width < this.canvas.height
-              ? this.canvas.width / image.width
-              : this.canvas.height / image.height;
-          if (image._element) {
-            image.set({
-              top: this.canvas.getCenter().top,
-              left: this.canvas.getCenter().left,
-              originX: 'center',
-              originY: 'center',
-              scaleX: scale,
-              scaleY: scale,
-              selectable: false,
-              name: 'floor',
-              objectCaching: true,
-              guid: uuid.v4(),
-            });
-            this.canvas.add(image);
-            this.canvas.sendToBack(image);
-            this.canvas.renderAll();
-            this.updateCanvasState();
-          } else {
-            this.drawNoImage();
-          }
-        }.bind(this),
-        { crossOrigin: this.environment.host }
-      );
-    } else {
-      this.drawNoImage();
-    }
-  }
-
   private drawNoImage() {
     fabric.Image.fromURL(
       this.ihs.getNoImage(),
@@ -627,14 +552,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
       { crossOrigin: this.environment.host }
     );
     this.mapLoadingError.emit();
-  }
-
-  private removePreviousFloorImageIfExists() {
-    this.canvas.forEachObject((object: fabric.Object) => {
-      if (object.name === 'floor') {
-        this.canvas.remove(object);
-      }
-    });
   }
 
   private canvasStateIsLoaded(): void {
@@ -900,17 +817,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
   onwindowDrop(event: any) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.draggingAgent) {
-      const imageUrl = this.ihs.getAgentBadge(this.draggingAgent);
-      this.drawImage(
-        imageUrl,
-        this.draggingAgent._id,
-        event.layerX,
-        event.layerY
-      );
-      this.draggingAgent = null;
-      this.store.dispatch(DragAgentSuccess());
-    }
     if (this.draggingImage) {
       const imageUrl = this.ihs.getGalleryImage(this.draggingImage);
       this.drawImage(

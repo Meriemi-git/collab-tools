@@ -1,5 +1,5 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CanvasAndAction } from '@collab-tools/datamodel';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CanvasState } from '../states/canvas.state';
 
 const canvasFeature = createFeatureSelector<CanvasState>('CanvasState');
@@ -12,11 +12,6 @@ export const getCanvasState = createSelector(
 export const getCanvas = createSelector(
   getCanvasState,
   (state: CanvasState) => state.canvas
-);
-
-export const getFloorImage = createSelector(
-  getCanvasState,
-  (state: CanvasState) => state.floorImage
 );
 
 export const getDistantCanvas = createSelector(

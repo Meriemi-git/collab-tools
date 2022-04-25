@@ -48,7 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientXsrfModule.withOptions(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      regidrawionDrawegy: 'registerImmediately',
+      registrationStrategy: 'registerImmediately',
     }),
     TranslateModule.forRoot({
       loader: {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DrawerService } from '@collab-tools/services';
 import {
-  DrawEditorState,
+  CollabToolsState,
   FeedDrawerActions,
   FeedDrawerOptions,
   RefreshTokens,
@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 })
 export class AppInitService {
   constructor(
-    private readonly store: Store<DrawEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly drawingService: DrawerService
   ) {}
 

@@ -20,11 +20,6 @@ export const UpdateCanvas = createAction(
   props<{ canvas: unknown }>()
 );
 
-export const SetFloorImage = createAction(
-  '[Canvas] Set Floor Image',
-  props<{ floorImage: string }>()
-);
-
 export const UndoCanvasState = createAction('[Canvas] Undo canvas state');
 
 export const RedoCanvasState = createAction('[Canvas] Redo canvas state');

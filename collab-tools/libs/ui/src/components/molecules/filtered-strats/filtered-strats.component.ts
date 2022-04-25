@@ -13,9 +13,9 @@ import {
   UserDto,
 } from '@collab-tools/datamodel';
 import {
+  CollabToolsState,
   DeleteDraw,
   DislikeDraw,
-  DrawEditorState,
   FetchDrawMaps,
   getAllDrawMaps,
   getDrawPageMetadata,
@@ -54,7 +54,7 @@ export class FilteredDrawsComponent
   public drawFilter: AttributeFilter;
 
   constructor(
-    private readonly store: Store<DrawEditorState>,
+    private readonly store: Store<CollabToolsState>,
     private readonly confirmationService: ConfirmationService,
     public readonly router: Router
   ) {

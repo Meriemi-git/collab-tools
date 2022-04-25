@@ -24,27 +24,27 @@ export const DrawError = createAction(
 
 export const CreateDraw = createAction(
   '[Draw] Create Draw',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const SaveDraw = createAction(
   '[Draw] Saving Draw',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const SaveDrawSuccess = createAction(
   '[Draw] Save Draw Success',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const UpdateDraw = createAction(
   '[Draw] Updating Draw',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const UpdateDrawSuccess = createAction(
   '[Draw] Update Draw Success',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const DeleteDraw = createAction(
@@ -64,7 +64,7 @@ export const LoadDraw = createAction(
 
 export const LoadDrawSuccess = createAction(
   '[Draw] Load Draw Success',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const UpdateDrawInfos = createAction(
@@ -79,12 +79,12 @@ export const UpdateDrawInfosAndSave = createAction(
 
 export const LikeDraw = createAction(
   '[Draw]  Like Draw ',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const LikeDrawSuccess = createAction(
   '[Draw]  Like Draw Success',
-  props<{ Draw: Draw }>()
+  props<{ draw: Draw }>()
 );
 
 export const DislikeDraw = createAction(
@@ -100,6 +100,11 @@ export const DislikeDrawSuccess = createAction(
 export const AttachImage = createAction(
   '[Draw] Attach Image to Draw',
   props<{ imageId: string }>()
+);
+
+export const UpdateDrawCanvas = createAction(
+  '[Strats] Update draw canvas',
+  props<{ canvas: unknown }>()
 );
 
 export const UnAttachImage = createAction(

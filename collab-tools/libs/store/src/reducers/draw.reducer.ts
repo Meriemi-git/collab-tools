@@ -48,8 +48,8 @@ const DrawReducer = createReducer(
     ...state,
     error: null,
   })),
-  on(actions.SaveDrawSuccess, (state, { Draw }) => {
-    return adapter.addOne(Draw, {
+  on(actions.SaveDrawSuccess, (state, { draw }) => {
+    return adapter.addOne(draw, {
       ...state,
       error: null,
       Draw: Draw,
@@ -63,18 +63,18 @@ const DrawReducer = createReducer(
     ...state,
     error: null,
   })),
-  on(actions.UpdateDrawSuccess, (state, { Draw }) => {
+  on(actions.UpdateDrawSuccess, (state, { draw }) => {
     return adapter.updateOne(
-      { id: Draw._id, changes: Draw },
+      { id: draw._id, changes: draw },
       {
         ...state,
-        Draw: Draw,
+        draw,
         error: null,
       }
     );
   }),
-  on(actions.DeleteDrawSuccess, (state, { DrawId }) => {
-    return adapter.removeOne(DrawId, {
+  on(actions.DeleteDrawSuccess, (state, { drawId }) => {
+    return adapter.removeOne(drawId, {
       ...state,
       Draw: null,
       error: null,
@@ -84,25 +84,25 @@ const DrawReducer = createReducer(
     ...state,
     error: null,
   })),
-  on(actions.LoadDrawSuccess, (state, { Draw }) => ({
+  on(actions.LoadDrawSuccess, (state, { draw }) => ({
     ...state,
-    draw: Draw,
+    draw,
     error: null,
   })),
-  on(actions.CreateDraw, (state, { Draw }) => ({
+  on(actions.CreateDraw, (state, { draw }) => ({
     ...initialstate,
-    draw: Draw,
+    draw,
   })),
   on(actions.LikeDraw, (state) => ({
     ...state,
     error: null,
   })),
-  on(actions.LikeDrawSuccess, (state, { Draw }) => {
+  on(actions.LikeDrawSuccess, (state, { draw }) => {
     return adapter.updateOne(
-      { id: Draw._id, changes: { votes: Draw.votes + 1 } },
+      { id: draw._id, changes: { votes: draw.votes + 1 } },
       {
         ...state,
-        Draw: Draw,
+        draw,
         error: null,
       }
     );
@@ -142,6 +142,13 @@ const DrawReducer = createReducer(
       },
     })
   ),
+  on(actions.UpdateDrawCanvas, (state, { canvas }) => ({
+    ...state,
+    draw: {
+      ...state.draw,
+      canvas: canvas,
+    },
+  })),
   on(actions.AttachImage, (state, { imageId }) => ({
     ...state,
     draw: {
