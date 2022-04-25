@@ -32,7 +32,7 @@ export const SaveDraw = createAction(
   props<{ Draw: Draw }>()
 );
 
-export const SaveDrawsuccess = createAction(
+export const SaveDrawSuccess = createAction(
   '[Draw] Save Draw Success',
   props<{ Draw: Draw }>()
 );
@@ -42,7 +42,7 @@ export const UpdateDraw = createAction(
   props<{ Draw: Draw }>()
 );
 
-export const UpdateDrawsuccess = createAction(
+export const UpdateDrawSuccess = createAction(
   '[Draw] Update Draw Success',
   props<{ Draw: Draw }>()
 );
@@ -52,7 +52,7 @@ export const DeleteDraw = createAction(
   props<{ DrawId: string }>()
 );
 
-export const DeleteDrawsuccess = createAction(
+export const DeleteDrawSuccess = createAction(
   '[Draw] Delete Draw Success',
   props<{ DrawId: string }>()
 );
@@ -62,14 +62,9 @@ export const LoadDraw = createAction(
   props<{ DrawId: string }>()
 );
 
-export const LoadDrawsuccess = createAction(
-  '[Draw] Load Draw success',
+export const LoadDrawSuccess = createAction(
+  '[Draw] Load Draw Success',
   props<{ Draw: Draw }>()
-);
-
-export const UpdateDrawLayer = createAction(
-  '[Draw] Update Draw layer',
-  props<{ layer: Layer }>()
 );
 
 export const UpdateDrawInfos = createAction(
@@ -87,7 +82,7 @@ export const LikeDraw = createAction(
   props<{ Draw: Draw }>()
 );
 
-export const LikeDrawsuccess = createAction(
+export const LikeDrawSuccess = createAction(
   '[Draw]  Like Draw Success',
   props<{ Draw: Draw }>()
 );
@@ -97,8 +92,8 @@ export const DislikeDraw = createAction(
   props<{ Draw: Draw }>()
 );
 
-export const DislikeDrawsuccess = createAction(
-  '[Draw]  Dislike Draw success',
+export const DislikeDrawSuccess = createAction(
+  '[Draw]  Dislike Draw Success',
   props<{ Draw: Draw }>()
 );
 
@@ -112,25 +107,6 @@ export const UnAttachImage = createAction(
   props<{ imageId: string }>()
 );
 
-export const SetActiveLayer = createAction(
-  '[Draw] Set Active layer',
-  props<{ layer: Layer }>()
-);
-
-export const SetFirstLayerActive = createAction(
-  '[Draw] Set First layer Active'
-);
-
-export const SetTacticalMode = createAction(
-  '[Draw] Set Tactical Mode',
-  props<{ tacticalMode: boolean }>()
-);
-
-export const UpdateLayerCanvas = createAction(
-  '[Draw] Update layer canvas',
-  props<{ canvas: unknown }>()
-);
-
 export const DiscardCurrentDraw = createAction('[Draw] Discard current Draw');
 
-export const ClearDrawstate = createAction('[Draw] Clear Draw state');
+export const ClearDrawState = createAction('[Draw] Clear Draw state');

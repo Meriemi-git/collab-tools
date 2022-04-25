@@ -142,16 +142,6 @@ const DrawReducer = createReducer(
       },
     })
   ),
-  on(actions.UpdateDrawLayer, (state, { layer }) => ({
-    ...state,
-    draw: {
-      ...state.draw,
-      layers: [
-        ...state.draw?.layers.filter((l) => l.floor._id !== layer.floor._id),
-        layer,
-      ],
-    },
-  })),
   on(actions.AttachImage, (state, { imageId }) => ({
     ...state,
     draw: {
@@ -164,46 +154,6 @@ const DrawReducer = createReducer(
     draw: {
       ...state.draw,
       attachedImages: removeImage(state.draw.attachedImages, imageId),
-    },
-  })),
-  on(actions.SetActiveLayer, (state, { layer }) => ({
-    ...state,
-    activeLayer: layer,
-  })),
-  on(actions.SetFirstLayerActive, (state) => ({
-    ...state,
-    activeLayer: state.draw.layers[0],
-  })),
-  on(actions.SetTacticalMode, (state, { tacticalMode }) => ({
-    ...state,
-    activeLayer: {
-      ...state.activeLayer,
-      tacticalMode: tacticalMode,
-    },
-    draw: {
-      ...state.draw,
-      layers: updateRightLayerAttribute(
-        state.draw?.layers,
-        state.activeLayer,
-        'tacticalMode',
-        tacticalMode
-      ),
-    },
-  })),
-  on(actions.UpdateLayerCanvas, (state, { canvas }) => ({
-    ...state,
-    activeLayer: {
-      ...state.activeLayer,
-      canvas: canvas,
-    },
-    draw: {
-      ...state.draw,
-      layers: updateRightLayerAttribute(
-        state.draw?.layers,
-        state.activeLayer,
-        'canvas',
-        canvas
-      ),
     },
   })),
   on(actions.DiscardCurrentDraw, (state) => ({
@@ -231,23 +181,6 @@ function removeImage(attachedImages: string[], imageId: string): string[] {
   if (copy.some((id) => id === imageId)) {
     return copy.filter((id) => id !== imageId);
   }
-}
-
-function updateRightLayerAttribute(
-  layers: Layer[],
-  activeLayer: Layer,
-  attributeName: string,
-  attributeValue: unknown
-): Layer[] {
-  return layers?.map((layer) => {
-    if (layer.floor._id === activeLayer.floor._id) {
-      const updatedLayer = Object.assign({}, layer);
-      updatedLayer[attributeName] = attributeValue;
-      return updatedLayer;
-    } else {
-      return layer;
-    }
-  });
 }
 
 export function reducer(state: DrawState | undefined, action: Action) {
