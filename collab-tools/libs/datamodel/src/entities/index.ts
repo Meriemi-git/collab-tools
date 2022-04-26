@@ -2,7 +2,6 @@ export * from './chat';
 export * from './chat-message';
 export * from './draw';
 export * from './image';
-export * from './like';
 export * from './notification';
 export * from './refresh-token';
 export * from './room';

@@ -153,7 +153,6 @@ export class EditorComponent
           data: {
             name: this.currentDraw.name,
             description: this.currentDraw.description,
-            isPublic: this.currentDraw.isPublic,
           },
           styleClass: 'draw-saving-dialog',
           baseZIndex: 10000,

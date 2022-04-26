@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  AttributeFilter,
   Language,
-  Like,
   PageOptions,
   PaginateResult,
   PasswordChangeWrapper,
@@ -21,19 +19,9 @@ export class UserService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getUsersPaginated(
-    pageOptions: PageOptions,
-    userFilters: AttributeFilter
-  ) {
-    return this.http.post<PaginateResult<UserDto>>(
-      `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`,
-      userFilters
-    );
-  }
-
-  public getUsersLikes(): Observable<Like[]> {
-    return this.http.get<Like[]>(
-      `${environment.apiUrl}/${this.controller}/likes`
+  public getUsersPaginated(pageOptions: PageOptions) {
+    return this.http.get<PaginateResult<UserDto>>(
+      `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`
     );
   }
 

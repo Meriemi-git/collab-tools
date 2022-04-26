@@ -29,11 +29,6 @@ export const getUserLocale = createSelector(
   (state: UserState) => state.userInfos?.locale
 );
 
-export const getUserLikes = createSelector(
-  userState,
-  (state: UserState) => state.likes
-);
-
 export const getSuggestions = createSelector(
   userState,
   (state: UserState) => state.suggestions

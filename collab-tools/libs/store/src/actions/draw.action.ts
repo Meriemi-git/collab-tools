@@ -1,15 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  AttributeFilter,
-  Draw,
-  PageOptions,
-  PaginateResult,
-} from '@collab-tools/datamodel';
+import { Draw, PageOptions, PaginateResult } from '@collab-tools/datamodel';
 import { createAction, props } from '@ngrx/store';
 
 export const GetDrawsPaginated = createAction(
   '[Draw] Getting My Draw page',
-  props<{ pageOptions: PageOptions; DrawFilter: AttributeFilter }>()
+  props<{ pageOptions: PageOptions }>()
 );
 
 export const GetDrawsPaginatedSuccess = createAction(
@@ -75,26 +70,6 @@ export const UpdateDrawInfos = createAction(
 export const UpdateDrawInfosAndSave = createAction(
   '[Draw] Update Draw Infos and Save',
   props<{ name: string; description: string; isPublic: boolean }>()
-);
-
-export const LikeDraw = createAction(
-  '[Draw]  Like Draw ',
-  props<{ draw: Draw }>()
-);
-
-export const LikeDrawSuccess = createAction(
-  '[Draw]  Like Draw Success',
-  props<{ draw: Draw }>()
-);
-
-export const DislikeDraw = createAction(
-  '[Draw]  Dislike Draw',
-  props<{ draw: Draw }>()
-);
-
-export const DislikeDrawSuccess = createAction(
-  '[Draw]  Dislike Draw Success',
-  props<{ draw: Draw }>()
 );
 
 export const AttachImage = createAction(

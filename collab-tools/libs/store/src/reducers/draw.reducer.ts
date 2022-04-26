@@ -93,41 +93,12 @@ const DrawReducer = createReducer(
     ...initialstate,
     draw,
   })),
-  on(actions.LikeDraw, (state) => ({
-    ...state,
-    error: null,
-  })),
-  on(actions.LikeDrawSuccess, (state, { draw }) => {
-    return adapter.updateOne(
-      { id: draw._id, changes: { votes: draw.votes + 1 } },
-      {
-        ...state,
-        draw,
-        error: null,
-      }
-    );
-  }),
-  on(actions.DislikeDraw, (state) => ({
-    ...state,
-    error: null,
-  })),
-  on(actions.DislikeDrawSuccess, (state, { draw: Draw }) => {
-    return adapter.updateOne(
-      { id: Draw._id, changes: { votes: Draw.votes - 1 } },
-      {
-        ...state,
-        Draw: Draw,
-        error: null,
-      }
-    );
-  }),
-  on(actions.UpdateDrawInfos, (state, { name, description, isPublic }) => ({
+  on(actions.UpdateDrawInfos, (state, { name, description }) => ({
     ...state,
     draw: {
       ...state.draw,
       name: name,
       description: description,
-      isPublic: isPublic,
     },
   })),
   on(
@@ -149,20 +120,6 @@ const DrawReducer = createReducer(
       canvas: canvas,
     },
   })),
-  on(actions.AttachImage, (state, { imageId }) => ({
-    ...state,
-    draw: {
-      ...state.draw,
-      attachedImages: addImage(state.draw.attachedImages, imageId),
-    },
-  })),
-  on(actions.UnAttachImage, (state, { imageId }) => ({
-    ...state,
-    draw: {
-      ...state.draw,
-      attachedImages: removeImage(state.draw.attachedImages, imageId),
-    },
-  })),
   on(actions.DiscardCurrentDraw, (state) => ({
     ...state,
     draw: null,
@@ -174,21 +131,6 @@ const DrawReducer = createReducer(
     layer: null,
   }))
 );
-
-function addImage(attachedImages: string[], imageId: string): string[] {
-  const copy = Object.assign([], attachedImages);
-  if (!copy.some((id) => id === imageId)) {
-    copy.push(imageId);
-  }
-  return copy;
-}
-
-function removeImage(attachedImages: string[], imageId: string): string[] {
-  const copy = Object.assign([], attachedImages);
-  if (copy.some((id) => id === imageId)) {
-    return copy.filter((id) => id !== imageId);
-  }
-}
 
 export function reducer(state: DrawState | undefined, action: Action) {
   return DrawReducer(state, action);

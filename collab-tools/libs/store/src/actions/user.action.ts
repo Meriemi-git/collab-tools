@@ -1,8 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  AttributeFilter,
   Language,
-  Like,
   PageOptions,
   PaginateResult,
   PasswordChangeWrapper,
@@ -12,7 +10,7 @@ import { createAction, props } from '@ngrx/store';
 
 export const GetUsersPaginated = createAction(
   '[User] Get paginated users',
-  props<{ pageOptions: PageOptions; userFilters: AttributeFilter }>()
+  props<{ pageOptions: PageOptions }>()
 );
 
 export const GetUsersPaginatedSuccess = createAction(
@@ -85,16 +83,6 @@ export const SendConfirmationEmailSuccess = createAction(
   props<{ userInfos: UserDto }>()
 );
 
-export const AddToUserLikes = createAction(
-  '[User] Add to liked Draw',
-  props<{ like: Like }>()
-);
-
-export const RemoveToUserLikes = createAction(
-  '[User]  Remove to liked Draw',
-  props<{ drawId: string }>()
-);
-
 export const UpdateUser = createAction(
   '[User] Update user',
   props<{ updated: UserDto }>()
@@ -149,13 +137,6 @@ export const ConfirmEmail = createAction(
 );
 
 export const ConfirmEmailSuccess = createAction('[Auth] ConfirmEmail Success');
-
-export const GetUserLikes = createAction('[User] Get user likes');
-
-export const GetUserLikesSuccess = createAction(
-  '[User] Get user likes success',
-  props<{ likes: Like[] }>()
-);
 
 export const SearchUser = createAction(
   '[User] Search user',

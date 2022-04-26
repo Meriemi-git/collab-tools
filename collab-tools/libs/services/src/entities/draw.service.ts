@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  AttributeFilter,
-  Draw,
-  Like,
-  PageOptions,
-  PaginateResult,
-} from '@collab-tools/datamodel';
+import { Draw, PageOptions, PaginateResult } from '@collab-tools/datamodel';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -17,13 +11,9 @@ export class DrawService {
   private readonly controller = 'draws';
   constructor(private readonly http: HttpClient) {}
 
-  public getDrawsPaginated(
-    pageOptions: PageOptions,
-    drawFilter: AttributeFilter
-  ) {
-    return this.http.post<PaginateResult<Draw>>(
-      `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`,
-      drawFilter
+  public getDrawsPaginated(pageOptions: PageOptions) {
+    return this.http.get<PaginateResult<Draw>>(
+      `${environment.apiUrl}/${this.controller}/paginated?limit=${pageOptions.limit}&page=${pageOptions.page}`
     );
   }
 
@@ -50,18 +40,6 @@ export class DrawService {
   public loadDrawById(drawId: string): Observable<Draw> {
     return this.http.get<Draw>(
       `${environment.apiUrl}/${this.controller}/${drawId}`
-    );
-  }
-
-  public likeDraw(drawId: string): Observable<Like> {
-    return this.http.get<Like>(
-      `${environment.apiUrl}/${this.controller}/like/${drawId}`
-    );
-  }
-
-  public dislikeDraw(drawId: string): Observable<string> {
-    return this.http.get<string>(
-      `${environment.apiUrl}/${this.controller}/dislike/${drawId}`
     );
   }
 }

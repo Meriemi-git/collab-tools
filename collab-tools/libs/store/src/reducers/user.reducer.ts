@@ -1,6 +1,6 @@
+import { UserDto } from '@collab-tools/datamodel';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import { UserDto } from '@collab-tools/datamodel';
 import * as actions from '../actions/user.action';
 import { UserState } from '../states/user.state';
 
@@ -138,14 +138,6 @@ const authReducer = createReducer(
     ...state,
     error: error,
   })),
-  on(actions.AddToUserLikes, (state, { like }) => ({
-    ...state,
-    likes: [...state.likes, like],
-  })),
-  on(actions.RemoveToUserLikes, (state, { drawId }) => ({
-    ...state,
-    likes: state.likes.filter((l) => l.drawId !== drawId),
-  })),
   on(actions.UpdateUserSuccess, (state, { updated }) => {
     return adapter.updateOne(
       { id: updated._id, changes: updated },
@@ -155,10 +147,6 @@ const authReducer = createReducer(
   on(actions.DeleteUserSuccess, (state, { userId }) => {
     return adapter.removeOne(userId, { ...state, error: null });
   }),
-  on(actions.GetUserLikesSuccess, (state, { likes }) => ({
-    ...state,
-    likes: likes,
-  })),
   on(actions.SearchUserSuccess, (state, { suggestions }) => ({
     ...state,
     suggestions: suggestions,

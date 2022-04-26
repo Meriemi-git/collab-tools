@@ -29,7 +29,7 @@ export class DrawController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @Post('paginated')
+  @Get('paginated')
   public async getDrawsPaginated(
     @Query('limit') limit: number,
     @Query('page') page: number,

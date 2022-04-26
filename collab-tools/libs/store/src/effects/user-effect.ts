@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { UserService } from '@collab-tools/services';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { UserService } from '@collab-tools/services';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DisplayMessage } from '../actions/notification.action';
@@ -28,38 +28,22 @@ export class UserEffect {
     this.actions$.pipe(
       ofType(actions.GetUsersPaginated),
       mergeMap((action) =>
-        this.userService
-          .getUsersPaginated(action.pageOptions, action.userFilters)
-          .pipe(
-            map((pageResults) =>
-              actions.GetUsersPaginatedSuccess({ pageResults })
-            ),
-            catchError((error: HttpErrorResponse) => {
-              this.store.dispatch(
-                DisplayMessage({
-                  message: {
-                    level: 'error',
-                    messageKey: _('gadget-service.error.get-all'),
-                    titleKey: this.USER_SERVICE_SUMMARY,
-                  },
-                })
-              );
-              return of(actions.UserError({ error }));
-            })
-          )
-      )
-    )
-  );
-
-  getUserLikes$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.GetUserLikes),
-      mergeMap(() =>
-        this.userService.getUsersLikes().pipe(
-          map((likes) => actions.GetUserLikesSuccess({ likes })),
-          catchError((error: HttpErrorResponse) =>
-            of(actions.UserError({ error }))
-          )
+        this.userService.getUsersPaginated(action.pageOptions).pipe(
+          map((pageResults) =>
+            actions.GetUsersPaginatedSuccess({ pageResults })
+          ),
+          catchError((error: HttpErrorResponse) => {
+            this.store.dispatch(
+              DisplayMessage({
+                message: {
+                  level: 'error',
+                  messageKey: _('gadget-service.error.get-all'),
+                  titleKey: this.USER_SERVICE_SUMMARY,
+                },
+              })
+            );
+            return of(actions.UserError({ error }));
+          })
         )
       )
     )

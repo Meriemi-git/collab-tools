@@ -1,4 +1,3 @@
-export * from './attribute-filter';
 export * from './filter-metadata';
 export * from './page-event';
 export * from './page-metadata';
