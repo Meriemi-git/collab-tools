@@ -12,9 +12,28 @@
       "firefoxExecutable": "C:\\Program Files\\Firefox Developer Edition\\firefox.exe",
       "pathMappings": [
         {
-          "url": "http://localhost:4200",
-          "path": "${workspaceFolder}"
+          "url": "webpack:///apps",
+          "path": "${workspaceFolder}/apps"
+        },
+        {
+          "url": "webpack:///apps",
+          "path": "${workspaceFolder}/apps"
+        },
+        {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
+          "url": "webpack:///apps",
+          "path": "${workspaceFolder}/apps"
+        },
+        {
+          "url": "webpack:///src",
+          "path": "${workspaceFolder}/src"
         }
+      ],
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**"
       ]
     },
     {
@@ -29,7 +48,7 @@
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
-      ],
+      ]
     }
   ]
 }

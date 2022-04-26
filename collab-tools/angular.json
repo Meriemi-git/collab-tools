@@ -186,7 +186,13 @@
                   "replace": "apps/frontend/src/environments/environment.ts",
                   "with": "apps/frontend/src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": true,
+              "sourceMap": false,
+              "namedChunks": true
             },
             "development": {
               "buildOptimizer": false,
@@ -197,7 +203,7 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@nrwl/angular:webpack-server",

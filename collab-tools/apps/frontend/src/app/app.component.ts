@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
+import { getUserLocale, UserState } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { getUserLocale, UserState } from '@collab-tools/store';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { PrimeNGConfig } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 

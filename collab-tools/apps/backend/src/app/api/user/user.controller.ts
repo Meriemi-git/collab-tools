@@ -1,5 +1,4 @@
 import {
-  AttributeFilter,
   AuthInfos,
   PaginateResult,
   PasswordChangeWrapper,
@@ -42,19 +41,16 @@ export class UserController {
   ) {}
 
   @UseGuards(AuthGuard(Strategies.AdminStrategy))
-  @Post('paginated')
+  @Get('paginated')
   public async getUsersPaginated(
     @Query('limit') limit: number,
     @Query('page') page: number,
-    @Body() userFilters: AttributeFilter,
     @Res() res: Response
   ): Promise<PaginateResult<UserDto>> {
-    return this.userService
-      .findUsersPaginated(limit, page, userFilters)
-      .then((results) => {
-        res.status(HttpStatus.OK).send(results);
-        return Promise.resolve(results);
-      });
+    return this.userService.findUsersPaginated(limit, page).then((results) => {
+      res.status(HttpStatus.OK).send(results);
+      return Promise.resolve(results);
+    });
   }
 
   @UseGuards(AuthGuard(Strategies.AdminStrategy))
@@ -111,23 +107,6 @@ export class UserController {
     return this.userService.findUserById(userId).then((user) => {
       response.status(HttpStatus.OK).send(this.userService.toDTO(user));
       return Promise.resolve(this.userService.toDTO(user));
-    });
-  }
-
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
-  @Get('likes')
-  public async getLikes(
-    @Req() request: Request,
-    @Res() response: Response
-  ): Promise<any> {
-    const userId: string = this.jwtTokenService.getUserIdFromRequest(request);
-    return this.userService.getLikesForUser(userId).then((likes) => {
-      if (likes) {
-        response.status(HttpStatus.OK).send(likes);
-      } else {
-        response.status(HttpStatus.FORBIDDEN).send();
-      }
-      return Promise.resolve();
     });
   }
 

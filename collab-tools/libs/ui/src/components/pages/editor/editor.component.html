@@ -1,23 +1,4 @@
-<button
-  pButton
-  pRipple
-  type="button"
-  [icon]="headingToolbarIsOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
-  class="p-button p-button-rounded heading-toolbar-button"
-  (click)="headingToolbarIsOpen = !headingToolbarIsOpen"
-  [ngStyle]="{ top: headingToolbarIsOpen ? '19em' : '5em' }"
-></button>
-
-<p-sidebar
-  [(visible)]="headingToolbarIsOpen"
-  position="top"
-  (onHide)="headingToolbarIsOpen = false"
-  (onShow)="headingToolbarIsOpen = true"
-  [showCloseIcon]="false"
-  [modal]="false"
->
-  <span class="draw-title">{{ currentDraw?.name }}</span>
-</p-sidebar>
+<span class="draw-title">{{ currentDraw?.name }}</span>
 <div class="icons-left" *ngIf="!isReadOnly" (wheel)="stopWheelEvent($event)">
   <div (click)="openAgentsPanel()">
     <button
@@ -111,7 +92,7 @@
 >
   <collab-tools-drawing-toolbar
     class="collab-tools-drawing-toolbar"
-    [isConnected]="userInfos !== null"
+    [isConfirmed]="$userConfirmed | async"
     [canBeDeleted]="currentDraw?._id !== null"
     (selectedAction)="onSelectToolbarAction($event)"
     (wheel)="stopWheelEvent($event)"

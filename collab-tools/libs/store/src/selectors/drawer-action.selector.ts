@@ -2,9 +2,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { selectAll } from '../reducers/drawer-action.reducer';
 import { DrawerActionState } from '../states/drawer-action.state';
 
-const drawingActionFeature = createFeatureSelector<DrawerActionState>(
-  'DrawerActionState'
-);
+const drawingActionFeature =
+  createFeatureSelector<DrawerActionState>('DrawerActionState');
 
 export const getAllActions = createSelector(drawingActionFeature, selectAll);
 

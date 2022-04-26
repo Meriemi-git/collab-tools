@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
 import {
@@ -15,7 +15,7 @@ import {
   DeleteDraw,
   getDraw,
   getDrawingMode,
-  getUserInfos,
+  isConfirmed,
   SetDrawerAction,
   SetDrawingMode,
   showAgentsPanel,
@@ -47,6 +47,8 @@ export class EditorComponent
   implements OnInit, OnDestroy, ComponentCanDeactivate
 {
   public $drawingMode: Observable<DrawingMode>;
+  public $userConfirmed: Observable<boolean>;
+
   public currentDraw: Draw;
   public userInfos: UserDto;
   public drawingToolbarIsOpen = false;
@@ -62,8 +64,7 @@ export class EditorComponent
     private readonly store: Store<CollabToolsState>,
     private readonly router: Router,
     private readonly confirmationService: ConfirmationService,
-    private readonly dialogService: DialogService,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly dialogService: DialogService
   ) {
     super();
   }
@@ -106,33 +107,10 @@ export class EditorComponent
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((draw) => {
         this.currentDraw = draw;
-        if (draw.userId) {
-          this.store
-            .select(getUserInfos)
-            .pipe(takeUntil(this.unsubscriber))
-            .subscribe((userInfos) => {
-              this.userInfos = userInfos;
-              if (userInfos && draw.userId === userInfos._id) {
-                this.store.dispatch(
-                  SetDrawingMode({ drawingMode: DrawingMode.Drawing })
-                );
-              } else {
-                SetDrawingMode({ drawingMode: DrawingMode.ReadOnly });
-              }
-            });
-        } else {
-          this.store.dispatch(
-            SetDrawingMode({ drawingMode: DrawingMode.Drawing })
-          );
-        }
       });
-
-    this.$drawingMode
-      .pipe(takeUntil(this.unsubscriber))
-      .subscribe((drawingMode) => {
-        this.isReadOnly = drawingMode === DrawingMode.ReadOnly;
-        this.changeDetector.detectChanges();
-      });
+    this.$userConfirmed = this.store
+      .select(isConfirmed)
+      .pipe(takeUntil(this.unsubscriber));
   }
 
   private askForDeleteDraw(draw: Draw): void {

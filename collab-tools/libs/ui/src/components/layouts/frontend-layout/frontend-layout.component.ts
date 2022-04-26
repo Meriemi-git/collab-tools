@@ -27,6 +27,7 @@ import {
   getNumberOfNotifs,
   getUserInfos,
   GetWebsocketAccess,
+  isConfirmed,
 } from '@collab-tools/store';
 import { NotificationWebSocketService } from '@collab-tools/websocket';
 import { Store } from '@ngrx/store';
@@ -88,11 +89,11 @@ export class FrontendLayoutComponent
             });
         }
       });
-
-    this.$userInfos
+    this.store
+      .select(isConfirmed)
       .pipe(takeUntil(this.unsubscriber))
-      .subscribe((userInfos) => {
-        if (userInfos) {
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
           this.store
             .select(canConnectToWebsockets)
             .pipe(takeUntil(this.unsubscriber))

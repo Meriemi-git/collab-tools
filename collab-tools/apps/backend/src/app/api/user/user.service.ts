@@ -1,8 +1,5 @@
 import {
-  AttributeFilter,
   AuthInfos,
-  Like,
-  LikeDocument,
   MailConfirmationToken,
   PaginateResult,
   PasswordChangeWrapper,
@@ -26,7 +23,6 @@ import * as bcrypt from 'bcryptjs';
 import { Request } from 'express';
 import { FilterQuery, PaginateModel, PaginateOptions } from 'mongoose';
 import { v4 as uuid } from 'uuid';
-import { FiltersService } from '../shared/filters.service';
 import { JwtTokenService } from '../shared/jwt-token.service';
 
 @Injectable()
@@ -37,23 +33,19 @@ export class UserService {
   constructor(
     @InjectModel('User')
     private readonly userModel: PaginateModel<UserDocument>,
-    @InjectModel('Like')
-    private readonly likeModel: PaginateModel<LikeDocument>,
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
-    private readonly filtersService: FiltersService,
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
   public findUsersPaginated(
     limit: number,
-    page: number,
-    userFilter: AttributeFilter
+    page: number
   ): Promise<PaginateResult<UserDto>> {
     const options: PaginateOptions = {
       limit: limit,
       page: page,
-      sort: { [userFilter.sortedBy]: userFilter.order },
+      sort: { username: 'asc' },
       select: {
         _id: 1,
         username: 1,
@@ -65,15 +57,6 @@ export class UserService {
       },
     };
     const query: FilterQuery<UserDocument> = {};
-    userFilter.filters.forEach((filterMetadata) => {
-      if (!filterMetadata.aggregated) {
-        this.filtersService.applyFilterToQuery(
-          query,
-          filterMetadata,
-          this.userModel.schema
-        );
-      }
-    });
     return this.userModel.paginate(query, options);
   }
 
@@ -89,11 +72,6 @@ export class UserService {
         .exec()
     ).map((users) => users.username);
   }
-
-  public async getLikesForUser(userId: string): Promise<Like[]> {
-    return this.likeModel.find({ userId: userId }).exec();
-  }
-
   public async updateUserAndDisconnect(user: UserDto): Promise<UserDto> {
     return this.userModel
       .findByIdAndUpdate(user._id, user, {

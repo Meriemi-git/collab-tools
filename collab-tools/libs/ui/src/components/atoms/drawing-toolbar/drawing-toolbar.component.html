@@ -39,7 +39,7 @@
       (click)="selectedAction.emit(DrawingActions.CLEAR_STRAT)"
     ></button>
   </div>
-  <div class="m-2" *ngIf="isConnected">
+  <div class="m-2" *ngIf="isConfirmed">
     <button
       pButton
       class="p-button-rounded p-button-primary"
@@ -59,7 +59,7 @@
       (click)="selectedAction.emit(DrawingActions.SHOW_INFOS)"
     ></button>
   </div>
-  <div class="m-2" *ngIf="isConnected">
+  <div class="m-2" *ngIf="isConfirmed">
     <button
       pButton
       class="p-button-rounded p-button-primary"
@@ -79,7 +79,7 @@
       (click)="selectedAction.emit(DrawingActions.DOWNLOAD_STRAT)"
     ></button>
   </div>
-  <div class="m-2" *ngIf="isConnected && canBeDeleted">
+  <div class="m-2" *ngIf="isConfirmed && canBeDeleted">
     <button
       pButton
       class="p-button-rounded p-button-primary"

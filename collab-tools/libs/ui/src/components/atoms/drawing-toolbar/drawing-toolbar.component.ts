@@ -6,7 +6,7 @@ import { DrawingMode, DrawingToolbarAction } from '@collab-tools/datamodel';
   templateUrl: './drawing-toolbar.component.html',
 })
 export class DrawingToolbarComponent {
-  @Input() isConnected: boolean;
+  @Input() isConfirmed: boolean;
   @Input() canBeDeleted: boolean;
   @Output() selectedAction = new EventEmitter<DrawingToolbarAction>();
 

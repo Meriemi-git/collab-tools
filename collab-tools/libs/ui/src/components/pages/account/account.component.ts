@@ -12,6 +12,7 @@ import {
   ChangePassword,
   CollabToolsState,
   getAuthError,
+  GetUserInfos,
   getUserInfos,
   SendConfirmationEmail,
 } from '@collab-tools/store';
@@ -41,6 +42,7 @@ export class AccountComponent
     this.$httpError = this.store
       .select(getAuthError)
       .pipe(takeUntil(this.unsubscriber));
+    this.store.dispatch(GetUserInfos());
   }
 
   onPasswordChanged(passwords: PasswordChangeWrapper) {

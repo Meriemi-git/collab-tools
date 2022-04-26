@@ -113,7 +113,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initCanvas();
     this.initializeCanvasEvents();
-
     this.store
       .select(getAllOptions)
       .pipe(takeUntil(this.unsubscriber))
@@ -221,6 +220,50 @@ export class DrawerComponent implements OnInit, OnDestroy {
           );
         }
       });
+    this.store.dispatch(SetDrawingMode({ drawingMode: DrawingMode.Drawing }));
+  }
+
+  private initCanvas() {
+    this.isDown = false;
+    fabric.Canvas.prototype.toDatalessJSON = (function (toDatalessJSON) {
+      return function (propertiesToInclude) {
+        return fabric.util.object.extend(
+          toDatalessJSON.call(this, propertiesToInclude),
+          {
+            width: this.width,
+            height: this.height,
+          }
+        );
+      };
+    })(fabric.Canvas.prototype.toDatalessJSON);
+    this.canvas = new fabric.Canvas('canvas', {
+      selection: false,
+      preserveObjectStacking: true,
+      width: window.innerWidth,
+      height: window.innerHeight - 93,
+    });
+    this.drawer = this.avalaibleDrawers.get('polyline');
+    this.drawerOptions = {
+      guid: null,
+      name: 'line',
+      strokeWidth: 10,
+      selectable: true,
+      strokeUniform: true,
+    };
+  }
+
+  private addAvalaibleDrawers() {
+    this.avalaibleDrawers = new Map<string, ObjectDrawer>();
+    this.avalaibleDrawers.set('line', new LineDrawer());
+    this.avalaibleDrawers.set('arrow', new ArrowDrawer());
+    this.avalaibleDrawers.set('triangle', new TriangleDrawer());
+    this.avalaibleDrawers.set('rectangle', new RectangleDrawer());
+    this.avalaibleDrawers.set('circle', new OvalDrawer());
+    this.avalaibleDrawers.set('text', new TextDrawer());
+    this.avalaibleDrawers.set('polyline', new PolyLineDrawer());
+    this.avalaibleDrawers.set('star', new SvgDrawer('star', this.ihs));
+    this.avalaibleDrawers.set('time', new SvgDrawer('time', this.ihs));
+    this.avalaibleDrawers.set('location', new SvgDrawer('location', this.ihs));
   }
 
   private manageCanvasByAction(canvas: unknown, action: CanvasActions) {
@@ -257,48 +300,6 @@ export class DrawerComponent implements OnInit, OnDestroy {
       }
       this.drawingMode = newDrawingMode;
     }
-  }
-
-  private initCanvas() {
-    this.isDown = false;
-    fabric.Canvas.prototype.toDatalessJSON = (function (toDatalessJSON) {
-      return function (propertiesToInclude) {
-        return fabric.util.object.extend(
-          toDatalessJSON.call(this, propertiesToInclude),
-          {
-            width: this.width,
-            height: this.height,
-          }
-        );
-      };
-    })(fabric.Canvas.prototype.toDatalessJSON);
-    this.canvas = new fabric.Canvas('canvas', {
-      selection: false,
-      preserveObjectStacking: true,
-      width: window.innerWidth,
-      height: window.innerHeight - 93,
-    });
-    this.drawerOptions = {
-      guid: null,
-      name: 'line',
-      strokeWidth: 5,
-      selectable: true,
-      strokeUniform: true,
-    };
-  }
-
-  private addAvalaibleDrawers() {
-    this.avalaibleDrawers = new Map<string, ObjectDrawer>();
-    this.avalaibleDrawers.set('line', new LineDrawer());
-    this.avalaibleDrawers.set('arrow', new ArrowDrawer());
-    this.avalaibleDrawers.set('triangle', new TriangleDrawer());
-    this.avalaibleDrawers.set('rectangle', new RectangleDrawer());
-    this.avalaibleDrawers.set('circle', new OvalDrawer());
-    this.avalaibleDrawers.set('text', new TextDrawer());
-    this.avalaibleDrawers.set('polyline', new PolyLineDrawer());
-    this.avalaibleDrawers.set('star', new SvgDrawer('star', this.ihs));
-    this.avalaibleDrawers.set('time', new SvgDrawer('time', this.ihs));
-    this.avalaibleDrawers.set('location', new SvgDrawer('location', this.ihs));
   }
 
   public setStokeColor(color: DrawerOption) {
@@ -365,15 +366,46 @@ export class DrawerComponent implements OnInit, OnDestroy {
   }
 
   private updateCanvasState() {
-    const canvas = this.getCanvasState();
-    this.store.dispatch(UpdateCanvas({ canvas }));
+    const yolo = this.getCanvasState();
+    this.store.dispatch(UpdateCanvas({ canvas: yolo }));
+  }
+
+  public getCanvasState(): string {
+    this.updateNestedObjects();
+    return this.canvas.toDatalessJSON([
+      'line',
+      'triangle',
+      'type',
+      'uid',
+      'guid',
+      'name',
+      'selectable',
+    ]);
+  }
+
+  private updateNestedObjects() {
+    this.canvas._objects.forEach((object) => {
+      const triangleArrow = (object as LineArrow).triangle;
+      const lineArrow = (object as TriangleArrow).line;
+      if (triangleArrow) {
+        (object as LineArrow).triangle = this.getFabricObjectByUidAndType(
+          (object as LineArrow).uid,
+          'TriangleArrow'
+        );
+      } else if (lineArrow) {
+        (object as TriangleArrow).line = this.getFabricObjectByUidAndType(
+          (object as TriangleArrow).uid,
+          'LineArrow'
+        );
+      }
+    });
   }
 
   private enableSelectionMode() {
     this.canvas.hoverCursor = 'grab';
     this.canvas.moveCursor = 'grabbing';
     this.canvas.forEachObject((object) => {
-      object.selectable = object.name !== 'floor';
+      object.selectable = true;
     });
     this.readonly = false;
   }
@@ -447,27 +479,11 @@ export class DrawerComponent implements OnInit, OnDestroy {
   }
 
   public selectAllObjects() {
-    const selection = new fabric.ActiveSelection(
-      this.canvas.getObjects().filter((obj) => obj.name !== 'floor'),
-      {
-        canvas: this.canvas,
-      }
-    );
+    const selection = new fabric.ActiveSelection(this.canvas.getObjects(), {
+      canvas: this.canvas,
+    });
     this.canvas.setActiveObject(selection);
     this.canvas.renderAll();
-  }
-
-  public getCanvasState(): string {
-    this.updateNestedObjects();
-    return this.canvas.toDatalessJSON([
-      'line',
-      'triangle',
-      'type',
-      'uid',
-      'guid',
-      'name',
-      'selectable',
-    ]);
   }
 
   public setCanvasState(canvas: unknown): void {
@@ -533,53 +549,14 @@ export class DrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private drawNoImage() {
-    fabric.Image.fromURL(
-      this.ihs.getNoImage(),
-      function (noImage) {
-        noImage.set({
-          top: this.canvas.getCenter().top,
-          left: this.canvas.getCenter().left,
-          originX: 'center',
-          originY: 'center',
-          selectable: false,
-          name: 'floor',
-          objectCaching: true,
-        });
-        this.canvas.add(noImage);
-        this.canvas.renderAll();
-      }.bind(this),
-      { crossOrigin: this.environment.host }
-    );
-    this.mapLoadingError.emit();
-  }
-
   private canvasStateIsLoaded(): void {
     this.updateNestedObjects();
     this.canvas.forEachObject((object) => {
-      if (object.name === 'floor' || this.readonly) {
+      if (this.readonly) {
         object.selectable = false;
       }
     });
     this.canvasLoading = false;
-  }
-
-  private updateNestedObjects() {
-    this.canvas._objects.forEach((object) => {
-      const triangleArrow = (object as LineArrow).triangle;
-      const lineArrow = (object as TriangleArrow).line;
-      if (triangleArrow) {
-        (object as LineArrow).triangle = this.getFabricObjectByUidAndType(
-          (object as LineArrow).uid,
-          'TriangleArrow'
-        );
-      } else if (lineArrow) {
-        (object as TriangleArrow).line = this.getFabricObjectByUidAndType(
-          (object as TriangleArrow).uid,
-          'LineArrow'
-        );
-      }
-    });
   }
 
   private getFabricObjectByUidAndType(uid: string, type: string): any {
@@ -601,9 +578,9 @@ export class DrawerComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.canvas.on('mouse:up', (event: fabric.IEvent) => {
+    this.canvas.on('mouse:up', () => {
       if (!this.readonly) {
-        this.mouseUp(event);
+        this.mouseUp();
       }
     });
 
@@ -643,9 +620,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
     const pointer = this.canvas.getPointer(event.e);
     this.lastPosX = (event.e as any).clientX;
     this.lastPosY = (event.e as any).clientY;
-    this.selectedObjects = this.canvas
-      .getActiveObjects()
-      .filter((object) => object.name !== 'floor');
+    this.selectedObjects = this.canvas.getActiveObjects();
     this.isDown = true;
     if (
       this.drawingMode !== DrawingMode.Drawing ||
@@ -687,19 +662,18 @@ export class DrawerComponent implements OnInit, OnDestroy {
         this.isDown
       ) {
         this.drawer.resize(this.object, pointer.x, pointer.y);
-        this.canvas.renderAll();
       } else if (this.drawingMode === DrawingMode.Dragging && this.isDown) {
         const vpt = this.canvas.viewportTransform;
         vpt[4] += (event.e as any).clientX - this.lastPosX;
         vpt[5] += (event.e as any).clientY - this.lastPosY;
         this.lastPosX = (event.e as any).clientX;
         this.lastPosY = (event.e as any).clientY;
-        this.canvas.renderAll();
       }
+      this.canvas.renderAll();
     }
   }
 
-  private async mouseUp(event: fabric.IEvent): Promise<void> {
+  private async mouseUp(): Promise<void> {
     this.isDown = false;
     this.canvas.setViewportTransform(this.canvas.viewportTransform);
     this.canvas.renderAll();

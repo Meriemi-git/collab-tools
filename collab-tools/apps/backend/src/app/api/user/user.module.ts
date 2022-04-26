@@ -1,4 +1,4 @@
-import { LikeSchema, UserSchema } from '@collab-tools/datamodel';
+import { UserSchema } from '@collab-tools/datamodel';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { Module } from '@nestjs/common';
@@ -13,7 +13,6 @@ import { UserService } from './user.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
-    MongooseModule.forFeature([{ name: 'Like', schema: LikeSchema }]),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
