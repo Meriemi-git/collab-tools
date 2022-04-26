@@ -10,13 +10,7 @@ export class Draw {
   createdAt: Date;
   lastModifiedAt: Date;
   userId: string;
-  votes: number;
-  attachedImages: string[];
-  mapId: string;
   drawMapImage: string;
-  mapName: string;
-  isPublic: boolean;
-  deprecated: boolean;
   canvas: unknown;
 }
 
@@ -29,14 +23,6 @@ export const DrawSchema = new Schema({
     type: String,
     required: true,
   },
-  votes: Number,
-  mapId: {
-    type: String,
-    required: true,
-  },
-  attachedImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
-  isPublic: Boolean,
-  deprecated: Boolean,
   canvas: JSON,
 });
 

@@ -5,9 +5,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RateLimiterModule } from 'nestjs-rate-limiter';
-import { AdminDrawegy } from '../../drawegies/admin.drawegy';
-import { ConfirmedDrawegy } from '../../drawegies/confirmed.drawegy';
-import { RegisteredDrawegy } from '../../drawegies/registered.drawegy';
+import { ConfirmedStrategy } from '../../strategies/confirmed.strategy';
+import { RegisteredStrategy } from '../../strategies/registered.strategy';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
@@ -37,7 +36,7 @@ import { UserService } from './user.service';
     RateLimiterModule.register({}),
   ],
   controllers: [UserController],
-  providers: [UserService, ConfirmedDrawegy, RegisteredDrawegy, AdminDrawegy],
+  providers: [UserService, ConfirmedStrategy, RegisteredStrategy],
   exports: [UserService],
 })
 export class UserModule {}

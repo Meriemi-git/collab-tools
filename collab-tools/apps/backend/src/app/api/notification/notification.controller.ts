@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { Drawegies } from '../../drawegies/drawegies';
+import { Strategies } from '../../strategies/strategies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { NotificationService } from './notification.service';
 
@@ -23,14 +23,14 @@ export class NotificationController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Get()
   public getNotifications(@Req() request: Request): Promise<Notification[]> {
     const userId = this.jwtTokenService.getUserIdFromRequest(request);
     return this.notificationService.getAllNotifications(userId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Delete(':id')
   public deleteNotification(
     @Param('id') id: string,

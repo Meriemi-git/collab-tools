@@ -29,9 +29,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
-import { Drawegies } from '../../drawegies/drawegies';
-import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
 import { WebSocketExceptionFilter } from '../../filters/websocket-exception-filter';
+import { Strategies } from '../../strategies/strategies';
+import { WebsocketStrategy } from '../../strategies/websocket.strategy';
 import { CookieParser } from '../../utils/cookie-parser';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { UserService } from '../user/user.service';
@@ -174,7 +174,7 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.in(roomId).disconnectSockets();
   }
 
-  @UseGuards(AuthGuard(Drawegies.WebsocketDrawegy))
+  @UseGuards(AuthGuard(Strategies.WebsocketStrategy))
   @SubscribeMessage(RoomChannel.BROADCAST_OBJECT_LIST)
   public async broadcastObjects(
     @MessageBody() message: WebsocketMessage,
@@ -187,7 +187,7 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
       .emit(RoomEvent.ON_OBJECTS_BROADCASTED, message.payload);
   }
 
-  @UseGuards(AuthGuard(Drawegies.WebsocketDrawegy))
+  @UseGuards(AuthGuard(Strategies.WebsocketStrategy))
   @SubscribeMessage(RoomChannel.ASK_OBJECTS_FROM_LIST)
   public async askObjectsFromList(
     @MessageBody() message: WebsocketMessage,
@@ -220,7 +220,7 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  @UseGuards(AuthGuard(Drawegies.WebsocketDrawegy))
+  @UseGuards(AuthGuard(Strategies.WebsocketStrategy))
   @SubscribeMessage(RoomChannel.SEND_PLAIN_OBJECTS)
   public async sendObjects(@MessageBody() message: WebsocketMessage) {
     this.logger.debug(RoomChannel.SEND_PLAIN_OBJECTS);
@@ -243,7 +243,7 @@ export class RoomGateway implements OnGatewayConnection, OnGatewayDisconnect {
     try {
       return this.jwtTokenService.decodeToken(
         CookieParser.GetCookieValue(
-          WebsocketDrawegy.X_WS_TOKEN,
+          WebsocketStrategy.X_WS_TOKEN,
           client?.handshake?.headers?.cookie
         )
       )['userId'];

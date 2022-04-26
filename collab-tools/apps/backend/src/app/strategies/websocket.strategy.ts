@@ -1,20 +1,20 @@
 import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PassportDrawegy } from '@nestjs/passport';
+import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { Drawegy } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { CookieParser } from '../utils/cookie-parser';
-import { Drawegies } from './drawegies';
+import { Strategies } from './strategies';
 
 @Injectable()
-export class WebsocketDrawegy extends PassportDrawegy(
-  Drawegy,
-  Drawegies.WebsocketDrawegy
+export class WebsocketStrategy extends PassportStrategy(
+  Strategy,
+  Strategies.WebsocketStrategy
 ) {
   public static readonly X_WS_TOKEN: string = 'X-WS-TOKEN';
   constructor(public readonly configService: ConfigService) {
     super({
-      jwtFromRequest: WebsocketDrawegy.cookieExtractor,
+      jwtFromRequest: WebsocketStrategy.cookieExtractor,
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),
       passReqToCallback: true,
@@ -34,7 +34,7 @@ export class WebsocketDrawegy extends PassportDrawegy(
     let token = null;
     if (req?.handshake?.headers?.cookie) {
       token = CookieParser.GetCookieValue(
-        WebsocketDrawegy.X_WS_TOKEN,
+        WebsocketStrategy.X_WS_TOKEN,
         req?.handshake?.headers?.cookie
       );
     }

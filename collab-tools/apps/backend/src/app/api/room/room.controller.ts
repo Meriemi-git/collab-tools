@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { Drawegies } from '../../drawegies/drawegies';
+import { Strategies } from '../../strategies/strategies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { RoomService } from './room.service';
 
@@ -23,7 +23,7 @@ export class RoomController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post()
   public async createRoom(
     @Body('drawMapId') drawMapId: string,
@@ -33,21 +33,21 @@ export class RoomController {
     return this.roomService.createRoom(userInfos, drawMapId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('all')
   public async getAllRooms(@Req() req: Request): Promise<Room[]> {
     const userId: string = this.jwtTokenService.getUserIdFromRequest(req);
     return this.roomService.getAllRooms(userId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('own')
   public async getMyOpenRoom(@Req() req: Request): Promise<Room> {
     const ownerId: string = this.jwtTokenService.getUserIdFromRequest(req);
     return this.roomService.getMyOwnRoom(ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post('invite/:roomId')
   public async inviteUsersToRoom(
     @Param('roomId') roomId: string,
@@ -58,7 +58,7 @@ export class RoomController {
     return this.roomService.inviteUsers(roomId, usernames, ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('join/:roomId')
   public async joinRoom(
     @Param('roomId') roomId: string,
@@ -68,7 +68,7 @@ export class RoomController {
     return this.roomService.joinRoom(roomId, userId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('leave/:roomId')
   public async leaveRoom(
     @Param('roomId') roomId: string,
@@ -78,7 +78,7 @@ export class RoomController {
     return this.roomService.leaveRoom(roomId, userId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch(':roomId/eject/:userId')
   public async ejectUserFromRoom(
     @Param('roomId') roomId: string,
@@ -89,7 +89,7 @@ export class RoomController {
     return this.roomService.ejectUserFromRoom(roomId, userId, ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('close')
   public async closeRoom(@Req() req: Request): Promise<Room> {
     const ownerId: string = this.jwtTokenService.getUserIdFromRequest(req);

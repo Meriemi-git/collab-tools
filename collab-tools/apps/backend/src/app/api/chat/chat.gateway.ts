@@ -15,7 +15,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
-import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
+import { WebsocketStrategy } from '../../strategies/websocket.strategy';
 import { CookieParser } from '../../utils/cookie-parser';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { UserService } from '../user/user.service';
@@ -164,7 +164,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     try {
       return this.jwtTokenService.decodeToken(
         CookieParser.GetCookieValue(
-          WebsocketDrawegy.X_WS_TOKEN,
+          WebsocketStrategy.X_WS_TOKEN,
           client?.handshake?.headers?.cookie
         )
       )['userId'];

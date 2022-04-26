@@ -1,7 +1,7 @@
 import { RoomSchema } from '@collab-tools/datamodel';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
+import { WebsocketStrategy } from '../../strategies/websocket.strategy';
 import { SharedModule } from '../shared/shared.module';
 import { UserModule } from '../user/user.module';
 import { RoomController } from './room.controller';
@@ -15,7 +15,7 @@ import { RoomService } from './room.service';
     SharedModule,
   ],
   controllers: [RoomController],
-  providers: [RoomService, RoomGateway, WebsocketDrawegy],
+  providers: [RoomService, RoomGateway, WebsocketStrategy],
   exports: [RoomService],
 })
 export class RoomModule {}

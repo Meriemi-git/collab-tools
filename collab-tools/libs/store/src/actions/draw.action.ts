@@ -103,7 +103,7 @@ export const AttachImage = createAction(
 );
 
 export const UpdateDrawCanvas = createAction(
-  '[Strats] Update draw canvas',
+  '[Draws] Update draw canvas',
   props<{ canvas: unknown }>()
 );
 

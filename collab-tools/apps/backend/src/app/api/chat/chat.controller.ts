@@ -11,10 +11,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { Drawegies } from '../../drawegies/drawegies';
+import { Strategies } from '../../strategies/strategies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { ChatService } from './chat.service';
-
 @Controller('chats')
 export class ChatController {
   public readonly X_CHAT_TOKEN: string = 'X_CHAT_TOKEN';
@@ -25,14 +24,14 @@ export class ChatController {
     private readonly chatGateway: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('all')
   public async getAllOpenedChat(@Req() req: Request): Promise<Chat[]> {
     const ownerId: string = this.jwtTokenService.getUserIdFromRequest(req);
     return this.chatService.getOpenChats(ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post()
   public async createChat(
     @Body('usernames') usernames: string[],
@@ -42,7 +41,7 @@ export class ChatController {
     return this.chatService.createChat(userInfos, usernames);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('join/:chatId')
   public async joinChat(
     @Param('chatId') chatId: string,
@@ -52,7 +51,7 @@ export class ChatController {
     return this.chatService.joinChat(chatId, ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('leave/:chatId')
   public async leaveChat(
     @Param('chatId') chatId: string,
@@ -62,7 +61,7 @@ export class ChatController {
     return this.chatService.leaveChat(chatId, ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('invite/:chatId')
   public async inviteUsersToChat(
     @Param('chatId') chatId: string,
@@ -73,7 +72,7 @@ export class ChatController {
     return this.chatService.inviteUsers(chatId, usernames, ownerId);
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post('messages/:chatId')
   public async getLastMessages(
     @Param('chatId') chatId: string,
@@ -84,7 +83,7 @@ export class ChatController {
     return this.chatService.getLastMessages(chatId, userId, new Date(time));
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('message/:chatId')
   public async sendMessage(
     @Param('chatId') chatId: string,
@@ -93,15 +92,5 @@ export class ChatController {
   ): Promise<ChatMessage> {
     const userId: string = this.jwtTokenService.getUserIdFromRequest(req);
     return this.chatService.addMessageToChat(chatId, userId, content);
-  }
-
-  @UseGuards(AuthGuard(Drawegies.AdminDrawegy))
-  @Patch('close/:chatId')
-  public async closeChat(
-    @Param('chatId') chatId: string,
-    @Req() req: Request
-  ): Promise<Chat> {
-    const ownerId: string = this.jwtTokenService.getUserIdFromRequest(req);
-    return this.chatService.closeChat(chatId, ownerId);
   }
 }

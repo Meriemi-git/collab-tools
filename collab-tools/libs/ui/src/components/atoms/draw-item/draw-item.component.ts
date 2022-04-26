@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Draw, DrawMap } from '@collab-tools/datamodel';
+import { Draw } from '@collab-tools/datamodel';
 import { ImageHelperService } from '@collab-tools/services';
 
 @Component({
@@ -16,7 +16,6 @@ export class DrawItemComponent {
   @Output() dislikeDraw = new EventEmitter<void>();
   @Output() deleteDraw = new EventEmitter<void>();
   @Output() selectDraw = new EventEmitter<void>();
-  public drawMapImage: DrawMap;
   public routingEnabled: boolean;
   public onHover: boolean;
 

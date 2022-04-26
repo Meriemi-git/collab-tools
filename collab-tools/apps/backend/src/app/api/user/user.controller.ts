@@ -10,7 +10,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Delete,
   Get,
   HttpStatus,
   Logger,
@@ -27,8 +26,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
 import { RateLimit } from 'nestjs-rate-limiter';
-import { Drawegies } from '../../drawegies/drawegies';
-import { WebsocketDrawegy } from '../../drawegies/websocket.drawegy';
+import { Strategies } from '../../strategies/strategies';
+import { WebsocketStrategy } from '../../strategies/websocket.strategy';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { UserService } from './user.service';
 
@@ -42,7 +41,7 @@ export class UserController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Drawegies.AdminDrawegy))
+  @UseGuards(AuthGuard(Strategies.AdminStrategy))
   @Post('paginated')
   public async getUsersPaginated(
     @Query('limit') limit: number,
@@ -58,7 +57,7 @@ export class UserController {
       });
   }
 
-  @UseGuards(AuthGuard(Drawegies.AdminDrawegy))
+  @UseGuards(AuthGuard(Strategies.AdminStrategy))
   @Patch()
   public async update(
     @Body() user: UserDto,
@@ -72,7 +71,7 @@ export class UserController {
       });
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post('search')
   public async searchUsers(
     @Body('text') text: string,
@@ -84,7 +83,7 @@ export class UserController {
     });
   }
 
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Patch('lang/:locale')
   public async changeLanguage(
     @Param('locale') locale: string,
@@ -102,19 +101,7 @@ export class UserController {
       });
   }
 
-  @UseGuards(AuthGuard(Drawegies.AdminDrawegy))
-  @Delete(':id')
-  public async delete(
-    @Param('id') userId: string,
-    @Res() response: Response
-  ): Promise<any> {
-    return this.userService.deleteUser(userId).then(() => {
-      response.status(HttpStatus.OK).send();
-      return Promise.resolve();
-    });
-  }
-
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Get('infos')
   public async infos(
     @Req() request: Request,
@@ -127,7 +114,7 @@ export class UserController {
     });
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('likes')
   public async getLikes(
     @Req() request: Request,
@@ -150,7 +137,7 @@ export class UserController {
     duration: 300,
     errorMessage: 'Password cannot be changed more than once in per 5 minutes',
   })
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Post('change-password')
   public async changePassword(
     @Body() passwords: PasswordChangeWrapper,
@@ -171,7 +158,7 @@ export class UserController {
     duration: 300,
     errorMessage: 'Mail cannot be changed more than once in per 5 minutes',
   })
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   @Post('change-mail')
   public async changeMail(
     @Body() data,
@@ -200,7 +187,7 @@ export class UserController {
       'Confirmation mail cannot be sent more than once in per 5 minutes',
   })
   @Get('send-confirmation-mail')
-  @UseGuards(AuthGuard(Drawegies.RegisteredDrawegy))
+  @UseGuards(AuthGuard(Strategies.RegisteredStrategy))
   public async sendConfirmationEmail(
     @Req() req: Request,
     @Res() response: Response
@@ -268,7 +255,7 @@ export class UserController {
     }
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('ws-access')
   public async getAccessToken(
     @Req() req: Request,
@@ -293,7 +280,7 @@ export class UserController {
   }
 
   private setWSCookie(token: string, response: Response) {
-    response.cookie(WebsocketDrawegy.X_WS_TOKEN, token, {
+    response.cookie(WebsocketStrategy.X_WS_TOKEN, token, {
       httpOnly: true,
       secure: true,
       maxAge: 3600000000,

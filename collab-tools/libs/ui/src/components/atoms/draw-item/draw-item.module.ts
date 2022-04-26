@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChipModule } from 'primeng/chip';
 import { SvgIconModule } from '../svg-icon/svg-icon.module';
-import { DrawItemComponent } from './strat-item.component';
+import { DrawItemComponent } from './draw-item.component';
 
 @NgModule({
   declarations: [DrawItemComponent],

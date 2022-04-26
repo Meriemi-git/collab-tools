@@ -106,7 +106,7 @@ export class TopBarComponent
   }
 
   onEditorClick() {
-    this.router.navigateByUrl('/map-selector');
+    this.router.navigateByUrl('/editor');
   }
 
   onMyDrawClick() {

@@ -17,7 +17,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
-import { Drawegies } from '../../drawegies/drawegies';
+import { Strategies } from '../../strategies/strategies';
 import { JwtTokenService } from '../shared/jwt-token.service';
 import { GalleryService } from './gallery.service';
 
@@ -30,7 +30,7 @@ export class GalleryController {
     private readonly jwtTokenService: JwtTokenService
   ) {}
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Get('images')
   public allMyImages(
     @Req() request: Request,
@@ -47,7 +47,7 @@ export class GalleryController {
     });
   }
 
-  @UseGuards(AuthGuard(Drawegies.ConfirmedDrawegy))
+  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Post('upload')
   @UseInterceptors(FileInterceptor('image'))
   public uploadFile(

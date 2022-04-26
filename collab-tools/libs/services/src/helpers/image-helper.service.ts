@@ -6,6 +6,13 @@ import { Image } from '@collab-tools/datamodel';
 export class ImageHelperService {
   constructor(private readonly domSanitizer: DomSanitizer) {}
 
+  getDrawImageById(drawId: string): string | null {
+    return this.domSanitizer.sanitize(
+      SecurityContext.URL,
+      `assets/draws/${drawId}`
+    );
+  }
+
   getSvgIconByName(iconName: string): string | null {
     return this.domSanitizer.sanitize(
       SecurityContext.URL,
