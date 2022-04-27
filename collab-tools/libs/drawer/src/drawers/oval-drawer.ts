@@ -14,11 +14,11 @@ export class OvalDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     rx?: number,
     ry?: number
-  ): Promise<fabric.Object> {
+  ): Promise<fabric.Object[]> {
     this.origX = x;
     this.origY = y;
 
-    return Promise.resolve(
+    return Promise.resolve([
       new fabric.Ellipse({
         ...options,
         left: x,
@@ -27,8 +27,8 @@ export class OvalDrawer implements ObjectDrawer {
         ry: ry,
         fill: 'transparent',
         selectable: false,
-      })
-    );
+      }),
+    ]);
   }
 
   resize(object: fabric.Ellipse, x: number, y: number): Promise<fabric.Object> {

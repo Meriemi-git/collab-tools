@@ -11,7 +11,7 @@ export class ObjectDrawer {
     options: IndexedOptions,
     x2?: number, // Horizontal ending point
     y2?: number // Vertical ending point
-  ) => Promise<fabric.Object>;
+  ) => Promise<fabric.Object[]>;
 
   // Resizes the object (used during the mouseOver event below)
   readonly resize: (

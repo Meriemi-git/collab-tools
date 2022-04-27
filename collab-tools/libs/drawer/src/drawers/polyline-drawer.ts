@@ -11,13 +11,13 @@ export class PolyLineDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     rx?: number,
     ry?: number
-  ): Promise<fabric.Object> {
-    return Promise.resolve(
+  ): Promise<fabric.Object[]> {
+    return Promise.resolve([
       new fabric.Polyline([{ x, y }], {
         ...options,
         fill: 'transparent',
-      })
-    );
+      }),
+    ]);
   }
 
   resize(

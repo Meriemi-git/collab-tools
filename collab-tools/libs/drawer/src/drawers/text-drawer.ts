@@ -9,7 +9,7 @@ export class TextDrawer implements ObjectDrawer {
     x: number,
     y: number,
     options: fabric.ITextboxOptions
-  ): Promise<fabric.Textbox> {
+  ): Promise<fabric.Object[]> {
     const textbox = new fabric.Textbox('Your text here...', {
       ...options,
       fontStyle: options.fontStyle ?? '',
@@ -21,7 +21,7 @@ export class TextDrawer implements ObjectDrawer {
       top: y,
       editable: true,
     });
-    return Promise.resolve(textbox);
+    return Promise.resolve([textbox]);
   }
 
   resize(object: fabric.Textbox, x: number, y: number): Promise<fabric.Object> {

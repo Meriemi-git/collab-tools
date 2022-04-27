@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   HostListener,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -27,12 +26,9 @@ import {
   DragImageSuccess,
   getAllOptions,
   getCanvasAndAction,
-  getDistantCanavasDimensions,
   getDraggedImage,
   getDraggedImageLink,
   getDrawingMode,
-  getObjectsToAdd,
-  getObjectsToRemove,
   getSelectedAction,
   RedoCanvasState,
   SetDrawerAction,
@@ -40,13 +36,12 @@ import {
   UnAttachImage,
   UndoCanvasState,
   UpdateCanvas,
-  UpdateDistantCanvas,
 } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
 import { fabric } from 'fabric';
 import * as FileSaver from 'file-saver';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { ArrowDrawer } from '../../drawers/arrow-drawer';
 import { LineDrawer } from '../../drawers/line-drawer';
@@ -78,7 +73,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
   private avalaibleDrawers: Map<string, ObjectDrawer>;
 
   private drawerOptions: IndexedOptions;
-  private object: fabric.Object;
+  private objects: fabric.Object[] = [];
 
   private isDown: boolean;
   private editingText: boolean;
@@ -97,9 +92,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly ihs: ImageHelperService,
-    private readonly store: Store<CollabToolsState>,
-    @Inject('environment')
-    private readonly environment: any
+    private readonly store: Store<CollabToolsState>
   ) {
     this.addAvalaibleDrawers();
   }
@@ -170,56 +163,56 @@ export class DrawerComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store
-      .select(getObjectsToAdd)
-      .pipe(takeUntil(this.unsubscriber))
-      .subscribe((objects) => {
-        this.store
-          .select(getDistantCanavasDimensions)
-          .pipe(take(1))
-          .subscribe((dimensions) => {
-            const scaleFactor = this.canvas.width / dimensions.width;
-            if (objects && objects.length > 0) {
-              fabric.util.enlivenObjects(
-                objects,
-                function (newObjectList: fabric.Object[]) {
-                  newObjectList.forEach((newObject) => {
-                    this.canvas.add(newObject);
-                    newObject.set({
-                      left: newObject.left * scaleFactor,
-                      top: newObject.top * scaleFactor,
-                      scaleX: newObject.scaleX * scaleFactor,
-                      scaleY: newObject.scaleY * scaleFactor,
-                    });
-                  });
-                  this.canvas.renderAll();
-                  this.store.dispatch(
-                    UpdateDistantCanvas({ canvas: this.getCanvasState() })
-                  );
-                }.bind(this),
-                'fabric'
-              );
-            }
-          });
-      });
+    // this.store
+    //   .select(getObjectsToAdd)
+    //   .pipe(takeUntil(this.unsubscriber))
+    //   .subscribe((objects) => {
+    //     this.store
+    //       .select(getDistantCanavasDimensions)
+    //       .pipe(take(1))
+    //       .subscribe((dimensions) => {
+    //         const scaleFactor = this.canvas.width / dimensions.width;
+    //         if (objects && objects.length > 0) {
+    //           fabric.util.enlivenObjects(
+    //             objects,
+    //             function (newObjectList: fabric.Object[]) {
+    //               newObjectList.forEach((newObject) => {
+    //                 this.canvas.add(newObject);
+    //                 newObject.set({
+    //                   left: newObject.left * scaleFactor,
+    //                   top: newObject.top * scaleFactor,
+    //                   scaleX: newObject.scaleX * scaleFactor,
+    //                   scaleY: newObject.scaleY * scaleFactor,
+    //                 });
+    //               });
+    //               this.canvas.renderAll();
+    //               this.store.dispatch(
+    //                 UpdateDistantCanvas({ canvas: this.getCanvasState() })
+    //               );
+    //             }.bind(this),
+    //             'fabric'
+    //           );
+    //         }
+    //       });
+    //   });
 
-    this.store
-      .select(getObjectsToRemove)
-      .pipe(takeUntil(this.unsubscriber))
-      .subscribe((objects) => {
-        if (objects && objects.length > 0) {
-          // TODO create tracable object inherit to fabric.object
-          this.canvas.forEachObject((object: any) => {
-            if (objects.includes(object['guid'])) {
-              this.canvas.remove(object);
-            }
-          });
-          this.canvas.renderAll();
-          this.store.dispatch(
-            UpdateDistantCanvas({ canvas: this.getCanvasState() })
-          );
-        }
-      });
+    // this.store
+    //   .select(getObjectsToRemove)
+    //   .pipe(takeUntil(this.unsubscriber))
+    //   .subscribe((objects) => {
+    //     if (objects && objects.length > 0) {
+    //       // TODO create tracable object inherit to fabric.object
+    //       this.canvas.forEachObject((object: any) => {
+    //         if (objects.includes(object['guid'])) {
+    //           this.canvas.remove(object);
+    //         }
+    //       });
+    //       this.canvas.renderAll();
+    //       this.store.dispatch(
+    //         UpdateDistantCanvas({ canvas: this.getCanvasState() })
+    //       );
+    //     }
+    //   });
     this.store.dispatch(SetDrawingMode({ drawingMode: DrawingMode.Drawing }));
   }
 
@@ -384,21 +377,21 @@ export class DrawerComponent implements OnInit, OnDestroy {
   }
 
   private updateNestedObjects() {
-    this.canvas._objects.forEach((object) => {
-      const triangleArrow = (object as LineArrow).triangle;
-      const lineArrow = (object as TriangleArrow).line;
-      if (triangleArrow) {
-        (object as LineArrow).triangle = this.getFabricObjectByUidAndType(
-          (object as LineArrow).uid,
-          'TriangleArrow'
-        );
-      } else if (lineArrow) {
-        (object as TriangleArrow).line = this.getFabricObjectByUidAndType(
-          (object as TriangleArrow).uid,
-          'LineArrow'
-        );
-      }
-    });
+    //   this.canvas._objects.forEach((object) => {
+    //     const triangleArrow = (object as LineArrow).triangle;
+    //     const lineArrow = (object as TriangleArrow).line;
+    //     if (triangleArrow) {
+    //       (object as LineArrow).triangle = this.getFabricObjectByUidAndType(
+    //         (object as LineArrow).uid,
+    //         'TriangleArrow'
+    //       );
+    //     } else if (lineArrow) {
+    //       (object as TriangleArrow).line = this.getFabricObjectByUidAndType(
+    //         (object as TriangleArrow).uid,
+    //         'LineArrow'
+    //       );
+    //     }
+    //   });
   }
 
   private enableSelectionMode() {
@@ -630,19 +623,18 @@ export class DrawerComponent implements OnInit, OnDestroy {
       this.editingText = false;
       return;
     }
-    this.object = await this.make(pointer.x, pointer.y);
-    Object.defineProperties(this.object, {
+    this.objects = await this.make(pointer.x, pointer.y);
+    Object.defineProperties(this.objects, {
       ['guid']: {
         value: uuid.v4(),
         writable: true,
         configurable: true,
       },
     });
-    if (this.object) {
-      if (this.object instanceof LineArrow && this.object.triangle) {
-        this.canvas.add(this.object.triangle);
-      }
-      this.canvas.add(this.object);
+    if (this.objects && this.objects.length > 0) {
+      this.objects.forEach((object) => {
+        this.canvas.add(object);
+      });
       this.canvas.renderAll();
     }
   }
@@ -657,11 +649,13 @@ export class DrawerComponent implements OnInit, OnDestroy {
       const pointer = this.canvas.getPointer(event.e);
       if (
         this.drawer &&
-        this.object &&
+        this.objects &&
         this.drawingMode === DrawingMode.Drawing &&
         this.isDown
       ) {
-        this.drawer.resize(this.object, pointer.x, pointer.y);
+        this.objects.forEach((obj) => {
+          this.drawer.resize(obj, pointer.x, pointer.y);
+        });
       } else if (this.drawingMode === DrawingMode.Dragging && this.isDown) {
         const vpt = this.canvas.viewportTransform;
         vpt[4] += (event.e as any).clientX - this.lastPosX;
@@ -676,33 +670,46 @@ export class DrawerComponent implements OnInit, OnDestroy {
   private async mouseUp(): Promise<void> {
     this.isDown = false;
     this.canvas.setViewportTransform(this.canvas.viewportTransform);
+    this.objects = [];
     this.canvas.renderAll();
-    this.object = null;
+
     this.updateCanvasState();
   }
 
-  private selectionCreated(event: fabric.IEvent) {
-    this.object = event.target;
+  private selectionCreated(event: any) {
+    this.objects.push(event.selected);
     let selection: fabric.ActiveSelection;
-    if ((event.target as LineArrow).triangle) {
-      selection = new fabric.ActiveSelection(
-        [event.target, (event.target as LineArrow).triangle],
-        {
+    event.selected.forEach((selected) => {
+      if (selected.name == 'LineArrow') {
+        const lineArrow = selected as LineArrow;
+        const triangleArrow = this.canvas
+          .getObjects()
+          .find(
+            (obj) =>
+              obj.name == 'TriangleArrow' &&
+              (obj as TriangleArrow).uid == lineArrow.uid
+          );
+
+        selection = new fabric.ActiveSelection([lineArrow, triangleArrow], {
           canvas: this.canvas,
-        }
-      );
-    } else if ((event.target as TriangleArrow).line) {
-      selection = new fabric.ActiveSelection(
-        [event.target, (event.target as TriangleArrow).line],
-        {
+        });
+      } else if (selected.name == 'TriangleArrow') {
+        const triangleArrow = selected as TriangleArrow;
+        const lineArrow = this.canvas
+          .getObjects()
+          .find(
+            (obj) =>
+              obj.name == 'LineArrow' &&
+              (obj as LineArrow).uid == triangleArrow.uid
+          );
+
+        selection = new fabric.ActiveSelection([lineArrow, triangleArrow], {
           canvas: this.canvas,
-        }
-      );
-    }
+        });
+      }
+    });
     if (selection) {
       this.canvas.setActiveObject(selection);
-    } else if (this.object.name !== 'floor') {
-      this.canvas.setActiveObject(this.object);
     }
     this.canvas.renderAll();
   }
@@ -726,7 +733,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
     event.e.stopPropagation();
   }
 
-  private async make(x: number, y: number): Promise<fabric.Object> {
+  private async make(x: number, y: number): Promise<fabric.Object[]> {
     if (this.drawer) {
       return await this.drawer.make(x, y, this.drawerOptions);
     } else {

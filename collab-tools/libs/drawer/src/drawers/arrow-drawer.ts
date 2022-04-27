@@ -17,7 +17,7 @@ export class ArrowDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     x2?: number,
     y2?: number
-  ): Promise<LineArrow> {
+  ): Promise<fabric.Object[]> {
     this.originX = x;
     this.originY = y;
     return Promise.resolve(this.createArrow(x, y, options, x2, y2));
@@ -33,7 +33,7 @@ export class ArrowDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     x2?: number,
     y2?: number
-  ): LineArrow {
+  ): fabric.Object[] {
     const uid = uuid.v4();
     const triangle = new TriangleArrow({
       ...options,
@@ -58,16 +58,20 @@ export class ArrowDrawer implements ObjectDrawer {
       name: 'LineArrow',
       selectable: false,
     });
-    triangle.line = line;
     triangle.uid = uid;
-    line.triangle = triangle;
     line.uid = uid;
-    return line;
+    return [line, triangle];
   }
 
   resize(arrow: LineArrow, x: number, y: number): Promise<LineArrow> {
     const angle = this.calcArrowAngle(this.originX, this.originY, x, y) - 90;
-    arrow.triangle.set({
+    let triangle;
+    arrow.canvas.getObjects().forEach((obj) => {
+      if (obj.name == 'TriangleArrow') {
+        triangle = obj;
+      }
+    });
+    triangle.set({
       angle: angle,
     });
 

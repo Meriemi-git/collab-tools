@@ -14,11 +14,11 @@ export class TriangleDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     width?: number,
     height?: number
-  ): Promise<fabric.Object> {
+  ): Promise<fabric.Object[]> {
     this.origX = x;
     this.origY = y;
 
-    return Promise.resolve(
+    return Promise.resolve([
       new fabric.Triangle({
         ...options,
         left: x,
@@ -27,8 +27,8 @@ export class TriangleDrawer implements ObjectDrawer {
         height: height,
         fill: 'transparent',
         selectable: false,
-      })
-    );
+      }),
+    ]);
   }
 
   resize(

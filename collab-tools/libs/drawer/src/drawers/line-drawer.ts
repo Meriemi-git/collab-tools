@@ -10,13 +10,13 @@ export class LineDrawer implements ObjectDrawer {
     options: fabric.IObjectOptions,
     x2?: number,
     y2?: number
-  ): Promise<fabric.Object> {
-    return Promise.resolve(
+  ): Promise<fabric.Object[]> {
+    return Promise.resolve([
       new fabric.Line([x, y, x2, y2], {
         ...options,
         selectable: false,
-      })
-    );
+      }),
+    ]);
   }
 
   resize(line: fabric.Line, x: number, y: number): Promise<fabric.Object> {

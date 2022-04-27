@@ -22,8 +22,8 @@ export class SvgDrawer implements ObjectDrawer {
     x: number,
     y: number,
     drawerOptions: fabric.IObjectOptions
-  ): Promise<fabric.Object> {
-    return new Promise<fabric.Object>((resolve) => {
+  ): Promise<fabric.Object[]> {
+    return new Promise<fabric.Object[]>((resolve) => {
       this.origX = x;
       this.origY = y;
       fabric.loadSVGFromURL(
@@ -42,7 +42,7 @@ export class SvgDrawer implements ObjectDrawer {
               scaleY: 2,
               selectable: false,
             });
-            resolve(shape);
+            resolve([shape]);
           }
         }
       );
