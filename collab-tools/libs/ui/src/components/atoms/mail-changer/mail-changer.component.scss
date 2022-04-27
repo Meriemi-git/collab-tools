@@ -1,9 +1,9 @@
-.error-block {
+:host::ng-deep.error-block {
   padding: 12px;
   font-size: 0.9em;
 }
 
-.buttons {
+:host::ng-deep.buttons {
   display: flex;
   flex-direction: row;
   width: 300px;
@@ -11,6 +11,10 @@
   margin: 0 auto;
 }
 
-.help-block {
+:host::ng-deep.help-block {
   font-size: 0.8em;
+}
+
+:host::ng-deep.p-invalid-container {
+  min-height: 20px;
 }

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Language } from '@collab-tools/datamodel';
-import { takeUntil } from 'rxjs/operators';
 import { AbsctractObserverComponent } from '@collab-tools/bases';
+import { Language } from '@collab-tools/datamodel';
+import { TranslateService } from '@ngx-translate/core';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'collab-tools-lang-selector',
   templateUrl: './lang-selector.component.html',
+  styleUrls: ['./lang-selector.component.scss'],
 })
 export class LangSelectorComponent
   extends AbsctractObserverComponent

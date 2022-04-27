@@ -6,6 +6,7 @@
       [errorMessage]="errorMessage"
       (mailChange)="mailChange.emit($event)"
     ></collab-tools-mail-changer>
+    <h3>{{ 'account-security.change_language' | translate }}</h3>
     <collab-tools-lang-selector (langSelected)="onLangSelected($event)">
     </collab-tools-lang-selector>
   </div>

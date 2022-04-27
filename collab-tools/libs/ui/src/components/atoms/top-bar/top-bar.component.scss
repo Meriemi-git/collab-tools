@@ -36,3 +36,7 @@
   font-size: 1.2rem;
   margin-bottom: 5px;
 }
+:host::ng-deep.p-toolbar-group-right {
+  cursor: pointer;
+  height: 100%;
+}

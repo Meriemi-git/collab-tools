@@ -15,10 +15,6 @@
     "frontend": {
       "tags": ["scope:front"]
     },
-    "frontend-e2e": {
-      "tags": [],
-      "implicitDependencies": ["frontend"]
-    },
     "services": {
       "tags": ["scope:front"]
     },

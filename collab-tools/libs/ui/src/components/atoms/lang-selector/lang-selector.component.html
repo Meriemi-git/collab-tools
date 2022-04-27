@@ -1,12 +1,10 @@
 <div class="field flex flex-column align-items-center">
-  <label for="side" class="sub-title">
-    {{ 'lang-selector.select_lang' | translate }}
-  </label>
   <p-dropdown
     [options]="langs"
     optionLabel="name"
     (onChange)="onLangSelected($event.value)"
-    [placeholder]="'lang-selector.select_lang_placeholder' | translate"
+    [placeholder]="'lang-selector.select_lang' | translate"
+    class="lang-selector"
   >
   </p-dropdown>
 </div>

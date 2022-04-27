@@ -26,9 +26,12 @@ import {
   DragImageSuccess,
   getAllOptions,
   getCanvasAndAction,
+  getDistantCanavasDimensions,
   getDraggedImage,
   getDraggedImageLink,
   getDrawingMode,
+  getObjectsToAdd,
+  getObjectsToRemove,
   getSelectedAction,
   RedoCanvasState,
   SetDrawerAction,
@@ -36,12 +39,13 @@ import {
   UnAttachImage,
   UndoCanvasState,
   UpdateCanvas,
+  UpdateDistantCanvas,
 } from '@collab-tools/store';
 import { Store } from '@ngrx/store';
 import { fabric } from 'fabric';
 import * as FileSaver from 'file-saver';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { ArrowDrawer } from '../../drawers/arrow-drawer';
 import { LineDrawer } from '../../drawers/line-drawer';
@@ -163,56 +167,56 @@ export class DrawerComponent implements OnInit, OnDestroy {
         }
       });
 
-    // this.store
-    //   .select(getObjectsToAdd)
-    //   .pipe(takeUntil(this.unsubscriber))
-    //   .subscribe((objects) => {
-    //     this.store
-    //       .select(getDistantCanavasDimensions)
-    //       .pipe(take(1))
-    //       .subscribe((dimensions) => {
-    //         const scaleFactor = this.canvas.width / dimensions.width;
-    //         if (objects && objects.length > 0) {
-    //           fabric.util.enlivenObjects(
-    //             objects,
-    //             function (newObjectList: fabric.Object[]) {
-    //               newObjectList.forEach((newObject) => {
-    //                 this.canvas.add(newObject);
-    //                 newObject.set({
-    //                   left: newObject.left * scaleFactor,
-    //                   top: newObject.top * scaleFactor,
-    //                   scaleX: newObject.scaleX * scaleFactor,
-    //                   scaleY: newObject.scaleY * scaleFactor,
-    //                 });
-    //               });
-    //               this.canvas.renderAll();
-    //               this.store.dispatch(
-    //                 UpdateDistantCanvas({ canvas: this.getCanvasState() })
-    //               );
-    //             }.bind(this),
-    //             'fabric'
-    //           );
-    //         }
-    //       });
-    //   });
+    this.store
+      .select(getObjectsToAdd)
+      .pipe(takeUntil(this.unsubscriber))
+      .subscribe((objects) => {
+        this.store
+          .select(getDistantCanavasDimensions)
+          .pipe(take(1))
+          .subscribe((dimensions) => {
+            const scaleFactor = this.canvas.width / dimensions.width;
+            if (objects && objects.length > 0) {
+              fabric.util.enlivenObjects(
+                objects,
+                function (newObjectList: fabric.Object[]) {
+                  newObjectList.forEach((newObject) => {
+                    this.canvas.add(newObject);
+                    newObject.set({
+                      left: newObject.left * scaleFactor,
+                      top: newObject.top * scaleFactor,
+                      scaleX: newObject.scaleX * scaleFactor,
+                      scaleY: newObject.scaleY * scaleFactor,
+                    });
+                  });
+                  this.canvas.renderAll();
+                  this.store.dispatch(
+                    UpdateDistantCanvas({ canvas: this.getCanvasState() })
+                  );
+                }.bind(this),
+                'fabric'
+              );
+            }
+          });
+      });
 
-    // this.store
-    //   .select(getObjectsToRemove)
-    //   .pipe(takeUntil(this.unsubscriber))
-    //   .subscribe((objects) => {
-    //     if (objects && objects.length > 0) {
-    //       // TODO create tracable object inherit to fabric.object
-    //       this.canvas.forEachObject((object: any) => {
-    //         if (objects.includes(object['guid'])) {
-    //           this.canvas.remove(object);
-    //         }
-    //       });
-    //       this.canvas.renderAll();
-    //       this.store.dispatch(
-    //         UpdateDistantCanvas({ canvas: this.getCanvasState() })
-    //       );
-    //     }
-    //   });
+    this.store
+      .select(getObjectsToRemove)
+      .pipe(takeUntil(this.unsubscriber))
+      .subscribe((objects) => {
+        if (objects && objects.length > 0) {
+          // TODO create tracable object inherit to fabric.object
+          this.canvas.forEachObject((object: any) => {
+            if (objects.includes(object['guid'])) {
+              this.canvas.remove(object);
+            }
+          });
+          this.canvas.renderAll();
+          this.store.dispatch(
+            UpdateDistantCanvas({ canvas: this.getCanvasState() })
+          );
+        }
+      });
     this.store.dispatch(SetDrawingMode({ drawingMode: DrawingMode.Drawing }));
   }
 

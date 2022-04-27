@@ -3,17 +3,17 @@
   class="flex flex-column justify-content-evenly align-items-center form"
   (ngSubmit)="onSubmit()"
 >
-  <div class="m-2 title">
+  <div class="title">
     <h1 class="title">{{ 'login-form.title' | translate }}</h1>
   </div>
-  <label for="mail" class="m-2">
+  <label for="mail">
     <strong [innerHTML]="'login-form.mail_or_username' | translate"> </strong>
   </label>
   <span class="p-input-icon-right">
     <i class="pi pi-envelope"></i>
     <input id="mail" type="mail" pInputText formControlName="mailOrUsername" />
   </span>
-  <div
+  <small
     *ngIf="
       formControls.mailOrUsername.dirty &&
       formControls.mailOrUsername.errors?.required
@@ -21,27 +21,29 @@
     class="p-invalid"
   >
     {{ 'login-form.username_email_required' | translate }}
-  </div>
-  <label for="password" class="m-2">
+  </small>
+  <label for="password">
     <strong>
       {{ 'login-form.password' | translate }}
     </strong>
   </label>
 
   <p-password
+    id="password"
     [feedback]="false"
     [toggleMask]="true"
     formControlName="password"
+    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
   ></p-password>
 
-  <div
+  <small
     *ngIf="
       formControls.password.dirty && formControls.password.errors?.required
     "
     class="p-invalid"
   >
     {{ 'login-form.password-required' | translate }}
-  </div>
+  </small>
   <div class="flex flex-row justify-content-evenly mt-5 w-full">
     <button
       pButton

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 import { PasswordModule } from 'primeng/password';
 import { PasswordChangerComponent } from './password-changer.component';
 
@@ -15,6 +16,7 @@ import { PasswordChangerComponent } from './password-changer.component';
     PasswordModule,
     ButtonModule,
     TranslateModule,
+    DividerModule,
   ],
   exports: [PasswordChangerComponent],
 })
