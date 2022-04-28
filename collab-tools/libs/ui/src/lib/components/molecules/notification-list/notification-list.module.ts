@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DividerModule } from 'primeng/divider';
 import { ListboxModule } from 'primeng/listbox';
-import { PipesModule } from '../../../pipes.module';
+import { PipesModule } from '../../../lib/pipes.module';
 import { NotificationListItemModule } from '../../atoms/notification-list-item/notification-list-item.module';
 import { NotificationListComponent } from './notification-list.component';
 @NgModule({

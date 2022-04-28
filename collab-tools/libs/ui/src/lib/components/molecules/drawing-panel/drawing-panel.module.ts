@@ -7,7 +7,7 @@ import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SliderModule } from 'primeng/slider';
-import { PipesModule } from '../../../pipes.module';
+import { PipesModule } from '../../../lib/pipes.module';
 import { DrawingActionModule } from '../../atoms/drawing-action/drawing-action.module';
 import { SvgIconModule } from '../../atoms/svg-icon/svg-icon.module';
 import { DrawingPanelComponent } from './drawing-panel.component';

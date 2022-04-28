@@ -8,6 +8,5 @@ export interface UserState extends EntityState<UserDto> {
   pageMetadata: PageMetadata;
   pageOptions: PageOptions;
   suggestions: string[];
-  confirmed: boolean;
   canConnectToWebsocket: boolean;
 }

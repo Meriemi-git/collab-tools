@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DisplayMessage } from '../actions/notification.action';
 import * as actions from '../actions/user.action';
-import { NotificationState } from '../states/notifications.state';
+import { CollabToolsState } from '../reducers';
 
 @Injectable()
 export class UserEffect {
@@ -21,7 +21,7 @@ export class UserEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly userService: UserService,
-    private readonly store: Store<NotificationState>
+    private readonly store: Store<CollabToolsState>
   ) {}
 
   getUsersPaginated$ = createEffect(() =>
@@ -420,6 +420,7 @@ export class UserEffect {
                 },
               })
             );
+            this.store.dispatch(actions.GetUserInfos());
             return actions.ConfirmEmailSuccess();
           }),
           catchError((error: HttpErrorResponse) => {

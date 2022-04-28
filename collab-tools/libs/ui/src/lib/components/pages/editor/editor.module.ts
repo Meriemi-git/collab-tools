@@ -8,7 +8,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SidebarModule } from 'primeng/sidebar';
 import { TooltipModule } from 'primeng/tooltip';
-import { PipesModule } from '../../../pipes.module';
+import { PipesModule } from '../../../lib/pipes.module';
 import { DrawingStatusModule } from '../../atoms/drawing-status/drawing-status.module';
 import { DrawingToolbarModule } from '../../atoms/drawing-toolbar/drawing-toolbar.module';
 import { SvgIconModule } from '../../atoms/svg-icon/svg-icon.module';

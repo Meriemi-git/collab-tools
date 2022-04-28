@@ -36,7 +36,7 @@ export const getSuggestions = createSelector(
 
 export const isConfirmed = createSelector(
   userState,
-  (state: UserState) => state.confirmed
+  (state: UserState) => state.userInfos?.confirmed
 );
 
 export const canConnectToWebsockets = createSelector(

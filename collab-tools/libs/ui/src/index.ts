@@ -1,1 +1,1 @@
-export * from './components/layouts/frontend-layout/frontend-layout.module';
+export * from './lib/components/layouts/frontend-layout/frontend-layout.module';

@@ -25,7 +25,6 @@ export const initialstate: UserState = adapter.getInitialState({
   },
   likes: [],
   suggestions: [],
-  confirmed: false,
   canConnectToWebsocket: false,
 });
 
@@ -60,12 +59,14 @@ const authReducer = createReducer(
   })),
   on(actions.ConfirmEmail, (state) => ({
     ...state,
-    confirmed: false,
+    userInfos: {
+      ...state.userInfos,
+      confirmed: false,
+    },
     error: null,
   })),
   on(actions.ConfirmEmailSuccess, (state) => ({
     ...state,
-    confirmed: true,
     error: null,
   })),
   on(actions.SendConfirmationEmail, (state) => ({

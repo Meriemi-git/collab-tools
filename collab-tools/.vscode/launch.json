@@ -12,6 +12,10 @@
       "firefoxExecutable": "C:\\Program Files\\Firefox Developer Edition\\firefox.exe",
       "pathMappings": [
         {
+          "url": "webpack:///libs",
+          "path": "${workspaceFolder}/libs"
+        },
+        {
           "url": "webpack:///apps",
           "path": "${workspaceFolder}/apps"
         },
