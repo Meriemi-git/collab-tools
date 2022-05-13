@@ -16,5 +16,10 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "editor.bracketPairColorization.enabled": true
+  "editor.bracketPairColorization.enabled": true,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.component.ts": "$(capture).component.html, $(capture).component.scss, $(capture).module.ts, $(capture).component.spec.ts",
+    "*.controller.ts": "$(capture).gateway.${extname}, $(capture).service.${extname}, $(capture).module.${extname}"
+  }
 }

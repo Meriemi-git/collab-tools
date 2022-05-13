@@ -159,7 +159,6 @@ export class ChatsPanelComponent
   }
 
   onStatusChanged(memberStatus: WebsocketMemberStatus): void {
-    console.log('onStatusChanged', memberStatus);
     this.store.dispatch(
       UpdateChatMemberStatus({
         chatMemberId: memberStatus.userId,

@@ -5,63 +5,63 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('../components/pages/home/home.module').then(
+      import('./components/pages/home/home.module').then(
         (mod) => mod.HomeModule
       ),
   },
   {
     path: 'editor',
     loadChildren: () =>
-      import('../components/pages/editor/editor.module').then(
+      import('./components/pages/editor/editor.module').then(
         (mod) => mod.EditorModule
       ),
   },
   {
     path: 'confirmation/:token',
     loadChildren: () =>
-      import('../components/pages/confirmation/confirmation.module').then(
+      import('./components/pages/confirmation/confirmation.module').then(
         (mod) => mod.ConfirmationModule
       ),
   },
   {
     path: 'account',
     loadChildren: () =>
-      import('../components/pages/account/account.module').then(
+      import('./components/pages/account/account.module').then(
         (mod) => mod.AccountModule
       ),
   },
   {
     path: 'room/:roomId',
     loadChildren: () =>
-      import('../components/pages/room/room.module').then(
+      import('./components/pages/room/room.module').then(
         (mod) => mod.RoomModule
       ),
   },
   {
     path: 'room',
     loadChildren: () =>
-      import('../components/pages/room/room.module').then(
+      import('./components/pages/room/room.module').then(
         (mod) => mod.RoomModule
       ),
   },
   {
     path: 'notifications',
     loadChildren: () =>
-      import('../components/pages/notifications/notifications.module').then(
+      import('./components/pages/notifications/notifications.module').then(
         (mod) => mod.NotificationsModule
       ),
   },
   {
     path: 'maintenance',
     loadChildren: () =>
-      import('../components/pages/maintenance/maintenance.module').then(
+      import('./components/pages/maintenance/maintenance.module').then(
         (mod) => mod.MaintenanceModule
       ),
   },
   {
     path: '**',
     loadChildren: () =>
-      import('../components/pages/not-found/not-found.module').then(
+      import('./components/pages/not-found/not-found.module').then(
         (mod) => mod.NotFoundModule
       ),
   },

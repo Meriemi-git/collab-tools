@@ -9,8 +9,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDto } from '@collab-tools/datamodel';
 import { UserService } from '@collab-tools/services';
-import { CollabToolsState, Disconnect } from '@collab-tools/store';
-import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
@@ -21,7 +19,6 @@ export class JwtHttpInterceptor implements HttpInterceptor {
     new BehaviorSubject<unknown>(null);
   constructor(
     private readonly userService: UserService,
-    private readonly store: Store<CollabToolsState>,
     private readonly router: Router
   ) {}
 
@@ -39,19 +36,18 @@ export class JwtHttpInterceptor implements HttpInterceptor {
               case 'login':
               case 'register':
               case 'refresh':
-                this.store.dispatch(Disconnect({ withNotif: false }));
-                return throwError(error);
+                return throwError(() => new Error(error.message));
               default:
                 return this.handle401Error(request, next);
             }
           } else if (error.status === 503) {
             this.router.navigateByUrl('maintenance');
-            return throwError(error);
+            return throwError(() => new Error(error.message));
           } else {
-            return throwError(error);
+            return throwError(() => new Error(error.message));
           }
         } else {
-          return throwError(error);
+          return throwError(() => new Error('Unknown error type'));
         }
       })
     );
@@ -67,9 +63,9 @@ export class JwtHttpInterceptor implements HttpInterceptor {
           this.refreshTokenSubject.next(userInfos);
           return next.handle(request.clone());
         }),
-        catchError((err: HttpErrorResponse) => {
+        catchError((error: HttpErrorResponse) => {
           this.isRefreshing = false;
-          return throwError(err);
+          return throwError(() => new Error(error.message));
         })
       );
     } else {
@@ -79,11 +75,11 @@ export class JwtHttpInterceptor implements HttpInterceptor {
         switchMap(() => {
           return next.handle(request.clone());
         }),
-        catchError((error) => {
+        catchError((error: Error) => {
           this.refreshTokenSubject.unsubscribe();
           this.refreshTokenSubject = new BehaviorSubject<unknown>(null);
           this.isRefreshing = false;
-          throw throwError(error);
+          throw throwError(() => error);
         })
       );
     }

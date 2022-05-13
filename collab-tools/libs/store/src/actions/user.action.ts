@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
+  AnonUser,
   Language,
   PageOptions,
   PaginateResult,
@@ -157,4 +158,9 @@ export const GetWebsocketAccessSuccess = createAction(
 export const WebsocketAccessError = createAction(
   '[User] Websocket Access Error',
   props<{ error: HttpErrorResponse }>()
+);
+
+export const SetAnonUser = createAction(
+  '[User] Create anon user',
+  props<{ anonUser: AnonUser }>()
 );

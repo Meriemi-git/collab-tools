@@ -373,6 +373,20 @@ export class UserEffect {
     )
   );
 
+  refreshTokensError$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.RefreshTokensError),
+      mergeMap(() =>
+        this.userService.createAnonUser().pipe(
+          map((anonUser) => actions.SetAnonUser({ anonUser })),
+          catchError((error: HttpErrorResponse) =>
+            of(actions.RefreshTokensError({ error }))
+          )
+        )
+      )
+    )
+  );
+
   disconnect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.Disconnect),

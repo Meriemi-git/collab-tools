@@ -190,7 +190,7 @@
   "room-panel.user-list": "Users list",
   "room-panel.create_room": "Create a room",
   "room-panel.join_room_title": "Join a room",
-  "room-joiner.roomId-placeholder": "Id of the room",
+  "room-joiner.roomUrl-placeholder": "URL of the room",
   "room-panel.not_connected": "You must be connected to create or join a room.",
   "draws-filter-filter_by_map": "Filter by map",
   "draws-filter-select_map_placeholder": "Selecta map",

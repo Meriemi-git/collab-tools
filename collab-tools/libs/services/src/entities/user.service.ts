@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  AnonUser,
   Language,
   PageOptions,
   PaginateResult,
   PasswordChangeWrapper,
   UserDto,
 } from '@collab-tools/datamodel';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import * as uuid from 'uuid';
 import { environment } from '../../environments/environment';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -126,5 +127,14 @@ export class UserService {
     return this.http.get<void>(
       `${environment.apiUrl}/${this.controller}/ws-access`
     );
+  }
+
+  public createAnonUser(): Observable<AnonUser> {
+    const anon: AnonUser = {
+      pseudo: 'Anonymous',
+      id: uuid.v4(),
+    };
+    localStorage.setItem('anonUser', JSON.stringify(anon));
+    return of(anon);
   }
 }

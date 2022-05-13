@@ -26,6 +26,7 @@ export const initialstate: UserState = adapter.getInitialState({
   likes: [],
   suggestions: [],
   canConnectToWebsocket: false,
+  anonUser: null,
 });
 
 const authReducer = createReducer(
@@ -161,6 +162,10 @@ const authReducer = createReducer(
     ...state,
     canConnectToWebsocket: false,
     error: error,
+  })),
+  on(actions.SetAnonUser, (state, { anonUser }) => ({
+    ...state,
+    anonUser,
   }))
 );
 

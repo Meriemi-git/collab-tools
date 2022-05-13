@@ -5,13 +5,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
+import { AbsctractObserverComponent } from '@collab-tools/bases';
 import { UserDto } from '@collab-tools/datamodel';
 import { getUserInfos, Register, UserState } from '@collab-tools/store';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { takeUntil } from 'rxjs/operators';
-import { AbsctractObserverComponent } from '@collab-tools/bases';
 
 @Component({
   selector: 'collab-tools-register-dialog',
@@ -61,7 +61,7 @@ export class RegisterDialogComponent
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((userInfos) => {
         if (userInfos) {
-          this.dialogRef.close();
+          this.dialogRef.close(false);
         }
       });
   }
@@ -83,6 +83,7 @@ export class RegisterDialogComponent
         },
       });
       this.store.dispatch(Register({ userDto }));
+      this.dialogRef.close(true);
     }
   }
   get formControls() {
@@ -98,7 +99,7 @@ export class RegisterDialogComponent
   }
 
   closeRegisterForm() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   toogleAcceptance(accepted: boolean) {

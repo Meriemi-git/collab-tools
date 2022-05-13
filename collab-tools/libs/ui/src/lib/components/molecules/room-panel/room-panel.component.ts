@@ -23,7 +23,6 @@ import {
   getOwnRoom,
   GetUserInfos,
   getUserInfos,
-  GetWebsocketAccess,
   InviteUsersToRoom,
   isConnectedToRoomWS,
   JoinRoom,
@@ -82,16 +81,17 @@ export class RoomPanelComponent
       .subscribe((canJoin) => {
         if (canJoin) {
           this.wsService.connectToWS(this);
-        } else {
-          this.store.dispatch(GetWebsocketAccess());
         }
+        //this.store.dispatch(GetWebsocketAccess());
       });
 
     this.store
       .select(isConnectedToRoomWS)
       .pipe(takeUntil(this.unsubscriber))
       .subscribe((connected) => {
-        this.store.dispatch(GetOwnRoom());
+        if (connected) {
+          this.store.dispatch(GetOwnRoom());
+        }
       });
 
     this.store

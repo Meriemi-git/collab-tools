@@ -58,7 +58,6 @@ export class RoomController {
     return this.roomService.inviteUsers(roomId, usernames, ownerId);
   }
 
-  @UseGuards(AuthGuard(Strategies.ConfirmedStrategy))
   @Patch('join/:roomId')
   public async joinRoom(
     @Param('roomId') roomId: string,

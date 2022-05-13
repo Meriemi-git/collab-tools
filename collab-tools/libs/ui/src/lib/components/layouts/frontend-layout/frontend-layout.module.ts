@@ -6,7 +6,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SidebarModule } from 'primeng/sidebar';
 import { ToastModule } from 'primeng/toast';
-import { FrontendRoutingModule } from '../../../lib/frontend-routing.module';
+import { FrontendRoutingModule } from '../../../frontend-routing.module';
 import { TopBarModule } from '../../atoms/top-bar/top-bar.module';
 import { ChatsPanelModule } from '../../molecules/chats-panel/chats-panel.module';
 import { LoginDialogModule } from '../../molecules/login-dialog/login-dialog.module';

@@ -190,7 +190,7 @@
   "room-panel.user-list": "Liste des utilisateurs",
   "room-panel.create_room": "Créer une salle",
   "room-panel.join_room_title": "Rejoindre une salle",
-  "room-joiner.roomId-placeholder": "ID de la salle",
+  "room-joiner.roomUrl-placeholder": "Lien de la salle",
   "room-panel.not_connected": "Vous devez être connecté pour créer ou rejoindre une salle",
   "draws-filter-filter_by_map": "Filtrer par map",
   "draws-filter-select_map_placeholder": "Choix de la map",

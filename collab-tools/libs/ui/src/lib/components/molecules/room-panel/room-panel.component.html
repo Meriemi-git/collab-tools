@@ -1,8 +1,8 @@
 <div class="flex flex-row justify-content-center align-items-center m-4">
   <h1>{{ 'room-panel.title' | translate }}</h1>
 </div>
-<div *ngIf="userInfos; else notConnected">
-  <div *ngIf="room; else createOrJoinRoom">
+<div *ngIf="userInfos">
+  <div *ngIf="room; else createARoom">
     <div *ngIf="!connectedToTheRoom">
       <p>{{ 'room-panel.previous-room' | translate }}</p>
       <button
@@ -124,7 +124,7 @@
       </div>
     </div>
   </div>
-  <ng-template #createOrJoinRoom>
+  <ng-template #createARoom>
     <div *ngIf="!room">
       <h3 class="title">{{ 'room-panel.create_room' | translate }}</h3>
       <div class="flex flex-column justify-content-center">
@@ -161,8 +161,25 @@
     </div>
   </ng-template>
 </div>
-<ng-template #notConnected>
-  {{ 'room-panel.not_connected' | translate }}
-</ng-template>
-
+<div *ngIf="!room">
+  <h3 class="title">{{ 'room-panel.join_room_title' | translate }}</h3>
+  <div class="m-3">
+    <input
+      pInputText
+      id="room-id"
+      type="text"
+      [placeholder]="'room-joiner.roomUrl-placeholder' | translate"
+      [(ngModel)]="roomId"
+    />
+  </div>
+  <div class="m-3">
+    <button
+      pButton
+      class="p-button p-button-primary"
+      [label]="'room-panel.join' | translate"
+      [disabled]="!roomId"
+      (click)="joinRoom(roomId)"
+    ></button>
+  </div>
+</div>
 <p-confirmPopup key="room-panel.close-room"></p-confirmPopup>

@@ -1,3 +1,4 @@
+export * from './anon-user';
 export * from './chat';
 export * from './chat-message';
 export * from './draw';
